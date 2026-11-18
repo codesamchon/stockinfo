@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>가장 큰 회사들 (주식 시가총액 기준) | 실시간 글로벌 시가총액 인포그래픽</title>
+  <!-- Pretendard & Display Fonts -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Inter:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+  <!-- D3.js v7 -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <!-- Separated Stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Top Interactive Control Bar -->
+  <header id="controlBar" class="control-bar">
+    <div class="control-inner">
+      <div class="sync-group">
+        <span id="syncStatusBadge" class="sync-badge synced">
+          <span class="pulse-dot"></span>
+          <span id="syncDateLabel">2026년 11월 18일 기준</span>
+        </span>
+        <button id="btnSyncLive" type="button" class="btn-primary" title="접속일 기준 최신 시가총액 데이터를 동기화합니다">
+          <svg class="icon-spin" id="syncSpinner" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 16h5v5" />
+          </svg>
+          <span>오늘 실시간 시총 동기화</span>
+        </button>
+        <button id="btnApiConfig" type="button" class="btn-ghost" title="실시간 검색 연동용 Gemini API 키 설정">
+          API 설정
+        </button>
+      </div>
+
+      <div class="view-group">
+        <div class="segmented" role="group" aria-label="표시 기업 수">
+          <button id="btnTop30" type="button" class="seg-btn">TOP 30</button>
+          <button id="btnTop50" type="button" class="seg-btn active">TOP 50</button>
+        </div>
+
+        <div class="segmented" role="group" aria-label="화면 보기 방식">
+          <button id="btnViewPoster" type="button" class="seg-btn active">포스터 트리맵</button>
+          <button id="btnViewTable" type="button" class="seg-btn">상세 순위표</button>
+        </div>
+
+        <label class="ipo-toggle" for="toggleAnthropic" title="증권신고서(S-1/A) 공모가 상단 기준 비상장 기업 포함 여부">
+          <input id="toggleAnthropic" type="checkbox" checked />
+          <span>Anthropic IPO 포함</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-inner">
+      <div id="countryChips" class="country-chips" role="tablist" aria-label="국가별 필터"></div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input id="searchInput" type="search" placeholder="기업명, 한글명, 티커 검색 (예: 삼성전자, AAPL, NVDA)" autocomplete="off" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Status Notification Banner -->
+  <div id="toastBanner" class="toast-banner hidden" role="status" aria-live="polite"></div>
+
+  <!-- Main Poster Container -->
+  <main class="page-wrap">
+    <article id="posterSection" class="poster-paper">
+      <!-- Poster Header -->
+      <header class="poster-header">
+        <div class="poster-kicker-row">
+          <span id="posterSubLabel" class="poster-kicker">전 세계 상위 50대 기업</span>
+          <time id="posterDateLabel" class="poster-date">2026년 11월 18일</time>
+        </div>
+        <h1 class="poster-main-title">가장 큰 회사들 (주식 시가총액 기준)</h1>
+      </header>
+
+      <!-- Poster Treemap View -->
+      <section id="treemapView" class="treemap-section" aria-label="국가별 시가총액 비대칭 트리맵">
+        <div id="treemapStage" class="treemap-stage">
+          <div id="usColumn" class="treemap-col us-col"></div>
+          <div id="intlColumn" class="treemap-col intl-col"></div>
+        </div>
+
+        <!-- Country Color Legend -->
+        <div id="posterLegend" class="poster-legend"></div>
+      </section>
+
+      <!-- Detailed Table View -->
+      <section id="tableView" class="table-section hidden" aria-label="시가총액 상세 순위표">
+        <div id="kpiStrip" class="kpi-strip"></div>
+        <div class="table-scroll">
+          <table id="rankingTable" class="ranking-table">
+            <thead>
+              <tr>
+                <th data-sort="rank">순위</th>
+                <th data-sort="name">기업명</th>
+                <th data-sort="ticker">티커</th>
+                <th data-sort="country">국가</th>
+                <th data-sort="marketCapB" class="num">시가총액 (USD)</th>
+                <th data-sort="krwCap" class="num">원화 환산 추정</th>
+                <th data-sort="changePct" class="num">일간 등락</th>
+                <th>상세</th>
+              </tr>
+            </thead>
+            <tbody id="rankingTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Poster Footer -->
+      <footer class="poster-footer">
+        <div class="vc-brand">
+          <svg class="vc-mark" viewBox="0 0 64 42" width="46" height="30" aria-hidden="true">
+            <circle cx="20" cy="21" r="16" fill="none" stroke="#151515" stroke-width="4" />
+            <circle cx="44" cy="21" r="16" fill="none" stroke="#151515" stroke-width="4" />
+            <path d="M12 25c4-5 11-5 16 0M36 25c4-5 11-5 16 0" stroke="#151515" stroke-width="3.5" fill="none" stroke-linecap="round" />
+            <circle cx="20" cy="19" r="3" fill="#151515" />
+            <circle cx="44" cy="19" r="3" fill="#151515" />
+          </svg>
+          <div class="vc-text">
+            <span>VISUAL</span>
+            <span>CAPITALIST</span>
+          </div>
+        </div>
+
+        <div class="poster-footnotes">
+          <p id="footnoteAnthropic">*Anthropic은 상장 직전 단계로 수정 증권신고서(S-1/A) 공모 희망가 상단 기준 완전희석 기업가치를 반영함.</p>
+          <p>
+            미국 달러(USD) 시가총액 기준, <strong id="posterBaseDateNote">2026년 11월 18일</strong> 기준 데이터 |
+            출처: CompaniesMarketCap, 각국 거래소 실시간 공시, SEC S-1/A
+          </p>
+        </div>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Floating Tile Tooltip -->
+  <div id="tileTooltip" class="tile-tooltip hidden" role="tooltip"></div>
+
+  <!-- Company Detail & Live Briefing Modal -->
+  <div id="companyModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalCompanyTitle">
+    <div class="modal-card">
+      <button id="btnCloseModal" type="button" class="modal-close" aria-label="닫기">&times;</button>
+      <div id="modalHeaderBadge" class="modal-badge-row"></div>
+      <h2 id="modalCompanyTitle" class="modal-title"></h2>
+      <p id="modalCompanySub" class="modal-sub"></p>
+
+      <div id="modalMetricsGrid" class="modal-metrics"></div>
+
+      <div class="modal-briefing-box">
+        <div class="briefing-header">
+          <strong>기업 핵심 요약 및 실시간 이슈 브리핑</strong>
+          <button id="btnFetchBriefing" type="button" class="btn-small">실시간 AI 이슈 조회</button>
+        </div>
+        <div id="modalBriefingContent" class="briefing-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gemini API Key Settings Modal -->
+  <div id="apiModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="apiModalTitle">
+    <div class="modal-card modal-card-sm">
+      <button id="btnCloseApiModal" type="button" class="modal-close" aria-label="닫기">&times;</button>
+      <h2 id="apiModalTitle" class="modal-title">실시간 동기화 API 설정</h2>
+      <p class="modal-sub">
+        로컬 환경에서 매일 최신 시가총액과 환율을 Google 검색 그라운딩으로 조회하려면 Gemini API 키를 입력하세요.
+        키가 없어도 내장된 기준 데이터와 일일 캐시로 모든 시각화 기능을 사용할 수 있습니다.
+      </p>
+      <label class="field-label" for="apiKeyInput">Gemini API Key</label>
+      <input id="apiKeyInput" type="password" class="field-input" placeholder="AIzaSy..." autocomplete="off" />
+      <div class="modal-actions">
+        <button id="btnClearApiKey" type="button" class="btn-ghost">키 삭제</button>
+        <button id="btnSaveApiKey" type="button" class="btn-primary">저장 후 닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Separated Application Script -->
+  <script src="./app.js" defer></script>
+</body>
+</html>
