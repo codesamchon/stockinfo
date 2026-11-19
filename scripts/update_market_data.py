@@ -9,7 +9,7 @@ Updates:
   3. 6-Month Commodity History: Gold ($/oz), Copper ($/lb), WTI Crude Oil ($/bbl)
   4. S&P 500 11 GICS Sectors Market Cap & Top 3 Companies
   5. KOSPI 200 10 Core Sectors Market Cap (KRW Trillions) & Top 3 Companies
-  6. US & KR Macro Economic Indicators (Public FRED CSV + Optional BOK ECOS API Key)
+  6. Full US (FRED CSV) & KR (BOK ECOS API: Base Rate, 2Y/10Y KTB, CPI, Core CPI, PPI, Employment, Real GDP) Macro Sync
 """
 
 import csv
@@ -512,7 +512,7 @@ def fetch_commodities_6m() -> list:
     return result
 
 
-def fetch_fred_series_csv(series_id: str, limit: int = 15) -> list:
+def fetch_fred_series_csv(series_id: str, limit: int = 30) -> list:
     """Keyless public CSV reader from FRED (Federal Reserve Bank of St. Louis)."""
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
     text = http_get_text(url, timeout=15)
@@ -522,16 +522,154 @@ def fetch_fred_series_csv(series_id: str, limit: int = 15) -> list:
     for row in reader:
         if len(row) >= 2 and row[1] not in (".", "", "NA"):
             try:
-                rows.append((row[0], float(row[1])))
+                rows.append((row[0].strip(), float(row[1])))
             except ValueError:
                 continue
     return rows[-limit:]
 
 
+def format_pp_change(diff_val: float, decimals: int = 1, unit: str = "%p") -> tuple:
+    """Return (formatted_change_str, dir_str) for percentage-point changes."""
+    rounded = round(diff_val, decimals)
+    if rounded > 0:
+        return f"▲ {abs(rounded):.{decimals}f}{unit}", "up"
+    if rounded < 0:
+        return f"▼ {abs(rounded):.{decimals}f}{unit}", "down"
+    return f"보합 (0.{'0' * decimals}{unit})", "flat"
+
+
+def format_bp_change(diff_bp: int) -> tuple:
+    """Return (formatted_bp_str, dir_str) for basis-point changes."""
+    if diff_bp > 0:
+        return f"▲ {abs(diff_bp)}bp", "up"
+    if diff_bp < 0:
+        return f"▼ {abs(diff_bp)}bp", "down"
+    return "보합 (0bp)", "flat"
+
+
+def compute_yoy_from_monthly(pairs: list) -> tuple:
+    """
+    Given chronological [(time_str, index_val), ...] where time_str starts with YYYY-MM or YYYYMM,
+    compute exact Year-over-Year (%) for the latest month and previous month.
+    Returns (ym_str_YYYYMM, yoy_now_1dec, diff_pp_1dec) or None if insufficient data.
+    """
+    by_ym = {}
+    ordered_yms = []
+    for raw_t, val in pairs:
+        digits = re.sub(r"[^0-9]", "", raw_t)
+        if len(digits) < 6 or val <= 0:
+            continue
+        ym = digits[:6]
+        if ym not in by_ym:
+            ordered_yms.append(ym)
+        by_ym[ym] = val
+
+    ordered_yms.sort()
+    if len(ordered_yms) < 13:
+        return None
+
+    latest_ym = ordered_yms[-1]
+    prev_yr_ym = f"{int(latest_ym[:4]) - 1:04d}{latest_ym[4:6]}"
+    if prev_yr_ym not in by_ym:
+        return None
+
+    yoy_now = ((by_ym[latest_ym] / by_ym[prev_yr_ym]) - 1.0) * 100.0
+
+    diff_pp = 0.0
+    if len(ordered_yms) >= 14:
+        prev_m = ordered_yms[-2]
+        prev_m_yr = f"{int(prev_m[:4]) - 1:04d}{prev_m[4:6]}"
+        if prev_m_yr in by_ym:
+            yoy_prev = ((by_ym[prev_m] / by_ym[prev_m_yr]) - 1.0) * 100.0
+            diff_pp = yoy_now - yoy_prev
+
+    return latest_ym, round(yoy_now, 1), round(diff_pp, 1)
+
+
+def shift_year_month(dt: datetime, delta_months: int) -> str:
+    """Return YYYYMM shifted by delta_months from dt."""
+    total_m = dt.year * 12 + (dt.month - 1) + delta_months
+    y = total_m // 12
+    m = (total_m % 12) + 1
+    return f"{y:04d}{m:02d}"
+
+
+def get_quarter_code(dt: datetime, delta_quarters: int = 0) -> str:
+    """Return BOK ECOS quarterly date code like '2026Q3'."""
+    q0 = (dt.month - 1) // 3
+    total_q = dt.year * 4 + q0 + delta_quarters
+    y = total_q // 4
+    q = (total_q % 4) + 1
+    return f"{y:04d}Q{q}"
+
+
+def fetch_bok_ecos_rows(
+    bok_key: str,
+    stat_code: str,
+    cycle: str,
+    start_dt: str,
+    end_dt: str,
+    item_code1: str = "",
+    item_code2: str = "",
+    max_rows: int = 300,
+) -> list:
+    """
+    Fetch rows from Bank of Korea ECOS Open API (StatisticSearch).
+    Returns raw row dicts sorted chronologically by TIME.
+    """
+    url = (
+        f"https://ecos.bok.or.kr/api/StatisticSearch/{bok_key}/json/kr/1/{max_rows}/"
+        f"{stat_code}/{cycle}/{start_dt}/{end_dt}"
+    )
+    if item_code1:
+        url += f"/{item_code1}"
+        if item_code2:
+            url += f"/{item_code2}"
+
+    data = http_get_json(url, timeout=18)
+    if "StatisticSearch" not in data:
+        err_msg = data.get("RESULT", {}).get("MESSAGE", "No data returned")
+        raise ValueError(f"ECOS {stat_code}/{item_code1}: {err_msg}")
+
+    rows = data["StatisticSearch"].get("row", [])
+    valid = []
+    for r in rows:
+        raw_val = str(r.get("DATA_VALUE", "")).replace(",", "").strip()
+        time_str = str(r.get("TIME", "")).strip()
+        if not raw_val or raw_val in ("-", ".", "N/A") or not time_str:
+            continue
+        try:
+            r_copy = dict(r)
+            r_copy["_float"] = float(raw_val)
+            valid.append(r_copy)
+        except ValueError:
+            continue
+
+    valid.sort(key=lambda x: x["TIME"])
+    return valid
+
+
 def build_macro_updates(fx_rates: dict) -> list:
-    """Fetch live US Treasury yields, Fed Funds, CPI, Unemployment & DXY/USDKRW."""
+    """
+    Fetch live US (FRED public CSV) & South Korea (BOK ECOS Open API) macro indicators:
+      - Policy Rate (Fed Funds Upper / BOK Base Rate 722Y001)
+      - 2Y & 10Y Government Bond Yields + 10Y-2Y Yield Spread (FRED DGS2,DGS10 / BOK 817Y002)
+      - Headline CPI, Core CPI, PPI YoY % (FRED CPIAUCSL,CPILFESL,PPIFIS / BOK 901Y009,901Y010,404Y014)
+      - Unemployment & Employment Rate (FRED UNRATE,EMRATIO,PAYEMS / BOK 901Y027)
+      - Real GDP Growth Rate (FRED A191RL1Q225SBEA / BOK 200Y102)
+      - Dollar Index (DXY) & USD/KRW FX
+    """
+    now_kst = datetime.now(KST)
     updates = {}
 
+    def ensure_item(item_id: str) -> dict:
+        if item_id not in updates:
+            updates[item_id] = {"id": item_id}
+        return updates[item_id]
+
+    # ------------------------------------------------------------------
+    # 1. FX & Dollar Index (DXY & USD/KRW)
+    # ------------------------------------------------------------------
     usd_krw = fx_rates["KRW"]
     prev_krw = fx_rates.get("KRW_PREV", usd_krw)
     krw_diff = round(usd_krw - prev_krw, 1)
@@ -549,7 +687,7 @@ def build_macro_updates(fx_rates: dict) -> list:
         "id": "fx_rate",
         "usDisplay": f"{dxy_val:.1f}pt",
         "usNum": round(dxy_val, 2),
-        "usChange": f"{us_fx_arrow}{abs(dxy_chg):.2f}%",
+        "usChange": f"{us_fx_arrow}{abs(dxy_chg):.2f}%" if dxy_chg != 0 else "보합 (0.00%)",
         "usDir": us_fx_dir,
         "krDisplay": f"{usd_krw:,.1f}원",
         "krNum": usd_krw,
@@ -558,109 +696,462 @@ def build_macro_updates(fx_rates: dict) -> list:
         "gapText": f"원/달러 {usd_krw:,.1f}원 · DXY {dxy_val:.1f}pt",
     }
 
+    # ------------------------------------------------------------------
+    # 2. US Indicators via FRED Public CSV
+    # ------------------------------------------------------------------
+    us_pol = None
     us_2y = None
+    us_2y_prev = None
     us_10y = None
+    us_10y_prev = None
+    us_cpi = None
+    us_core_cpi = None
+    us_ppi = None
+    us_unemp = None
+    us_gdp = None
+
+    # US Policy Rate (DFEDTARU)
     try:
-        dgs2 = fetch_fred_series_csv("DGS2", 5)
+        fed_rows = fetch_fred_series_csv("DFEDTARU", 120)
+        if fed_rows:
+            us_pol = round(fed_rows[-1][1], 2)
+            # Detect last rate change across recent history
+            last_diff = 0.0
+            for _, v in reversed(fed_rows[:-1]):
+                if round(v, 2) != us_pol:
+                    last_diff = round(us_pol - v, 2)
+                    break
+            pol_item = ensure_item("policy_rate")
+            pol_item["usDisplay"] = f"{us_pol:.2f}%"
+            pol_item["usNum"] = us_pol
+            low_bound = max(0.0, us_pol - 0.25)
+            pol_item["usPeriod"] = f"FOMC 상단 ({low_bound:.2f}~{us_pol:.2f}%)"
+            if last_diff != 0:
+                chg_s, dir_s = format_pp_change(last_diff, decimals=2, unit="%p")
+                pol_item["usChange"] = chg_s
+                pol_item["usDir"] = dir_s
+    except Exception as exc:
+        print(f"[WARN] FRED DFEDTARU skipped: {exc}")
+
+    # US 2Y & 10Y Treasury Yields + 10Y-2Y Spread
+    try:
+        dgs2 = fetch_fred_series_csv("DGS2", 10)
         if len(dgs2) >= 2:
-            us_2y = dgs2[-1][1]
-            diff_bp = round((dgs2[-1][1] - dgs2[-2][1]) * 100)
-            updates["bond_2y"] = {
-                "id": "bond_2y",
+            us_2y = round(dgs2[-1][1], 2)
+            us_2y_prev = round(dgs2[-2][1], 2)
+            chg_s, dir_s = format_bp_change(round((us_2y - us_2y_prev) * 100))
+            b2 = ensure_item("bond_2y")
+            b2.update({
                 "usDisplay": f"{us_2y:.2f}%",
-                "usNum": round(us_2y, 2),
-                "usChange": f"{'▲ ' if diff_bp > 0 else ('▼ ' if diff_bp < 0 else '')}{abs(diff_bp)}bp",
-                "usDir": "up" if diff_bp > 0 else ("down" if diff_bp < 0 else "flat"),
-            }
+                "usNum": us_2y,
+                "usChange": chg_s,
+                "usDir": dir_s,
+                "usPeriod": f"시장 금리 ({dgs2[-1][0][5:].replace('-', '.')})",
+            })
     except Exception as exc:
         print(f"[WARN] FRED DGS2 skipped: {exc}")
 
     try:
-        dgs10 = fetch_fred_series_csv("DGS10", 5)
+        dgs10 = fetch_fred_series_csv("DGS10", 10)
         if len(dgs10) >= 2:
-            us_10y = dgs10[-1][1]
-            diff_bp = round((dgs10[-1][1] - dgs10[-2][1]) * 100)
-            updates["bond_10y"] = {
-                "id": "bond_10y",
+            us_10y = round(dgs10[-1][1], 2)
+            us_10y_prev = round(dgs10[-2][1], 2)
+            chg_s, dir_s = format_bp_change(round((us_10y - us_10y_prev) * 100))
+            b10 = ensure_item("bond_10y")
+            b10.update({
                 "usDisplay": f"{us_10y:.2f}%",
-                "usNum": round(us_10y, 2),
-                "usChange": f"{'▲ ' if diff_bp > 0 else ('▼ ' if diff_bp < 0 else '')}{abs(diff_bp)}bp",
-                "usDir": "up" if diff_bp > 0 else ("down" if diff_bp < 0 else "flat"),
-            }
+                "usNum": us_10y,
+                "usChange": chg_s,
+                "usDir": dir_s,
+                "usPeriod": f"시장 금리 ({dgs10[-1][0][5:].replace('-', '.')})",
+            })
     except Exception as exc:
         print(f"[WARN] FRED DGS10 skipped: {exc}")
 
     if us_2y is not None and us_10y is not None:
         sp_bp = round((us_10y - us_2y) * 100)
         sign = "+" if sp_bp >= 0 else ""
-        updates["yield_spread"] = {
-            "id": "yield_spread",
-            "usDisplay": f"{sign}{sp_bp}bp",
-            "usNum": round((us_10y - us_2y), 2),
-        }
+        ys = ensure_item("yield_spread")
+        ys["usDisplay"] = f"{sign}{sp_bp}bp"
+        ys["usNum"] = round(us_10y - us_2y, 2)
+        ys["usPeriod"] = "정상 우상향 구간" if sp_bp >= 0 else "장단기 금리 역전"
+        if us_2y_prev is not None and us_10y_prev is not None:
+            prev_sp_bp = round((us_10y_prev - us_2y_prev) * 100)
+            chg_s, dir_s = format_bp_change(sp_bp - prev_sp_bp)
+            ys["usChange"] = chg_s
+            ys["usDir"] = dir_s
 
-    try:
-        fed = fetch_fred_series_csv("DFEDTARU", 5)
-        if len(fed) >= 1:
-            f_val = fed[-1][1]
-            updates["policy_rate"] = {
-                "id": "policy_rate",
-                "usDisplay": f"{f_val:.2f}%",
-                "usNum": round(f_val, 2),
-            }
-    except Exception as exc:
-        print(f"[WARN] FRED DFEDTARU skipped: {exc}")
+    # US Headline CPI (CPIAUCSL), Core CPI (CPILFESL), PPI (PPIFIS)
+    for fred_code, ind_id, period_suffix in [
+        ("CPIAUCSL", "cpi", "전년동월비"),
+        ("CPILFESL", "core_cpi", "식료품·에너지 제외"),
+        ("PPIFIS", "ppi", "최종수요 전년동월비"),
+    ]:
+        try:
+            m_rows = fetch_fred_series_csv(fred_code, 28)
+            res = compute_yoy_from_monthly(m_rows)
+            if res:
+                ym, yoy_val, diff_pp = res
+                chg_s, dir_s = format_pp_change(diff_pp, decimals=1, unit="%p")
+                obj = ensure_item(ind_id)
+                obj.update({
+                    "usDisplay": f"{yoy_val:.1f}%",
+                    "usNum": yoy_val,
+                    "usChange": chg_s,
+                    "usDir": dir_s,
+                    "usPeriod": f"{ym[:4]}.{ym[4:6]}월 {period_suffix}",
+                })
+                if ind_id == "cpi":
+                    us_cpi = yoy_val
+                elif ind_id == "core_cpi":
+                    us_core_cpi = yoy_val
+                elif ind_id == "ppi":
+                    us_ppi = yoy_val
+        except Exception as exc:
+            print(f"[WARN] FRED {fred_code} skipped: {exc}")
 
+    # US Unemployment Rate (UNRATE) & Employment Rate / Payrolls (EMRATIO, PAYEMS)
     try:
-        unrate = fetch_fred_series_csv("UNRATE", 3)
+        unrate = fetch_fred_series_csv("UNRATE", 6)
         if len(unrate) >= 2:
-            u_val = unrate[-1][1]
-            u_diff = round(u_val - unrate[-2][1], 1)
-            updates["unemployment"] = {
-                "id": "unemployment",
-                "usDisplay": f"{u_val:.1f}%",
-                "usNum": round(u_val, 1),
-                "usChange": f"{'▲ ' if u_diff > 0 else ('▼ ' if u_diff < 0 else '보합 (')}{abs(u_diff):.1f}%p{'' if u_diff != 0 else ')'}",
-                "usDir": "up" if u_diff > 0 else ("down" if u_diff < 0 else "flat"),
-            }
+            us_unemp = round(unrate[-1][1], 1)
+            u_diff = us_unemp - round(unrate[-2][1], 1)
+            chg_s, dir_s = format_pp_change(u_diff, decimals=1, unit="%p")
+            ym = re.sub(r"[^0-9]", "", unrate[-1][0])[:6]
+            ensure_item("unemployment").update({
+                "usDisplay": f"{us_unemp:.1f}%",
+                "usNum": us_unemp,
+                "usChange": chg_s,
+                "usDir": dir_s,
+                "usPeriod": f"{ym[:4]}.{ym[4:6]}월 계절조정",
+            })
     except Exception as exc:
         print(f"[WARN] FRED UNRATE skipped: {exc}")
 
     try:
-        cpi_rows = fetch_fred_series_csv("CPIAUCSL", 14)
-        if len(cpi_rows) >= 14:
-            yoy_now = ((cpi_rows[-1][1] / cpi_rows[-13][1]) - 1.0) * 100.0
-            yoy_prev = ((cpi_rows[-2][1] / cpi_rows[-14][1]) - 1.0) * 100.0
-            c_diff = round(yoy_now - yoy_prev, 1)
-            updates["cpi"] = {
-                "id": "cpi",
-                "usDisplay": f"{yoy_now:.1f}%",
-                "usNum": round(yoy_now, 1),
-                "usChange": f"{'▲ ' if c_diff > 0 else ('▼ ' if c_diff < 0 else '보합 (')}{abs(c_diff):.1f}%p{'' if c_diff != 0 else ')'}",
-                "usDir": "up" if c_diff > 0 else ("down" if c_diff < 0 else "flat"),
-            }
+        em_rows = fetch_fred_series_csv("EMRATIO", 4)
+        pay_rows = fetch_fred_series_csv("PAYEMS", 4)
+        if len(em_rows) >= 2:
+            em_val = round(em_rows[-1][1], 1)
+            ym = re.sub(r"[^0-9]", "", em_rows[-1][0])[:6]
+            emp_obj = ensure_item("employment_rate")
+            emp_obj["usDisplay"] = f"{em_val:.1f}%"
+            emp_obj["usNum"] = em_val
+            emp_obj["usPeriod"] = f"{ym[:4]}.{ym[4:6]}월 16세 이상"
+            if len(pay_rows) >= 2:
+                # PAYEMS is in thousands -> convert to 만 명 (10,000s)
+                nfp_man = (pay_rows[-1][1] - pay_rows[-2][1]) / 10.0
+                sign = "+" if nfp_man >= 0 else ""
+                emp_obj["usChange"] = f"비농업 {sign}{nfp_man:.1f}만 명"
+                emp_obj["usDir"] = "up" if nfp_man >= 0 else "down"
     except Exception as exc:
-        print(f"[WARN] FRED CPIAUCSL skipped: {exc}")
+        print(f"[WARN] FRED EMRATIO/PAYEMS skipped: {exc}")
 
+    # US Real GDP Growth Rate (A191RL1Q225SBEA - QoQ Annualized %)
+    try:
+        gdp_rows = fetch_fred_series_csv("A191RL1Q225SBEA", 6)
+        if len(gdp_rows) >= 2:
+            us_gdp = round(gdp_rows[-1][1], 1)
+            g_diff = us_gdp - round(gdp_rows[-2][1], 1)
+            chg_s, dir_s = format_pp_change(g_diff, decimals=1, unit="%p")
+            dt_str = gdp_rows[-1][0]
+            q_num = (int(dt_str[5:7]) - 1) // 3 + 1
+            ensure_item("real_gdp").update({
+                "usDisplay": f"{us_gdp:.1f}%",
+                "usNum": us_gdp,
+                "usChange": chg_s,
+                "usDir": dir_s,
+                "usPeriod": f"{dt_str[:4]}년 {q_num}분기 전기비 연율",
+            })
+    except Exception as exc:
+        print(f"[WARN] FRED Real GDP skipped: {exc}")
+
+    # ------------------------------------------------------------------
+    # 3. South Korea Indicators via Bank of Korea ECOS Open API
+    # ------------------------------------------------------------------
     bok_key = os.environ.get("BOK_ECOS_API_KEY", "").strip()
     if bok_key:
+        print("[INFO] BOK_ECOS_API_KEY detected -> syncing Korean rates, bonds, CPI, PPI, employment & GDP...")
+        end_ymd = now_kst.strftime("%Y%m%d")
+        start_ymd_45 = (now_kst - timedelta(days=45)).strftime("%Y%m%d")
+        start_ymd_90 = (now_kst - timedelta(days=90)).strftime("%Y%m%d")
+        end_ym = now_kst.strftime("%Y%m")
+        start_ym_30 = shift_year_month(now_kst, -30)
+
+        # (A) 한국은행 기준금리 (722Y001 / D & M / 0101000)
         try:
-            end_ym = datetime.now(KST).strftime("%Y%m")
-            start_ym = (datetime.now(KST) - timedelta(days=120)).strftime("%Y%m")
-            ecos_url = f"https://ecos.bok.or.kr/api/StatisticSearch/{bok_key}/json/kr/1/10/722Y001/M/{start_ym}/{end_ym}/0101000"
-            ecos_data = http_get_json(ecos_url)
-            rows = ecos_data.get("StatisticSearch", {}).get("row", [])
-            if rows:
-                kr_base = float(rows[-1]["DATA_VALUE"])
-                pol_obj = updates.get("policy_rate", {"id": "policy_rate"})
+            kr_base = None
+            kr_last_diff = 0.0
+            m_rows = fetch_bok_ecos_rows(bok_key, "722Y001", "M", shift_year_month(now_kst, -24), end_ym, "0101000")
+            if m_rows:
+                kr_base = round(m_rows[-1]["_float"], 2)
+            # Check daily series as well so same-day MPB rate decision reflects immediately
+            try:
+                d_rows = fetch_bok_ecos_rows(bok_key, "722Y001", "D", start_ymd_90, end_ymd, "0101000")
+                if d_rows:
+                    kr_base = round(d_rows[-1]["_float"], 2)
+            except Exception:
+                pass
+
+            if kr_base is not None:
+                for r in reversed(m_rows):
+                    val_r = round(r["_float"], 2)
+                    if val_r != kr_base:
+                        kr_last_diff = round(kr_base - val_r, 2)
+                        break
+                pol_obj = ensure_item("policy_rate")
                 pol_obj["krDisplay"] = f"{kr_base:.2f}%"
-                pol_obj["krNum"] = round(kr_base, 2)
-                if "usNum" in pol_obj:
-                    gap_bp = round((pol_obj["usNum"] - kr_base) * 100)
-                    pol_obj["gapText"] = f"한·미 금리차 {abs(gap_bp)}bp ({'미국 우위' if gap_bp >= 0 else '한국 우위'})"
-                updates["policy_rate"] = pol_obj
+                pol_obj["krNum"] = kr_base
+                pol_obj["krPeriod"] = "금통위 기준금리"
+                if kr_last_diff != 0:
+                    chg_s, dir_s = format_pp_change(kr_last_diff, decimals=2, unit="%p")
+                    pol_obj["krChange"] = chg_s
+                    pol_obj["krDir"] = dir_s
+                if us_pol is not None:
+                    gap_bp = round((us_pol - kr_base) * 100)
+                    if gap_bp > 0:
+                        pol_obj["gapText"] = f"한·미 역전폭 {gap_bp}bp (미국 우위)"
+                    elif gap_bp < 0:
+                        pol_obj["gapText"] = f"한·미 금리차 {abs(gap_bp)}bp (한국 우위)"
+                    else:
+                        pol_obj["gapText"] = "한·미 기준금리 동일"
         except Exception as exc:
-            print(f"[WARN] Optional BOK ECOS fetch skipped: {exc}")
+            print(f"[WARN] BOK ECOS 722Y001 (Policy Rate) failed: {exc}")
+
+        # (B) 국고채 2년물(010195000) · 10년물(010210000) 및 장단기 금리차 (817Y002 / D)
+        kr_2y = None
+        kr_2y_prev = None
+        kr_10y = None
+        kr_10y_prev = None
+
+        try:
+            ktb2_rows = fetch_bok_ecos_rows(bok_key, "817Y002", "D", start_ymd_45, end_ymd, "010195000")
+            if len(ktb2_rows) >= 2:
+                kr_2y = round(ktb2_rows[-1]["_float"], 2)
+                kr_2y_prev = round(ktb2_rows[-2]["_float"], 2)
+                t_str = ktb2_rows[-1]["TIME"]
+                chg_s, dir_s = format_bp_change(round((kr_2y - kr_2y_prev) * 100))
+                b2_obj = ensure_item("bond_2y")
+                b2_obj.update({
+                    "krDisplay": f"{kr_2y:.2f}%",
+                    "krNum": kr_2y,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"국고채 2년 ({t_str[4:6]}.{t_str[6:8]})",
+                })
+                if us_2y is not None:
+                    diff_bp = round((us_2y - kr_2y) * 100)
+                    b2_obj["gapText"] = f"금리차 {diff_bp:+d}bp ({'미 > 한' if diff_bp >= 0 else '한 > 미'})"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 817Y002 2Y Bond failed: {exc}")
+
+        try:
+            ktb10_rows = fetch_bok_ecos_rows(bok_key, "817Y002", "D", start_ymd_45, end_ymd, "010210000")
+            if len(ktb10_rows) >= 2:
+                kr_10y = round(ktb10_rows[-1]["_float"], 2)
+                kr_10y_prev = round(ktb10_rows[-2]["_float"], 2)
+                t_str = ktb10_rows[-1]["TIME"]
+                chg_s, dir_s = format_bp_change(round((kr_10y - kr_10y_prev) * 100))
+                b10_obj = ensure_item("bond_10y")
+                b10_obj.update({
+                    "krDisplay": f"{kr_10y:.2f}%",
+                    "krNum": kr_10y,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"국고채 10년 ({t_str[4:6]}.{t_str[6:8]})",
+                })
+                if us_10y is not None:
+                    diff_bp = round((us_10y - kr_10y) * 100)
+                    b10_obj["gapText"] = f"금리차 {diff_bp:+d}bp ({'미 > 한' if diff_bp >= 0 else '한 > 미'})"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 817Y002 10Y Bond failed: {exc}")
+
+        if kr_2y is not None and kr_10y is not None:
+            kr_sp_bp = round((kr_10y - kr_2y) * 100)
+            sign = "+" if kr_sp_bp >= 0 else ""
+            ys_obj = ensure_item("yield_spread")
+            ys_obj["krDisplay"] = f"{sign}{kr_sp_bp}bp"
+            ys_obj["krNum"] = round(kr_10y - kr_2y, 2)
+            ys_obj["krPeriod"] = "정상 우상향 구간" if kr_sp_bp >= 0 else "장단기 금리 역전"
+            if kr_2y_prev is not None and kr_10y_prev is not None:
+                prev_kr_sp = round((kr_10y_prev - kr_2y_prev) * 100)
+                chg_s, dir_s = format_bp_change(kr_sp_bp - prev_kr_sp)
+                ys_obj["krChange"] = chg_s
+                ys_obj["krDir"] = dir_s
+            if us_2y is not None and us_10y is not None:
+                us_sp_bp = round((us_10y - us_2y) * 100)
+                if us_sp_bp >= 0 and kr_sp_bp >= 0:
+                    ys_obj["gapText"] = f"양국 정상 커브 (미 {us_sp_bp:+d}bp · 한 {kr_sp_bp:+d}bp)"
+                else:
+                    ys_obj["gapText"] = f"미국 {us_sp_bp:+d}bp · 한국 {kr_sp_bp:+d}bp"
+
+        # (C) 한국 소비자물가지수 CPI (901Y009 / M / 0 총지수 -> 전년동월비 YoY %)
+        try:
+            cpi_kr_rows = fetch_bok_ecos_rows(bok_key, "901Y009", "M", start_ym_30, end_ym, "0")
+            res = compute_yoy_from_monthly([(r["TIME"], r["_float"]) for r in cpi_kr_rows])
+            if res:
+                ym, kr_cpi_val, diff_pp = res
+                chg_s, dir_s = format_pp_change(diff_pp, decimals=1, unit="%p")
+                cpi_obj = ensure_item("cpi")
+                cpi_obj.update({
+                    "krDisplay": f"{kr_cpi_val:.1f}%",
+                    "krNum": kr_cpi_val,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"{ym[:4]}.{ym[4:6]}월 전년동월비",
+                })
+                if us_cpi is not None:
+                    gap = round(us_cpi - kr_cpi_val, 1)
+                    cpi_obj["gapText"] = f"미국 {us_cpi:.1f}% vs 한국 {kr_cpi_val:.1f}% ({'미국 +' if gap >= 0 else '한국 +'}{abs(gap):.1f}%p)"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 901Y009 (KR CPI) failed: {exc}")
+
+        # (D) 한국 근원 소비자물가 Core CPI (901Y010 / M / DB 농산물및석유류제외지수, 폴백 QB)
+        try:
+            core_kr_rows = []
+            for candidate_code in ("DB", "QB"):
+                try:
+                    core_kr_rows = fetch_bok_ecos_rows(bok_key, "901Y010", "M", start_ym_30, end_ym, candidate_code)
+                    if len(core_kr_rows) >= 13:
+                        break
+                except Exception:
+                    continue
+
+            if len(core_kr_rows) < 13:
+                all_901 = fetch_bok_ecos_rows(bok_key, "901Y010", "M", start_ym_30, end_ym, max_rows=500)
+                core_kr_rows = [r for r in all_901 if "농산물및석유류제외" in str(r.get("ITEM_NAME1", ""))]
+                if len(core_kr_rows) < 13:
+                    core_kr_rows = [r for r in all_901 if "식료품및에너지제외" in str(r.get("ITEM_NAME1", ""))]
+
+            res = compute_yoy_from_monthly([(r["TIME"], r["_float"]) for r in core_kr_rows])
+            if res:
+                ym, kr_core_val, diff_pp = res
+                chg_s, dir_s = format_pp_change(diff_pp, decimals=1, unit="%p")
+                cc_obj = ensure_item("core_cpi")
+                cc_obj.update({
+                    "krDisplay": f"{kr_core_val:.1f}%",
+                    "krNum": kr_core_val,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"{ym[:4]}.{ym[4:6]}월 농산물·석유류 제외",
+                })
+                if us_core_cpi is not None:
+                    gap = round(us_core_cpi - kr_core_val, 1)
+                    cc_obj["gapText"] = f"근원물가 격차 {'미국 +' if gap >= 0 else '한국 +'}{abs(gap):.1f}%p"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 901Y010 (KR Core CPI) failed: {exc}")
+
+        # (E) 한국 생산자물가지수 PPI (404Y014 / M / *AA 총지수 -> 전년동월비 YoY %)
+        try:
+            ppi_kr_rows = []
+            try:
+                ppi_kr_rows = fetch_bok_ecos_rows(bok_key, "404Y014", "M", start_ym_30, end_ym, "*AA")
+            except Exception:
+                all_ppi = fetch_bok_ecos_rows(bok_key, "404Y014", "M", start_ym_30, end_ym, max_rows=500)
+                ppi_kr_rows = [r for r in all_ppi if str(r.get("ITEM_NAME1", "")).strip() == "총지수"]
+
+            res = compute_yoy_from_monthly([(r["TIME"], r["_float"]) for r in ppi_kr_rows])
+            if res:
+                ym, kr_ppi_val, diff_pp = res
+                chg_s, dir_s = format_pp_change(diff_pp, decimals=1, unit="%p")
+                ppi_obj = ensure_item("ppi")
+                ppi_obj.update({
+                    "krDisplay": f"{kr_ppi_val:.1f}%",
+                    "krNum": kr_ppi_val,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"{ym[:4]}.{ym[4:6]}월 전년동월비",
+                })
+                if us_ppi is not None:
+                    gap = round(us_ppi - kr_ppi_val, 1)
+                    ppi_obj["gapText"] = f"미국 {us_ppi:.1f}% · 한국 {kr_ppi_val:.1f}% ({'미국 +' if gap >= 0 else '한국 +'}{abs(gap):.1f}%p)"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 404Y014 (KR PPI) failed: {exc}")
+
+        # (F) 한국 실업률(I61BC) · 고용률(I61E) (901Y027 / M / 계절조정 I28B 폴백 I28A)
+        try:
+            u_kr_rows = []
+            season_label = "계절조정"
+            for s_code, s_lbl in [("I28B", "계절조정"), ("I28A", "원계열")]:
+                try:
+                    u_kr_rows = fetch_bok_ecos_rows(bok_key, "901Y027", "M", shift_year_month(now_kst, -12), end_ym, "I61BC", s_code)
+                    if len(u_kr_rows) >= 2:
+                        season_label = s_lbl
+                        break
+                except Exception:
+                    continue
+            if len(u_kr_rows) >= 2:
+                kr_u = round(u_kr_rows[-1]["_float"], 1)
+                kr_u_diff = kr_u - round(u_kr_rows[-2]["_float"], 1)
+                ym = u_kr_rows[-1]["TIME"][:6]
+                chg_s, dir_s = format_pp_change(kr_u_diff, decimals=1, unit="%p")
+                u_obj = ensure_item("unemployment")
+                u_obj.update({
+                    "krDisplay": f"{kr_u:.1f}%",
+                    "krNum": kr_u,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"{ym[:4]}.{ym[4:6]}월 {season_label}",
+                })
+                if us_unemp is not None:
+                    u_obj["gapText"] = f"미국 {us_unemp:.1f}% · 한국 {kr_u:.1f}% (저실업 유지)"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 901Y027 (KR Unemployment) failed: {exc}")
+
+        try:
+            e_kr_rows = []
+            season_label = "계절조정"
+            for s_code, s_lbl in [("I28B", "계절조정"), ("I28A", "원계열")]:
+                try:
+                    e_kr_rows = fetch_bok_ecos_rows(bok_key, "901Y027", "M", shift_year_month(now_kst, -12), end_ym, "I61E", s_code)
+                    if len(e_kr_rows) >= 2:
+                        season_label = s_lbl
+                        break
+                except Exception:
+                    continue
+            if len(e_kr_rows) >= 2:
+                kr_emp = round(e_kr_rows[-1]["_float"], 1)
+                kr_emp_diff = kr_emp - round(e_kr_rows[-2]["_float"], 1)
+                ym = e_kr_rows[-1]["TIME"][:6]
+                chg_s, dir_s = format_pp_change(kr_emp_diff, decimals=1, unit="%p")
+                ensure_item("employment_rate").update({
+                    "krDisplay": f"{kr_emp:.1f}%",
+                    "krNum": kr_emp,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"{ym[:4]}.{ym[4:6]}월 15세 이상 ({season_label})",
+                })
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 901Y027 (KR Employment Rate) failed: {exc}")
+
+        # (G) 한국 실질 GDP 성장률 (200Y102 / Q / 10111 실질 국내총생산 전기대비 %)
+        try:
+            start_q = get_quarter_code(now_kst, -10)
+            end_q = get_quarter_code(now_kst, 0)
+            gdp_kr_rows = fetch_bok_ecos_rows(bok_key, "200Y102", "Q", start_q, end_q, "10111")
+            if len(gdp_kr_rows) >= 2:
+                kr_gdp_qoq = round(gdp_kr_rows[-1]["_float"], 1)
+                prev_gdp_qoq = round(gdp_kr_rows[-2]["_float"], 1)
+                q_diff = kr_gdp_qoq - prev_gdp_qoq
+                q_time = gdp_kr_rows[-1]["TIME"]  # e.g. "2026Q3"
+                q_pretty = q_time.replace("Q", "년 ") + "분기" if "Q" in q_time else q_time
+                chg_s, dir_s = format_pp_change(q_diff, decimals=1, unit="%p")
+                kr_ann = round((((1.0 + kr_gdp_qoq / 100.0) ** 4) - 1.0) * 100.0, 1)
+
+                gdp_obj = ensure_item("real_gdp")
+                gdp_obj.update({
+                    "krDisplay": f"{kr_gdp_qoq:.1f}%",
+                    "krNum": kr_gdp_qoq,
+                    "krChange": chg_s,
+                    "krDir": dir_s,
+                    "krPeriod": f"{q_pretty} 전기비 (연율환산 {kr_ann:.1f}%)",
+                })
+                if us_gdp is not None:
+                    gdp_obj["gapText"] = f"미국 연율 {us_gdp:.1f}% · 한국 전기비 {kr_gdp_qoq:.1f}% (연율 {kr_ann:.1f}%)"
+        except Exception as exc:
+            print(f"[WARN] BOK ECOS 200Y102 (KR Real GDP) failed: {exc}")
+    else:
+        print("[INFO] BOK_ECOS_API_KEY is not set -> keeping baseline Korean macro figures.")
 
     return list(updates.values())
 
