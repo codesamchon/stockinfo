@@ -1,0 +1,52 @@
+{
+  "isBootstrap": true,
+  "updatedAt": "2026-11-19T23:00:00+09:00",
+  "updatedLabel": "2026년 11월 19일 기준",
+  "usdKrw": 1328.0,
+  "sp500Sectors": [
+    {
+      "id": "it",
+      "marketCapB": 19850.0
+    },
+    {
+      "id": "financials",
+      "marketCapB": 8150.0
+    },
+    {
+      "id": "consumer_disc",
+      "marketCapB": 6580.0
+    },
+    {
+      "id": "comm_services",
+      "marketCapB": 6420.0
+    },
+    {
+      "id": "healthcare",
+      "marketCapB": 6120.0
+    },
+    {
+      "id": "industrials",
+      "marketCapB": 4950.0
+    },
+    {
+      "id": "consumer_staples",
+      "marketCapB": 3680.0
+    },
+    {
+      "id": "energy",
+      "marketCapB": 2140.0
+    },
+    {
+      "id": "utilities",
+      "marketCapB": 1520.0
+    },
+    {
+      "id": "real_estate",
+      "marketCapB": 1340.0
+    },
+    {
+      "id": "materials",
+      "marketCapB": 1190.0
+    }
+  ]
+}
