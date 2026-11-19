@@ -1,17 +1,33 @@
 (() => {
   "use strict";
 
-  // Country Configuration (Global Top 50)
+  // Country Configuration (Dynamic Global Top 50 Listed Companies)
   const COUNTRY_META = {
     US: { ko: "미국", color: "#4472C4", order: 0 },
     CN: { ko: "중국", color: "#D9483B", order: 1 },
     TW: { ko: "대만", color: "#E3B341", order: 2 },
     SA: { ko: "사우디아라비아", color: "#6BB662", order: 3 },
     KR: { ko: "대한민국", color: "#259B8E", order: 4 },
-    CH: { ko: "스위스", color: "#E5538B", order: 5 },
-    NL: { ko: "네덜란드", color: "#31B0D5", order: 6 },
-    GB: { ko: "영국", color: "#8B65C7", order: 7 }
+    JP: { ko: "일본", color: "#D96B27", order: 5 },
+    FR: { ko: "프랑스", color: "#3B5998", order: 6 },
+    CH: { ko: "스위스", color: "#E5538B", order: 7 },
+    NL: { ko: "네덜란드", color: "#31B0D5", order: 8 },
+    GB: { ko: "영국", color: "#8B65C7", order: 9 },
+    DE: { ko: "독일", color: "#5C6BC0", order: 10 },
+    DK: { ko: "덴마크", color: "#C94A6A", order: 11 },
+    IN: { ko: "인도", color: "#E68A2E", order: 12 },
+    CA: { ko: "캐나다", color: "#C84B31", order: 13 },
+    AU: { ko: "호주", color: "#2A8C82", order: 14 },
+    ES: { ko: "스페인", color: "#D4882A", order: 15 },
+    IE: { ko: "아일랜드", color: "#3A9B6E", order: 16 },
+    IT: { ko: "이탈리아", color: "#3E8E68", order: 17 },
+    BR: { ko: "브라질", color: "#3E9C59", order: 18 },
+    OTH: { ko: "기타 국가", color: "#64748B", order: 99 }
   };
+
+  function getCountryMeta(code) {
+    return COUNTRY_META[code] || COUNTRY_META.OTH;
+  }
 
   const PAGE_COPY = {
     global: {
@@ -68,13 +84,13 @@
     { id: "nvidia", name: "NVIDIA", koName: "엔비디아", ticker: "NVDA", country: "US", marketCapB: 3714.0, changePct: -2.45, sector: "AI 반도체", summary: "데이터센터용 차세대 AI 가속기 독점적 지위를 유지하며 마이크로소프트와 시총 2위권을 다투는 핵심 기업." },
     { id: "alphabet", name: "Alphabet", koName: "알파벳(구글)", ticker: "GOOG", country: "US", marketCapB: 3429.0, changePct: -0.65, sector: "플랫폼·클라우드·AI", summary: "검색·유튜브 광고 수익성과 Gemini 기반 구글 클라우드 AI 인프라 수요 확대로 견조한 실적 지속." },
     { id: "amazon", name: "Amazon", koName: "아마존", ticker: "AMZN", country: "US", marketCapB: 2785.0, changePct: -0.52, sector: "이커머스·클라우드", summary: "AWS 클라우드 자체 AI 칩 도입과 북미 물류 자동화를 통한 영업이익률 개선세가 뚜렷함." },
-    { id: "spacex", name: "SpaceX", koName: "스페이스X", ticker: "SPCX", country: "US", marketCapB: 1912.0, changePct: 1.18, sector: "우주항공·위성통신·AI", summary: "xAI·X 합병 이후 나스닥에 상장하여 스타링크 글로벌 통신망과 우주 발사체 시장을 주도 중." },
+    { id: "netflix", name: "Netflix", koName: "넷플릭스", ticker: "NFLX", country: "US", marketCapB: 438.50, changePct: 0.92, sector: "글로벌 스트리밍·미디어", summary: "광고 요금제 가입자 급증과 라이브 스포츠 중계·오리지널 콘텐츠 흥행으로 글로벌 스트리밍 수익성 1위를 공고히 유지." },
     { id: "tsmc", name: "TSMC", koName: "TSMC", ticker: "TSM", country: "TW", marketCapB: 1867.0, changePct: -1.95, sector: "파운드리 반도체", summary: "첨단 2나노 공정 및 CoWoS 패키징 독점력을 바탕으로 글로벌 AI 반도체 생산을 전담하는 대만 대표 기업." },
     { id: "aramco", name: "Saudi Aramco", koName: "사우디 아람코", ticker: "2222.SR", country: "SA", marketCapB: 1701.0, changePct: 0.24, sector: "에너지·석유화학", summary: "세계 최대 원유 매장량과 저원가 생산 역량을 보유한 사우디아라비아 국영 종합 에너지 기업." },
     { id: "broadcom", name: "Broadcom", koName: "브로드컴", ticker: "AVGO", country: "US", marketCapB: 1615.0, changePct: -1.62, sector: "맞춤형 AI 반도체·SW", summary: "빅테크 맞춤형 AI ASIC 칩(XPU) 설계와 VMware 인프라 소프트웨어 시너지로 초고속 성장." },
     { id: "meta", name: "Meta", koName: "메타 플랫폼스", ticker: "META", country: "US", marketCapB: 1583.0, changePct: -0.78, sector: "소셜미디어·AI", summary: "AI 기반 정밀 광고 타겟팅 고도화 및 오픈소스 Llama 생태계와 스마트글래스 하드웨어 확장." },
     { id: "tesla", name: "Tesla", koName: "테슬라", ticker: "TSLA", country: "US", marketCapB: 1504.0, changePct: 0.92, sector: "자율주행·전기차·로보틱스", summary: "완전자율주행(FSD) 로보택시 상용화 기대감과 휴머노이드 로봇 옵티머스·에너지저장장치(ESS) 성장 반영." },
-    { id: "anthropic", name: "Anthropic", koName: "앤스로픽", ticker: "ANT", country: "US", marketCapB: 1400.0, changePct: 0.0, sector: "생성형 AI 모델", summary: "Claude 기반 기업용 AI 에이전트 및 코딩·클라우드 AI 생태계 확장을 주도하며 시가총액 1.4조 달러 규모의 빅테크 대열에 합류한 생성형 AI 기업." },
+    { id: "lvmh", name: "LVMH", koName: "루이비통모에헤네시(LVMH)", ticker: "MC.PA", country: "FR", marketCapB: 368.40, changePct: 0.44, sector: "글로벌 럭셔리·패션", summary: "루이비통·디올·티파니 등 75개 명품 브랜드를 보유한 유럽 대표 럭셔리 그룹." },
     { id: "lilly", name: "Eli Lilly", koName: "일라이 릴리", ticker: "LLY", country: "US", marketCapB: 1260.0, changePct: 0.45, sector: "제약·바이오", summary: "비만·당뇨 치료제 마운자로·젭바운드 및 경구용 GLP-1 신약 파이프라인으로 글로벌 제약 시총 1위 수성." },
     { id: "berkshire", name: "Berkshire Hathaway", koName: "버크셔 해서웨이", ticker: "BRK-B", country: "US", marketCapB: 1255.0, changePct: 0.31, sector: "복합금융·지주", summary: "보험·철도·에너지 실물 사업과 막대한 현금성 자산을 바탕으로 시장 변동성 국면에서 방어력을 발휘." },
     { id: "walmart", name: "Walmart", koName: "월마트", ticker: "WMT", country: "US", marketCapB: 1013.0, changePct: 0.64, sector: "필수소비재·유통", summary: "옴니채널 이커머스 자동화와 고마진 리테일 미디어 광고 사업 성장으로 시가총액 1조 달러 안착." },
@@ -94,7 +110,7 @@
     { id: "tencent", name: "Tencent", koName: "텐센트", ticker: "TCEHY", country: "CN", marketCapB: 429.42, changePct: -0.74, sector: "게임·메신저·AI 클라우드", summary: "위챗 생태계 미니프로그램 광고·핀테크 수익과 글로벌 게임 흥행, 자체 AI 모델 상용화를 결합." },
     { id: "cocacola", name: "Coca-Cola", koName: "코카콜라", ticker: "KO", country: "US", marketCapB: 427.06, changePct: 0.39, sector: "음료·필수소비재", summary: "강력한 브랜드 가격 결정력과 신흥국 판매량 증가로 견고한 현금흐름과 배당 성장을 유지." },
     { id: "chevron", name: "Chevron", koName: "셰브론", ticker: "CVX", country: "US", marketCapB: 421.51, changePct: 0.28, sector: "종합 에너지", summary: "북미 및 카자흐스탄·남미 해양 유전 개발과 주주환원 중심 자본 배분을 지속하는 메이저 정유사." },
-    { id: "cxmt", name: "CXMT", koName: "창신메모리(CXMT)", ticker: "688825.SS", country: "CN", marketCapB: 408.50, changePct: -2.90, sector: "DRAM 메모리 반도체", summary: "상하이 커창반 상장 이후 중국 내수 AI 서버 및 모바일용 DRAM 국산화 수요를 흡수하며 급부상." },
+    { id: "toyota", name: "Toyota", koName: "토요타자동차", ticker: "TM", country: "JP", marketCapB: 318.20, changePct: 0.52, sector: "완성차·하이브리드 모빌리티", summary: "글로벌 하이브리드(HEV) 판매 호조와 차세대 전고체 배터리·자율주행 투자로 세계 완성차 판매량 선두를 유지하는 일본 대표 기업." },
     { id: "roche", name: "Roche", koName: "로슈", ticker: "ROG.SW", country: "CH", marketCapB: 395.10, changePct: 0.22, sector: "제약·체외진단", summary: "표적항암제·신경과학 신약 및 글로벌 체외진단 시장 1위 역량을 보유한 스위스 바이오헬스케어 기업." },
     { id: "palantir", name: "Palantir", koName: "팔란티어", ticker: "PLTR", country: "US", marketCapB: 392.40, changePct: -1.45, sector: "AI 데이터 의사결정 SW", summary: "AIP 플랫폼을 통한 미국 민간 기업 및 국방·공공 부문 AI 운영체제 도입 확산으로 고속 성장." },
     { id: "pg", name: "P&G", koName: "프록터앤드갬블", ticker: "PG", country: "US", marketCapB: 391.80, changePct: 0.35, sector: "생활용품·필수소비재", summary: "글로벌 생활필수품 프리미엄 제품군 중심의 높은 마진율과 방어적 실적을 시현." },
@@ -114,6 +130,65 @@
     { id: "novartis", name: "Novartis", koName: "노바티스", ticker: "NVS", country: "CH", marketCapB: 301.60, changePct: 0.29, sector: "전문의약품·바이오", summary: "심혈관·면역·방사성 리간드 표적항암제에 집중하는 스위스 순수 혁신신약 기업." },
     { id: "morganstanley", name: "Morgan Stanley", koName: "모건스탠리", ticker: "MS", country: "US", marketCapB: 296.80, changePct: 0.55, sector: "자산관리·투자은행", summary: "초고액자산가 자산관리(WM) 수수료 기반과 대형 테크 IPO 주관 실적이 돋보이는 글로벌 IB." }
   ];
+
+
+  // Extended Korean Metadata Catalog for Top 100+ Global Publicly Listed Companies
+  const EXTRA_COMPANY_CATALOG = [
+    { id: "novonordisk", name: "Novo Nordisk", koName: "노보 노디스크", ticker: "NVO", country: "DK", sector: "제약·비만치료제", summary: "위고비·오젬픽 등 GLP-1 계열 비만·당뇨 치료제 시장을 개척한 덴마크 대표 바이오제약 기업." },
+    { id: "sap", name: "SAP", koName: "SAP", ticker: "SAP", country: "DE", sector: "엔터프라이즈 ERP·클라우드", summary: "글로벌 대기업 ERP 클라우드 전환과 비즈니스 AI 구독 모델 확산으로 고성장 중인 독일 최대 소프트웨어 기업." },
+    { id: "hermes", name: "Hermès", koName: "에르메스", ticker: "RMS.PA", country: "FR", sector: "하이엔드 럭셔리", summary: "희소성 높은 장인 생산 체제와 압도적인 브랜드 충성도로 최고 영업이익률을 기록하는 프랑스 명품 하우스." },
+    { id: "alibaba", name: "Alibaba", koName: "알리바바", ticker: "BABA", country: "CN", sector: "이커머스·클라우드·AI", summary: "타오바오·티몰 커머스 현금흐름과 통이치엔원(Qwen) 오픈소스 AI·알리바바 클라우드 생태계를 운영하는 중국 빅테크." },
+    { id: "salesforce", name: "Salesforce", koName: "세일즈포스", ticker: "CRM", country: "US", sector: "기업용 CRM·AI 에이전트", summary: "글로벌 1위 고객관계관리(CRM) 클라우드 플랫폼에 자율형 AI 에이전트 'Agentforce'를 결합해 수익성을 확대 중." },
+    { id: "astrazeneca", name: "AstraZeneca", koName: "아스트라제네카", ticker: "AZN", country: "GB", sector: "항암·희귀질환 신약", summary: "타그리소·엔허투 등 표적항암제 및 면역·희귀질환 파이프라인이 강력한 영국 대표 글로벌 제약사." },
+    { id: "shell", name: "Shell", koName: "쉘(Shell)", ticker: "SHEL", country: "GB", sector: "글로벌 LNG·종합에너지", summary: "세계 최대 액화천연가스(LNG) 트레이딩 역량과 안정적인 주주환원을 이어가는 유럽 메이저 에너지 기업." },
+    { id: "wells_fargo", name: "Wells Fargo", koName: "웰스파고", ticker: "WFC", country: "US", sector: "소매·기업금융 은행", summary: "미국 내 광범위한 상업·소비자 금융 네트워크와 자산건전성 개선을 바탕으로 수익성을 회복한 대형 은행." },
+    { id: "abbott", name: "Abbott", koName: "애보트 래버러토리스", ticker: "ABT", country: "US", sector: "연속혈당측정·의료기기", summary: "프리스타일 리브레 연속혈당측정기(CGM)와 심혈관 의료기기·진단 사업으로 고른 성장을 기록 중." },
+    { id: "servicenow", name: "ServiceNow", koName: "서비스나우", ticker: "NOW", country: "US", sector: "기업 업무자동화·AI SW", summary: "대기업 IT·인사·고객지원 워크플로우에 생성형 AI 자동화를 결합해 높은 구독 갱신율을 자랑하는 클라우드 기업." },
+    { id: "ibm", name: "IBM", koName: "IBM", ticker: "IBM", country: "US", sector: "하이브리드 클라우드·양자컴퓨팅", summary: "Red Hat 하이브리드 클라우드, 기업용 watsonx AI 컨설팅 및 양자컴퓨팅 연구를 선도하는 IT 기업." },
+    { id: "mcdonalds", name: "McDonald's", koName: "맥도날드", ticker: "MCD", country: "US", sector: "글로벌 외식 프랜차이즈", summary: "전 세계 4만여 매장의 가맹 임대 수익 구조와 디지털 주문 확대로 경기 방어력과 현금창출력이 뛰어난 기업." },
+    { id: "linde", name: "Linde", koName: "린데", ticker: "LIN", country: "GB", sector: "산업용 가스·클린수소", summary: "반도체·석유화학·의료용 특수 가스와 블루·그린 수소 인프라 시장을 선도하는 세계 1위 산업가스 기업." },
+    { id: "pepsico", name: "PepsiCo", koName: "펩시코", ticker: "PEP", country: "US", sector: "식음료·스낵 필수소비재", summary: "펩시 음료와 프리토레이·퀘이커 스낵 포트폴리오를 결합해 안정적인 글로벌 매출과 배당 성장을 기록." },
+    { id: "accenture", name: "Accenture", koName: "액센츄어", ticker: "ACN", country: "IE", sector: "글로벌 IT 컨설팅·AI 구축", summary: "포춘 500대 기업의 클라우드 마이그레이션과 생성형 AI 시스템 통합(SI) 프로젝트를 주도하는 컨설팅 기업." },
+    { id: "ThermoFisher", name: "Thermo Fisher", koName: "써모피셔 사이언티픽", ticker: "TMO", country: "US", sector: "생명과학 연구장비·CDMO", summary: "바이오 신약 개발용 분석기기·시약 공급 및 위탁개발생산(CDMO) 분야 글로벌 선두 기업." },
+    { id: "caterpillar", name: "Caterpillar", koName: "캐터필러", ticker: "CAT", country: "US", sector: "중장비·데이터센터 발전기", summary: "북미 인프라 투자용 건설·광산 중장비와 AI 데이터센터용 대형 백업 발전기 수요 급증 수혜 기업." },
+    { id: "qualcomm", name: "Qualcomm", koName: "퀄컴", ticker: "QCOM", country: "US", sector: "모바일·온디바이스 AI 칩", summary: "스냅드래곤 모바일 AP를 넘어 AI PC·자율주행 전장 반도체로 수익원을 다변화 중인 팹리스 리더." },
+    { id: "intuit", name: "Intuit", koName: "인튜이트", ticker: "INTU", country: "US", sector: "세무·회계 핀테크 SW", summary: "터보택스·퀵북스 등 북미 중소기업 및 개인 세무·재무 관리 AI 소프트웨어를 독점적으로 공급." },
+    { id: "disney", name: "Walt Disney", koName: "월트 디즈니", ticker: "DIS", country: "US", sector: "엔터테인먼트·테마파크", summary: "디즈니+ 스트리밍 흑자 전환과 글로벌 테마파크·크루즈 확장, 강력한 IP 박스오피스 파워를 보유." },
+    { id: "goldmansachs", name: "Goldman Sachs", koName: "골드만삭스", ticker: "GS", country: "US", sector: "글로벌 투자은행(IB)", summary: "글로벌 M&A 자문, 주식·채권 트레이딩 및 초고액자산가 자산운용 시장을 선도하는 핵심 투자은행." },
+    { id: "americanexpress", name: "American Express", koName: "아메리칸 익스프레스", ticker: "AXP", country: "US", sector: "프리미엄 결제·카드금융", summary: "고소득층 및 법인 프리미엄 카드 회원 기반의 높은 결제액과 연회비 수익 성장을 이어가는 금융사." },
+    { id: "texas_inst", name: "Texas Instruments", koName: "텍사스 인스트루먼트", ticker: "TXN", country: "US", sector: "아날로그·전장 반도체", summary: "자동차·산업자동화 필수 부품인 아날로그 및 임베디드 반도체를 미국 내 300mm 웨이퍼 팹에서 자체 생산." },
+    { id: "applied_mat", name: "Applied Materials", koName: "어플라이드 머티어리얼즈", ticker: "AMAT", country: "US", sector: "반도체 전공정 장비", summary: "GAA 트랜지스터 및 HBM 첨단 패키징 증착·식각 장비를 공급하는 세계 최대 종합 반도체 장비사." },
+    { id: "arm", name: "Arm Holdings", koName: "암 홀딩스(Arm)", ticker: "ARM", country: "GB", sector: "반도체 설계 자산(IP)", summary: "전 세계 스마트폰은 물론 데이터센터 서버 CPU까지 저전력 v9 아키텍처 로열티 수익을 확대 중인 반도체 IP 기업." },
+    { id: "uber", name: "Uber", koName: "우버", ticker: "UBER", country: "US", sector: "모빌리티·배달 플랫폼", summary: "글로벌 승차공유 및 우버이츠 수익성 개선과 자율주행 로보택시 파트너십 허브 전략으로 현금흐름 급증." },
+    { id: "nextera", name: "NextEra Energy", koName: "넥스트에라 에너지", ticker: "NEE", country: "US", sector: "친환경 발전·전력망", summary: "미국 최대 풍력·태양광·배터리 저장장치 개발사로 AI 데이터센터 대규모 전력 구매계약(PPA) 수혜를 입는 유틸리티." },
+    { id: "reliance", name: "Reliance Industries", koName: "릴라이언스 인더스트리", ticker: "RELIANCE.NS", country: "IN", sector: "통신·유통·에너지 복합", summary: "인도 최대 통신사 지오(Jio), 리테일 유통망, 정유·신재생에너지를 아우르는 인도 시가총액 1위 기업." },
+    { id: "moutai", name: "Kweichow Moutai", koName: "귀주모태주", ticker: "600519.SS", country: "CN", sector: "프리미엄 주류·필수소비재", summary: "독보적인 브랜드 희소성과 70%대 순이익률을 기록하는 중국 본토 소비재 대장주." },
+    { id: "byd", name: "BYD", koName: "비야디(BYD)", ticker: "1211.HK", country: "CN", sector: "전기차·배터리 수직계열화", summary: "자체 블레이드 배터리와 플러그인 하이브리드·순수전기차 라인업으로 글로벌 친환경차 판매 선두권을 기록." },
+    { id: "pdd", name: "PDD Holdings", koName: "핀둬둬(테무)", ticker: "PDD", country: "CN", sector: "글로벌 직구·소셜커머스", summary: "중국 내수 핀둬둬와 글로벌 초저가 직구 플랫폼 테무(Temu)의 빠른 외형 성장을 기록한 커머스 기업." },
+    { id: "catl", name: "CATL", koName: "CATL(닝더스다이)", ticker: "300750.SZ", country: "CN", sector: "전기차·ESS 배터리", summary: "글로벌 전기차 및 에너지저장장치(ESS) 배터리 점유율 1위를 기록 중인 중국 배터리 제조사." },
+    { id: "chinamobile", name: "China Mobile", koName: "차이나모바일", ticker: "600941.SS", country: "CN", sector: "통신·클라우드 인프라", summary: "10억 명 이상의 가입자 기반과 국유 클라우드·5G 데이터센터 투자 및 고배당 매력을 갖춘 통신사." },
+    { id: "petrochina", name: "PetroChina", koName: "페트로차이나", ticker: "601857.SS", country: "CN", sector: "천연가스·석유 에너지", summary: "중국 최대 원유·천연가스 생산 및 파이프라인 공급망을 보유한 종합 에너지 기업." },
+    { id: "loreal", name: "L'Oréal", koName: "로레알", ticker: "OR.PA", country: "FR", sector: "글로벌 뷰티·화장품", summary: "더마코스메틱·럭셔리·컨슈머 뷰티 전 부문에서 세계 시장 점유율 1위를 지키는 프랑스 화장품 그룹." },
+    { id: "totalenergies", name: "TotalEnergies", koName: "토탈에너지스", ticker: "TTE", country: "FR", sector: "종합 에너지·LNG·태양광", summary: "석유·LNG 사업의 높은 현금창출력과 태양광·전력 사업을 균형 있게 확장하는 프랑스 메이저 에너지사." },
+    { id: "siemens", name: "Siemens", koName: "지멘스", ticker: "SIE.DE", country: "DE", sector: "스마트팩토리·전력 인프라", summary: "산업 자동화 디지털 트윈 소프트웨어와 데이터센터·철도 전력 인프라 시장을 선도하는 독일 대표 기업." },
+    { id: "inditex", name: "Inditex", koName: "인디텍스(자라)", ticker: "ITX.MC", country: "ES", sector: "패스트패션·어패럴", summary: "자라(Zara)·마시모두띠 브랜드를 보유하며 초고속 공급망으로 의류 업계 최고 수익성을 내는 스페인 기업." },
+    { id: "sony", name: "Sony Group", koName: "소니 그룹", ticker: "SONY", country: "JP", sector: "게임·이미지센서·엔터", summary: "플레이스테이션 게임 생태계, 스마트폰 이미지센서 1위, 음악·애니메이션 IP를 결합한 일본 대표 테크·엔터 그룹." },
+    { id: "mitsubishi_ufj", name: "Mitsubishi UFJ", koName: "미쓰비시UFJ 파이낸셜", ticker: "MUFG", country: "JP", sector: "글로벌 종합금융", summary: "일본 금리 정상화 수혜로 순이자마진이 개선되고 있는 일본 최대 금융그룹." },
+    { id: "keyence", name: "Keyence", koName: "키엔스", ticker: "6861.T", country: "JP", sector: "공장자동화 센서·머신비전", summary: "팹리스 직판 모델을 통해 영업이익률 50% 이상을 달성하는 일본 공장자동화 센서 선두 기업." },
+    { id: "rbc", name: "Royal Bank of Canada", koName: "캐나다왕립은행(RBC)", ticker: "RY", country: "CA", sector: "북미 은행·자산관리", summary: "HSBC 캐나다 인수와 북미 자본시장·자산관리 확장을 통해 안정적 성장을 이어가는 캐나다 최대 은행." },
+    { id: "bhp", name: "BHP Group", koName: "BHP 그룹", ticker: "BHP", country: "AU", sector: "구리·철광석 핵심광물", summary: "전력망·전기차 필수 광물인 구리와 고품위 철광석 생산을 주도하는 호주 기반 세계 최대 광산 기업." },
+    { id: "cba", name: "Commonwealth Bank", koName: "호주 커먼웰스은행", ticker: "CBA.AX", country: "AU", sector: "소매금융·모기지 은행", summary: "호주 디지털 뱅킹 및 주택담보대출 시장 점유율 1위를 기록 중인 오세아니아 최대 금융기관." }
+  ];
+
+  // Lookup map by id or normalized base ticker for dynamic Top 50 enrichment
+  const COMPANY_LOOKUP_BY_ID = new Map();
+  const COMPANY_LOOKUP_BY_TICKER = new Map();
+  [...INITIAL_COMPANIES, ...EXTRA_COMPANY_CATALOG].forEach((item) => {
+    COMPANY_LOOKUP_BY_ID.set(item.id.toLowerCase(), item);
+    const cleanTk = item.ticker.toUpperCase();
+    COMPANY_LOOKUP_BY_TICKER.set(cleanTk, item);
+    COMPANY_LOOKUP_BY_TICKER.set(cleanTk.split(".")[0], item);
+  });
 
   // Baseline S&P 500 11 GICS Sectors Dataset (USD Billions primary)
   const INITIAL_SP500_SECTORS = [
@@ -1015,6 +1090,61 @@
           <path d="M15 0v20M0 10h30" stroke="#FFF" stroke-width="5.6"/>
           <path d="M15 0v20M0 10h30" stroke="#C8102E" stroke-width="3.2"/>
         </svg>`;
+      case "JP":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="일본 국기">
+          <rect width="30" height="20" fill="#FFFFFF"/>
+          <circle cx="15" cy="10" r="5.5" fill="#BC002D"/>
+        </svg>`;
+      case "FR":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="프랑스 국기">
+          <rect width="10" height="20" fill="#002395"/>
+          <rect x="10" width="10" height="20" fill="#FFFFFF"/>
+          <rect x="20" width="10" height="20" fill="#ED2939"/>
+        </svg>`;
+      case "DE":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="독일 국기">
+          <rect width="30" height="6.7" fill="#111111"/>
+          <rect y="6.7" width="30" height="6.6" fill="#DD0000"/>
+          <rect y="13.3" width="30" height="6.7" fill="#FFCE00"/>
+        </svg>`;
+      case "DK":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="덴마크 국기">
+          <rect width="30" height="20" fill="#C60C30"/>
+          <rect x="9" width="3.4" height="20" fill="#FFFFFF"/>
+          <rect y="8.3" width="30" height="3.4" fill="#FFFFFF"/>
+        </svg>`;
+      case "IN":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="인도 국기">
+          <rect width="30" height="6.7" fill="#FF9933"/>
+          <rect y="6.7" width="30" height="6.6" fill="#FFFFFF"/>
+          <rect y="13.3" width="30" height="6.7" fill="#138808"/>
+          <circle cx="15" cy="10" r="2.3" fill="none" stroke="#000080" stroke-width="1"/>
+        </svg>`;
+      case "CA":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="캐나다 국기">
+          <rect width="7.5" height="20" fill="#FF0000"/>
+          <rect x="7.5" width="15" height="20" fill="#FFFFFF"/>
+          <rect x="22.5" width="7.5" height="20" fill="#FF0000"/>
+          <polygon points="15,4.5 16.8,8.5 20,8.5 17.3,11 18.2,14.5 15,12.5 11.8,14.5 12.7,11 10,8.5 13.2,8.5" fill="#FF0000"/>
+        </svg>`;
+      case "ES":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="스페인 국기">
+          <rect width="30" height="5" fill="#AA151B"/>
+          <rect y="5" width="30" height="10" fill="#F1BF00"/>
+          <rect y="15" width="30" height="5" fill="#AA151B"/>
+        </svg>`;
+      case "IE":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="아일랜드 국기">
+          <rect width="10" height="20" fill="#169B62"/>
+          <rect x="10" width="10" height="20" fill="#FFFFFF"/>
+          <rect x="20" width="10" height="20" fill="#FF883E"/>
+        </svg>`;
+      case "IT":
+        return `<svg width="${width}" height="${h}" viewBox="0 0 30 20" aria-label="이탈리아 국기">
+          <rect width="10" height="20" fill="#009246"/>
+          <rect x="10" width="10" height="20" fill="#FFFFFF"/>
+          <rect x="20" width="10" height="20" fill="#CE2B37"/>
+        </svg>`;
       default:
         return "";
     }
@@ -1063,16 +1193,16 @@
             <path d="M74 1l8 2-4 7" stroke="#FFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>`;
-      case "spacex":
-        return `<span class="tile-wordmark" style="font-size:${Math.round(19 * scale)}px;letter-spacing:0.18em;font-weight:800">SPACEX</span>`;
+      case "netflix":
+        return `<span class="tile-wordmark" style="font-size:${Math.round(20 * scale)}px;letter-spacing:0.12em;font-weight:900">NETFLIX</span>`;
       case "broadcom":
         return `<span class="tile-wordmark" style="font-size:${Math.round(15 * scale)}px;letter-spacing:0.05em;font-weight:800">● BROADCOM</span>`;
       case "meta":
         return `<span class="tile-wordmark" style="font-size:${Math.round(23 * scale)}px;font-weight:700">∞ Meta</span>`;
       case "tesla":
         return `<span class="tile-wordmark" style="font-size:${Math.round(19 * scale)}px;letter-spacing:0.24em;font-weight:700">TESLA</span>`;
-      case "anthropic":
-        return `<span class="tile-wordmark" style="font-size:${Math.round(17 * scale)}px;letter-spacing:0.09em;font-weight:800">ANTHROP&#92;C</span>`;
+      case "lvmh":
+        return `<span class="tile-wordmark" style="font-size:${Math.round(22 * scale)}px;letter-spacing:0.14em;font-family:Georgia,serif;font-weight:700">LVMH</span>`;
       case "tsmc":
         return `<span class="tile-wordmark" style="font-size:${Math.round(30 * scale)}px;font-weight:900;letter-spacing:0.02em">tsmc</span>`;
       case "aramco":
@@ -1243,7 +1373,7 @@
     }
     if (state.searchQuery.trim() !== "") {
       const q = state.searchQuery.trim().toLowerCase();
-      const hay = `${c.name} ${c.koName} ${c.ticker} ${COUNTRY_META[c.country].ko}`.toLowerCase();
+      const hay = `${c.name} ${c.koName} ${c.ticker} ${getCountryMeta(c.country).ko}`.toLowerCase();
       return hay.includes(q);
     }
     return true;
@@ -1255,7 +1385,8 @@
       counts[c.country] = (counts[c.country] || 0) + 1;
     });
 
-    const availableCodes = Object.keys(COUNTRY_META).filter((code) => counts[code] > 0);
+    const allPresentCodes = Array.from(new Set(ranked.map((c) => c.country)));
+    const availableCodes = allPresentCodes.sort((a, b) => getCountryMeta(a).order - getCountryMeta(b).order);
 
     const toggleBtn = document.getElementById("btnToggleCountryMenu");
     const toggleLabel = document.getElementById("countryToggleLabel");
@@ -1276,8 +1407,8 @@
       },
       ...availableCodes.map((code) => ({
         code,
-        label: `${COUNTRY_META[code].ko} (${counts[code]})`,
-        color: COUNTRY_META[code].color,
+        label: `${getCountryMeta(code).ko} (${counts[code]})`,
+        color: getCountryMeta(code).color,
         active: state.selectedCountries.has(code)
       }))
     ];
@@ -1313,8 +1444,8 @@
     const legendEl = document.getElementById("posterLegend");
     const legendItems = availableCodes.map(
       (code) => `<span class="legend-item">
-        <span class="legend-dot" style="background:${COUNTRY_META[code].color}"></span>
-        <span>${COUNTRY_META[code].ko} (${counts[code]})</span>
+        <span class="legend-dot" style="background:${getCountryMeta(code).color}"></span>
+        <span>${getCountryMeta(code).ko} (${counts[code]})</span>
       </span>`
     );
     legendEl.innerHTML = legendItems.join("");
@@ -1383,7 +1514,7 @@
     const intlFrag = document.createDocumentFragment();
     const countryGroups = d3
       .groups(intlItems, (d) => d.country)
-      .sort((a, b) => COUNTRY_META[a[0]].order - COUNTRY_META[b[0]].order);
+      .sort((a, b) => getCountryMeta(a[0]).order - getCountryMeta(b[0]).order);
 
     const clusterGap = 9;
     const availableIntlH = Math.max(260, intlTotalH - clusterGap * Math.max(0, countryGroups.length - 1));
@@ -1433,7 +1564,7 @@
     div.style.top = `${y}px`;
     div.style.width = `${Math.max(0, w)}px`;
     div.style.height = `${Math.max(0, h)}px`;
-    div.style.backgroundColor = COUNTRY_META[c.country].color;
+    div.style.backgroundColor = getCountryMeta(c.country).color;
 
     const valFontSize = Math.max(11, Math.min(34, Math.round(Math.min(w * 0.16, h * 0.22))));
     const rankFontSize = Math.max(10, Math.min(18, Math.round(Math.min(w * 0.12, h * 0.16))));
@@ -1468,7 +1599,7 @@
     const chgSign = c.changePct > 0 ? "+" : "";
     tip.innerHTML = `
       <div style="font-weight:800;font-size:13.5px">#${c.rank} ${c.koName} (${c.name})</div>
-      <div style="opacity:0.82;font-size:11.5px;margin-bottom:4px">${c.ticker} · ${COUNTRY_META[c.country].ko} · ${c.sector}</div>
+      <div style="opacity:0.82;font-size:11.5px;margin-bottom:4px">${c.ticker} · ${getCountryMeta(c.country).ko} · ${c.sector}</div>
       <div>시가총액: <strong>${formatMarketCapExact(c.marketCapB)}</strong></div>
       <div>원화 추정: <strong>${formatKrwEstimate(c.marketCapB, state.usdKrw)}</strong></div>
       <div>일간 변동: <strong>${chgSign}${c.changePct.toFixed(2)}%</strong></div>
@@ -1526,7 +1657,7 @@
         case "ticker":
           return a.ticker.localeCompare(b.ticker) * dir;
         case "country":
-          return COUNTRY_META[a.country].ko.localeCompare(COUNTRY_META[b.country].ko, "ko") * dir;
+          return getCountryMeta(a.country).ko.localeCompare(getCountryMeta(b.country).ko, "ko") * dir;
         case "marketCapB":
         case "krwCap":
           return (a.marketCapB - b.marketCapB) * dir;
@@ -1543,7 +1674,7 @@
       .map((c) => {
         const chgClass = c.changePct > 0 ? "chg-up" : c.changePct < 0 ? "chg-down" : "";
         const chgPrefix = c.changePct > 0 ? "+" : "";
-        const pillColor = COUNTRY_META[c.country].color;
+        const pillColor = getCountryMeta(c.country).color;
         return `<tr data-id="${c.id}">
           <td><strong>#${c.rank}</strong></td>
           <td>
@@ -1551,7 +1682,7 @@
             <span class="company-en-sub">${c.name}</span>
           </td>
           <td>${c.ticker}</td>
-          <td><span class="country-pill" style="background:${pillColor}">${COUNTRY_META[c.country].ko}</span></td>
+          <td><span class="country-pill" style="background:${pillColor}">${getCountryMeta(c.country).ko}</span></td>
           <td class="num"><strong>${formatMarketCapExact(c.marketCapB)}</strong></td>
           <td class="num">${formatKrwEstimate(c.marketCapB, state.usdKrw)}</td>
           <td class="num ${chgClass}">${chgPrefix}${c.changePct.toFixed(2)}%</td>
@@ -2401,7 +2532,7 @@
     state.activeMacroObj = null;
     const headingEl = document.getElementById("modalBriefingHeading");
     if (headingEl) headingEl.textContent = "기업 핵심 요약";
-    const countryMeta = COUNTRY_META[company.country] || COUNTRY_META.US;
+    const countryMeta = getCountryMeta(company.country);
     const pillColor = company.color || countryMeta.color;
     const rankLabel =
       state.currentPage === "global" ? `글로벌 #${company.rank}위` : `섹터 내 #${company.rank}위`;
@@ -2489,18 +2620,64 @@
       state.lastSyncedLabel = payload.updatedLabel.trim();
     }
 
-    // 1. Global Top 50 Companies
-    if (Array.isArray(payload.companies)) {
-      const cMap = new Map(payload.companies.map((item) => [item.id, item]));
-      state.companies = state.companies.map((c) => {
-        const hit = cMap.get(c.id);
-        if (!hit) return c;
-        return {
-          ...c,
-          marketCapB: typeof hit.marketCapB === "number" && hit.marketCapB > 20 ? hit.marketCapB : c.marketCapB,
-          changePct: typeof hit.changePct === "number" ? hit.changePct : c.changePct
-        };
-      });
+    // 1. Dynamic Global Top 50 Listed Companies (replaces full list when dynamic mode is active)
+    if (Array.isArray(payload.companies) && payload.companies.length > 0) {
+      const UNLISTED_IDS = new Set(["spacex", "anthropic", "cxmt", "openai", "bytedance", "stripe"]);
+      const isDynamicFullList = Boolean(payload.dynamicTop50) && payload.companies.length >= 35;
+
+      if (isDynamicFullList) {
+        const rebuilt = [];
+        payload.companies.forEach((raw) => {
+          if (!raw || typeof raw.marketCapB !== "number" || raw.marketCapB <= 20) return;
+          const rawId = String(raw.id || raw.ticker || "").toLowerCase();
+          if (UNLISTED_IDS.has(rawId)) return;
+
+          const tkUpper = String(raw.ticker || "").toUpperCase();
+          const meta =
+            COMPANY_LOOKUP_BY_ID.get(rawId) ||
+            COMPANY_LOOKUP_BY_TICKER.get(tkUpper) ||
+            COMPANY_LOOKUP_BY_TICKER.get(tkUpper.split(".")[0]) ||
+            null;
+
+          const countryCode = raw.country || meta?.country || "US";
+          const cleanName = raw.name || meta?.name || tkUpper;
+          const cleanKoName = raw.koName || meta?.koName || cleanName;
+          const cleanSector = raw.sector || meta?.sector || "글로벌 상장 대기업";
+          const cleanSummary =
+            raw.summary ||
+            meta?.summary ||
+            `${getCountryMeta(countryCode).ko} 증시에 정식 상장되어 글로벌 시가총액 상위 50위권에 진입한 핵심 상장 기업입니다.`;
+
+          rebuilt.push({
+            id: meta?.id || rawId.replace(/[^a-z0-9_]/g, "_") || tkUpper.toLowerCase(),
+            name: cleanName,
+            koName: cleanKoName,
+            ticker: raw.ticker || meta?.ticker || tkUpper,
+            country: COUNTRY_META[countryCode] ? countryCode : "OTH",
+            marketCapB: raw.marketCapB,
+            changePct: typeof raw.changePct === "number" ? raw.changePct : (meta?.changePct ?? 0.0),
+            sector: cleanSector,
+            summary: cleanSummary
+          });
+        });
+
+        if (rebuilt.length >= 35) {
+          state.companies = rebuilt.sort((a, b) => b.marketCapB - a.marketCapB).slice(0, TOP_LIMIT);
+        }
+      } else {
+        const cMap = new Map(payload.companies.map((item) => [item.id, item]));
+        state.companies = state.companies
+          .filter((c) => !UNLISTED_IDS.has(c.id))
+          .map((c) => {
+            const hit = cMap.get(c.id);
+            if (!hit) return c;
+            return {
+              ...c,
+              marketCapB: typeof hit.marketCapB === "number" && hit.marketCapB > 20 ? hit.marketCapB : c.marketCapB,
+              changePct: typeof hit.changePct === "number" ? hit.changePct : c.changePct
+            };
+          });
+      }
     }
 
     // 2. S&P 500 Sectors + Top 3

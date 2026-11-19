@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
 """
-Automated Market & Macro Data Collector (Method A: GitHub Actions -> data/live_market.json)
+Automated Dynamic Market & Macro Data Collector (Method A: GitHub Actions -> data/live_market.json)
 Updates:
-  1. USD/KRW, DXY & Foreign Exchange Rates (KRW, CNY, SAR, CHF, EUR, GBP, TWD)
-  2. 6-Month Commodity History: Gold ($/oz), Copper ($/lb), WTI Crude Oil ($/bbl)
-  3. Global Top 50 Companies Market Cap (USD Billions) & Daily Change (%)
+  1. Dynamic Global Top 50 Publicly Listed Companies (Excludes unlisted/private firms):
+     - Tier 1: Live global ranking table from CompaniesMarketCap (Top 100 listed stocks -> Top 50)
+     - Tier 2: 90+ Global Mega-Cap Public Stock Pool via Yahoo Finance (yfinance) + live FX conversion
+  2. USD/KRW, DXY & Global Foreign Exchange Rates
+  3. 6-Month Commodity History: Gold ($/oz), Copper ($/lb), WTI Crude Oil ($/bbl)
   4. S&P 500 11 GICS Sectors Market Cap & Top 3 Companies
   5. KOSPI 200 10 Core Sectors Market Cap (KRW Trillions) & Top 3 Companies
-  6. US & KR Macro Economic Indicators (Public FRED CSV + Optional FRED/ECOS API Keys)
+  6. US & KR Macro Economic Indicators (Public FRED CSV + Optional BOK ECOS API Key)
 """
 
 import csv
+import html as html_lib
 import io
 import json
 import os
+import re
 from datetime import datetime, timedelta, timezone
 from urllib.request import Request, urlopen
 
@@ -23,58 +27,198 @@ KST = timezone(timedelta(hours=9))
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_PATH = os.path.join(ROOT_DIR, "data", "live_market.json")
 
-# Global Top 50 Tracked Public Tickers (id -> Yahoo ticker, native currency)
-GLOBAL_COMPANY_MAP = [
-    ("apple", "AAPL", "USD"),
-    ("microsoft", "MSFT", "USD"),
-    ("nvidia", "NVDA", "USD"),
-    ("alphabet", "GOOG", "USD"),
-    ("amazon", "AMZN", "USD"),
-    ("tsmc", "TSM", "USD"),          # NYSE ADR reflects USD market cap directly
-    ("aramco", "2222.SR", "SAR"),
-    ("broadcom", "AVGO", "USD"),
-    ("meta", "META", "USD"),
-    ("tesla", "TSLA", "USD"),
-    ("lilly", "LLY", "USD"),
-    ("berkshire", "BRK-B", "USD"),
-    ("walmart", "WMT", "USD"),
-    ("samsung", "005930.KS", "KRW"),
-    ("jpmorgan", "JPM", "USD"),
-    ("amd", "AMD", "USD"),
-    ("micron", "MU", "USD"),
-    ("visa", "V", "USD"),
-    ("exxon", "XOM", "USD"),
-    ("jnj", "JNJ", "USD"),
-    ("skhynix", "000660.KS", "KRW"),
-    ("mastercard", "MA", "USD"),
-    ("asml", "ASML", "USD"),
-    ("abbvie", "ABBV", "USD"),
-    ("costco", "COST", "USD"),
-    ("ccb", "601939.SS", "CNY"),
-    ("tencent", "0700.HK", "HKD"),
-    ("cocacola", "KO", "USD"),
-    ("chevron", "CVX", "USD"),
-    ("roche", "ROG.SW", "CHF"),
-    ("palantir", "PLTR", "USD"),
-    ("pg", "PG", "USD"),
-    ("abc", "601288.SS", "CNY"),
-    ("oracle", "ORCL", "USD"),
-    ("cisco", "CSCO", "USD"),
-    ("icbc", "601398.SS", "CNY"),
-    ("unitedhealth", "UNH", "USD"),
-    ("merck", "MRK", "USD"),
-    ("bofa", "BAC", "USD"),
-    ("boc", "601988.SS", "CNY"),
-    ("homedepot", "HD", "USD"),
-    ("ge", "GE", "USD"),
-    ("pmi", "PM", "USD"),
-    ("hsbc", "HSBC", "USD"),
-    ("intel", "INTC", "USD"),
-    ("novartis", "NVS", "USD"),
-    ("morganstanley", "MS", "USD"),
+# Strictly exclude unlisted / private companies
+UNLISTED_TICKERS = {"SPCX", "ANT", "688825.SS", "OPENAI", "BYTEDANCE", "STRIPE"}
+UNLISTED_NAMES = {"spacex", "anthropic", "openai", "bytedance", "stripe", "changxin memory", "cxmt"}
+
+# Country Name -> ISO2 Code Mapping (for dynamic ranking parser)
+COUNTRY_NAME_TO_CODE = {
+    "usa": "US",
+    "united states": "US",
+    "china": "CN",
+    "hong kong": "CN",
+    "taiwan": "TW",
+    "saudi arabia": "SA",
+    "south korea": "KR",
+    "korea": "KR",
+    "japan": "JP",
+    "france": "FR",
+    "switzerland": "CH",
+    "netherlands": "NL",
+    "uk": "GB",
+    "united kingdom": "GB",
+    "germany": "DE",
+    "denmark": "DK",
+    "india": "IN",
+    "canada": "CA",
+    "australia": "AU",
+    "spain": "ES",
+    "ireland": "IE",
+    "italy": "IT",
+    "brazil": "BR",
+}
+
+# Suffix -> ISO2 Country Fallback
+SUFFIX_TO_COUNTRY = {
+    "KS": "KR",
+    "KQ": "KR",
+    "SS": "CN",
+    "SZ": "CN",
+    "HK": "CN",
+    "TW": "TW",
+    "SR": "SA",
+    "T": "JP",
+    "PA": "FR",
+    "SW": "CH",
+    "AS": "NL",
+    "L": "GB",
+    "DE": "DE",
+    "F": "DE",
+    "CO": "DK",
+    "NS": "IN",
+    "BO": "IN",
+    "TO": "CA",
+    "AX": "AU",
+    "MC": "ES",
+    "MI": "IT",
+    "SA": "BR",
+}
+
+# Master Pool of 90+ Global Publicly Listed Mega-Caps (Used for Korean metadata + Tier-2 yfinance dynamic pool)
+# Tuple: (id, en_name, ko_name, yahoo_ticker, currency, country, sector)
+GLOBAL_PUBLIC_POOL = [
+    ("apple", "Apple", "애플", "AAPL", "USD", "US", "IT·소비자기술"),
+    ("microsoft", "Microsoft", "마이크로소프트", "MSFT", "USD", "US", "클라우드·AI 소프트웨어"),
+    ("nvidia", "NVIDIA", "엔비디아", "NVDA", "USD", "US", "AI 반도체"),
+    ("alphabet", "Alphabet", "알파벳(구글)", "GOOG", "USD", "US", "플랫폼·클라우드·AI"),
+    ("amazon", "Amazon", "아마존", "AMZN", "USD", "US", "이커머스·클라우드"),
+    ("aramco", "Saudi Aramco", "사우디 아람코", "2222.SR", "SAR", "SA", "에너지·석유화학"),
+    ("meta", "Meta", "메타 플랫폼스", "META", "USD", "US", "소셜미디어·AI"),
+    ("tsmc", "TSMC", "TSMC", "TSM", "USD", "TW", "파운드리 반도체"),
+    ("berkshire", "Berkshire Hathaway", "버크셔 해서웨이", "BRK-B", "USD", "US", "복합금융·지주"),
+    ("broadcom", "Broadcom", "브로드컴", "AVGO", "USD", "US", "맞춤형 AI 반도체·SW"),
+    ("tesla", "Tesla", "테슬라", "TSLA", "USD", "US", "자율주행·전기차·로보틱스"),
+    ("lilly", "Eli Lilly", "일라이 릴리", "LLY", "USD", "US", "제약·바이오"),
+    ("walmart", "Walmart", "월마트", "WMT", "USD", "US", "필수소비재·유통"),
+    ("jpmorgan", "J.P.Morgan", "JP모건 체이스", "JPM", "USD", "US", "글로벌 은행·투자금융"),
+    ("visa", "Visa", "비자", "V", "USD", "US", "글로벌 결제 네트워크"),
+    ("tencent", "Tencent", "텐센트", "0700.HK", "HKD", "CN", "게임·메신저·AI 클라우드"),
+    ("mastercard", "Mastercard", "마스터카드", "MA", "USD", "US", "글로벌 결제·핀테크"),
+    ("exxon", "ExxonMobil", "엑슨모빌", "XOM", "USD", "US", "에너지·석유가스"),
+    ("unitedhealth", "UnitedHealth", "유나이티드헬스", "UNH", "USD", "US", "헬스케어·의료보험"),
+    ("costco", "Costco", "코스트코", "COST", "USD", "US", "회원제 창고형 유통"),
+    ("oracle", "Oracle", "오라클", "ORCL", "USD", "US", "클라우드 인프라·DB"),
+    ("netflix", "Netflix", "넷플릭스", "NFLX", "USD", "US", "글로벌 스트리밍·미디어"),
+    ("pg", "P&G", "프록터앤드갬블", "PG", "USD", "US", "생활용품·필수소비재"),
+    ("jnj", "Johnson & Johnson", "존슨앤드존슨", "JNJ", "USD", "US", "제약·의료기기"),
+    ("homedepot", "The Home Depot", "홈디포", "HD", "USD", "US", "주택개보수·건자재 유통"),
+    ("abbvie", "AbbVie", "애브비", "ABBV", "USD", "US", "바이오·면역항암"),
+    ("bofa", "BofA", "뱅크오브아메리카", "BAC", "USD", "US", "종합은행·자산관리"),
+    ("icbc", "ICBC", "중국공상은행", "601398.SS", "CNY", "CN", "국유 상업은행"),
+    ("cocacola", "Coca-Cola", "코카콜라", "KO", "USD", "US", "음료·필수소비재"),
+    ("novonordisk", "Novo Nordisk", "노보 노디스크", "NVO", "USD", "DK", "제약·비만치료제"),
+    ("samsung", "Samsung", "삼성전자", "005930.KS", "KRW", "KR", "메모리·종합반도체·모바일"),
+    ("lvmh", "LVMH", "루이비통모에헤네시(LVMH)", "MC.PA", "EUR", "FR", "글로벌 럭셔리·패션"),
+    ("sap", "SAP", "SAP", "SAP", "USD", "DE", "엔터프라이즈 ERP·클라우드"),
+    ("asml", "ASML", "ASML", "ASML", "USD", "NL", "반도체 노광장비"),
+    ("salesforce", "Salesforce", "세일즈포스", "CRM", "USD", "US", "기업용 CRM·AI 에이전트"),
+    ("chevron", "Chevron", "셰브론", "CVX", "USD", "US", "종합 에너지"),
+    ("toyota", "Toyota", "토요타자동차", "TM", "USD", "JP", "완성차·하이브리드 모빌리티"),
+    ("hermes", "Hermès", "에르메스", "RMS.PA", "EUR", "FR", "하이엔드 럭셔리"),
+    ("roche", "Roche", "로슈", "ROG.SW", "CHF", "CH", "제약·체외진단"),
+    ("abc", "ABC", "중국농업은행", "601288.SS", "CNY", "CN", "국유 상업은행"),
+    ("ccb", "CCB", "중국건설은행", "601939.SS", "CNY", "CN", "국유 상업은행"),
+    ("merck", "Merck", "머크(MSD)", "MRK", "USD", "US", "제약·면역항암"),
+    ("alibaba", "Alibaba", "알리바바", "BABA", "USD", "CN", "이커머스·클라우드·AI"),
+    ("amd", "AMD", "AMD", "AMD", "USD", "US", "AI GPU·CPU 반도체"),
+    ("cisco", "Cisco", "시스코 시스템즈", "CSCO", "USD", "US", "AI 네트워크·보안"),
+    ("wells_fargo", "Wells Fargo", "웰스파고", "WFC", "USD", "US", "소매·기업금융 은행"),
+    ("moutai", "Kweichow Moutai", "귀주모태주", "600519.SS", "CNY", "CN", "프리미엄 주류·필수소비재"),
+    ("palantir", "Palantir", "팔란티어", "PLTR", "USD", "US", "AI 데이터 의사결정 SW"),
+    ("pmi", "Philip Morris", "필립모리스 인터내셔널", "PM", "USD", "US", "무연담배·소비재"),
+    ("ibm", "IBM", "IBM", "IBM", "USD", "US", "하이브리드 클라우드·양자컴퓨팅"),
+    ("astrazeneca", "AstraZeneca", "아스트라제네카", "AZN", "USD", "GB", "항암·희귀질환 신약"),
+    ("novartis", "Novartis", "노바티스", "NVS", "USD", "CH", "전문의약품·바이오"),
+    ("boc", "BOC", "중국은행", "601988.SS", "CNY", "CN", "국유 외환·상업은행"),
+    ("chinamobile", "China Mobile", "차이나모바일", "600941.SS", "CNY", "CN", "통신·클라우드 인프라"),
+    ("linde", "Linde", "린데", "LIN", "USD", "GB", "산업용 가스·클린수소"),
+    ("ge", "GE Aerospace", "GE 에어로스페이스", "GE", "USD", "US", "항공기 엔진·방산"),
+    ("mcdonalds", "McDonald's", "맥도날드", "MCD", "USD", "US", "글로벌 외식 프랜차이즈"),
+    ("shell", "Shell", "쉘(Shell)", "SHEL", "USD", "GB", "글로벌 LNG·종합에너지"),
+    ("abbott", "Abbott", "애보트 래버러토리스", "ABT", "USD", "US", "연속혈당측정·의료기기"),
+    ("morganstanley", "Morgan Stanley", "모건스탠리", "MS", "USD", "US", "자산관리·투자은행"),
+    ("servicenow", "ServiceNow", "서비스나우", "NOW", "USD", "US", "기업 업무자동화·AI SW"),
+    ("pepsico", "PepsiCo", "펩시코", "PEP", "USD", "US", "식음료·스낵 필수소비재"),
+    ("hsbc", "HSBC", "HSBC 홀딩스", "HSBC", "USD", "GB", "글로벌 은행·자산관리"),
+    ("petrochina", "PetroChina", "페트로차이나", "601857.SS", "CNY", "CN", "천연가스·석유 에너지"),
+    ("accenture", "Accenture", "액센츄어", "ACN", "USD", "IE", "글로벌 IT 컨설팅·AI 구축"),
+    ("skhynix", "SK hynix", "SK하이닉스", "000660.KS", "KRW", "KR", "AI HBM 메모리 반도체"),
+    ("ThermoFisher", "Thermo Fisher", "써모피셔 사이언티픽", "TMO", "USD", "US", "생명과학 연구장비·CDMO"),
+    ("disney", "Walt Disney", "월트 디즈니", "DIS", "USD", "US", "엔터테인먼트·테마파크"),
+    ("caterpillar", "Caterpillar", "캐터필러", "CAT", "USD", "US", "중장비·데이터센터 발전기"),
+    ("goldmansachs", "Goldman Sachs", "골드만삭스", "GS", "USD", "US", "글로벌 투자은행(IB)"),
+    ("americanexpress", "American Express", "아메리칸 익스프레스", "AXP", "USD", "US", "프리미엄 결제·카드금융"),
+    ("qualcomm", "Qualcomm", "퀄컴", "QCOM", "USD", "US", "모바일·온디바이스 AI 칩"),
+    ("intuit", "Intuit", "인튜이트", "INTU", "USD", "US", "세무·회계 핀테크 SW"),
+    ("reliance", "Reliance Industries", "릴라이언스 인더스트리", "RELIANCE.NS", "INR", "IN", "통신·유통·에너지 복합"),
+    ("loreal", "L'Oréal", "로레알", "OR.PA", "EUR", "FR", "글로벌 뷰티·화장품"),
+    ("siemens", "Siemens", "지멘스", "SIE.DE", "EUR", "DE", "스마트팩토리·전력 인프라"),
+    ("texas_inst", "Texas Instruments", "텍사스 인스트루먼트", "TXN", "USD", "US", "아날로그·전장 반도체"),
+    ("byd", "BYD", "비야디(BYD)", "1211.HK", "HKD", "CN", "전기차·배터리 수직계열화"),
+    ("pdd", "PDD Holdings", "핀둬둬(테무)", "PDD", "USD", "CN", "글로벌 직구·소셜커머스"),
+    ("arm", "Arm Holdings", "암 홀딩스(Arm)", "ARM", "USD", "GB", "반도체 설계 자산(IP)"),
+    ("uber", "Uber", "우버", "UBER", "USD", "US", "모빌리티·배달 플랫폼"),
+    ("inditex", "Inditex", "인디텍스(자라)", "ITX.MC", "EUR", "ES", "패스트패션·어패럴"),
+    ("catl", "CATL", "CATL(닝더스다이)", "300750.SZ", "CNY", "CN", "전기차·ESS 배터리"),
+    ("micron", "Micron", "마이크론 테크놀로지", "MU", "USD", "US", "AI 메모리 반도체"),
+    ("applied_mat", "Applied Materials", "어플라이드 머티어리얼즈", "AMAT", "USD", "US", "반도체 전공정 장비"),
+    ("totalenergies", "TotalEnergies", "토탈에너지스", "TTE", "USD", "FR", "종합 에너지·LNG·태양광"),
+    ("sony", "Sony Group", "소니 그룹", "SONY", "USD", "JP", "게임·이미지센서·엔터"),
+    ("mitsubishi_ufj", "Mitsubishi UFJ", "미쓰비시UFJ 파이낸셜", "MUFG", "USD", "JP", "글로벌 종합금융"),
+    ("rbc", "Royal Bank of Canada", "캐나다왕립은행(RBC)", "RY", "USD", "CA", "북미 은행·자산관리"),
+    ("bhp", "BHP Group", "BHP 그룹", "BHP", "USD", "AU", "구리·철광석 핵심광물"),
+    ("cba", "Commonwealth Bank", "호주 커먼웰스은행", "CBA.AX", "AUD", "AU", "소매금융·모기지 은행"),
+    ("nextera", "NextEra Energy", "넥스트에라 에너지", "NEE", "USD", "US", "친환경 발전·전력망"),
+    ("intel", "Intel", "인텔", "INTC", "USD", "US", "CPU·파운드리 반도체"),
 ]
 
-# S&P 500 Sector ETFs (for accurate daily sector change %) + Top 3 constituent tickers
+# Build fast lookup dictionaries by ticker / base ticker / normalized English name
+META_BY_TICKER = {}
+META_BY_NAME = {}
+for _cid, _en, _ko, _tk, _ccy, _cnt, _sec in GLOBAL_PUBLIC_POOL:
+    _entry = {"id": _cid, "name": _en, "koName": _ko, "ticker": _tk, "country": _cnt, "sector": _sec}
+    META_BY_TICKER[_tk.upper()] = _entry
+    META_BY_TICKER[_tk.upper().split(".")[0]] = _entry
+    META_BY_NAME[re.sub(r"[^a-z0-9]", "", _en.lower())] = _entry
+
+# Extra ticker aliases used on CompaniesMarketCap vs Yahoo Finance
+CMC_TICKER_ALIASES = {
+    "GOOGL": META_BY_TICKER["GOOG"],
+    "BRK.A": META_BY_TICKER["BRK-B"],
+    "BRK.B": META_BY_TICKER["BRK-B"],
+    "TCEHY": META_BY_TICKER["0700.HK"],
+    "0700": META_BY_TICKER["0700.HK"],
+    "2330.TW": META_BY_TICKER["TSM"],
+    "NOVO-B.CO": META_BY_TICKER["NVO"],
+    "NESN.SW": {"id": "nestle", "name": "Nestlé", "koName": "네슬레", "ticker": "NESN.SW", "country": "CH", "sector": "글로벌 종합식품"},
+    "7203.T": META_BY_TICKER["TM"],
+    "6758.T": META_BY_TICKER["SONY"],
+    "8306.T": META_BY_TICKER["MUFG"],
+    "ASML.AS": META_BY_TICKER["ASML"],
+    "SAP.DE": META_BY_TICKER["SAP"],
+    "AZN.L": META_BY_TICKER["AZN"],
+    "SHEL.L": META_BY_TICKER["SHEL"],
+    "HSBA.L": META_BY_TICKER["HSBC"],
+    "1398.HK": META_BY_TICKER["601398.SS"],
+    "1288.HK": META_BY_TICKER["601288.SS"],
+    "0939.HK": META_BY_TICKER["601939.SS"],
+    "3988.HK": META_BY_TICKER["601988.SS"],
+    "0941.HK": META_BY_TICKER["600941.SS"],
+    "0857.HK": META_BY_TICKER["601857.SS"],
+}
+META_BY_TICKER.update(CMC_TICKER_ALIASES)
+
+# S&P 500 Sector ETFs + Top 3 constituent tickers
 SP500_SECTOR_CONFIG = [
     ("it", "XLK", [("apple", "AAPL"), ("microsoft", "MSFT"), ("nvidia", "NVDA")]),
     ("financials", "XLF", [("berkshire", "BRK-B"), ("jpmorgan", "JPM"), ("visa", "V")]),
@@ -104,14 +248,24 @@ KOSPI200_SECTOR_CONFIG = [
 ]
 
 
-def http_get_json(url: str, timeout: int = 15):
-    req = Request(url, headers={"User-Agent": "Mozilla/5.0 (StockInfoBot/1.0)"})
+def http_get_text(url: str, timeout: int = 18) -> str:
+    req = Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9",
+        },
+    )
     with urlopen(req, timeout=timeout) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+        return resp.read().decode("utf-8", errors="ignore")
+
+
+def http_get_json(url: str, timeout: int = 15):
+    return json.loads(http_get_text(url, timeout=timeout))
 
 
 def fetch_fx_rates() -> dict:
-    """Fetch USD exchange rates (keyless open.er-api.com + yfinance KRW=X backup)."""
+    """Fetch USD exchange rates across all major equity currencies."""
     rates = {
         "USD": 1.0,
         "KRW": 1328.0,
@@ -122,6 +276,11 @@ def fetch_fx_rates() -> dict:
         "EUR": 0.93,
         "GBP": 0.79,
         "TWD": 32.1,
+        "JPY": 152.0,
+        "DKK": 6.94,
+        "INR": 84.4,
+        "CAD": 1.39,
+        "AUD": 1.53,
     }
     try:
         data = http_get_json("https://open.er-api.com/v6/latest/USD")
@@ -132,7 +291,6 @@ def fetch_fx_rates() -> dict:
     except Exception as exc:
         print(f"[WARN] open.er-api FX fallback: {exc}")
 
-    # Refine live intraday USD/KRW via Yahoo Finance KRW=X if available
     try:
         krw_hist = yf.Ticker("KRW=X").history(period="5d")
         closes = krw_hist["Close"].dropna().tolist()
@@ -144,6 +302,130 @@ def fetch_fx_rates() -> dict:
         print(f"[WARN] yfinance KRW=X fallback: {exc}")
 
     return rates
+
+
+def infer_country_from_ticker_or_text(ticker: str, country_text: str) -> str:
+    c_norm = country_text.strip().lower()
+    if c_norm in COUNTRY_NAME_TO_CODE:
+        return COUNTRY_NAME_TO_CODE[c_norm]
+    if "." in ticker:
+        suf = ticker.split(".")[-1].upper()
+        if suf in SUFFIX_TO_COUNTRY:
+            return SUFFIX_TO_COUNTRY[suf]
+    return "US"
+
+
+def parse_cmc_market_cap_b(text: str):
+    """Parse '$3.524 T' -> 3524.0 or '$845.12 B' -> 845.12."""
+    clean = text.replace(",", "").strip()
+    m = re.search(r"\$\s*([0-9]+(?:\.[0-9]+)?)\s*([TBM])", clean, re.IGNORECASE)
+    if not m:
+        return None
+    val = float(m.group(1))
+    unit = m.group(2).upper()
+    if unit == "T":
+        return round(val * 1000.0, 2)
+    if unit == "B":
+        return round(val, 2)
+    if unit == "M":
+        return round(val / 1000.0, 3)
+    return None
+
+
+def fetch_dynamic_top50_cmc() -> list:
+    """
+    Tier 1 Dynamic Top 50 Collector:
+    Scrapes the live global top 100 publicly traded companies from CompaniesMarketCap.com.
+    Automatically reflects newly entering / exiting stocks while excluding unlisted firms.
+    """
+    raw_html = http_get_text("https://companiesmarketcap.com/", timeout=20)
+    tbody_match = re.search(r"<tbody[^>]*>([\s\S]*?)</tbody>", raw_html, re.IGNORECASE)
+    if not tbody_match:
+        raise ValueError("Could not locate ranking <tbody> on CompaniesMarketCap")
+
+    rows = re.findall(r"<tr[^>]*>([\s\S]*?)</tr>", tbody_match.group(1), re.IGNORECASE)
+    dynamic_items = []
+    seen_ids = set()
+
+    for tr in rows:
+        name_m = re.search(r'class="company-name"[^>]*>([\s\S]*?)</div>', tr, re.IGNORECASE)
+        code_m = re.search(r'class="company-code"[^>]*>([\s\S]*?)</div>', tr, re.IGNORECASE)
+        if not name_m or not code_m:
+            continue
+
+        en_name = html_lib.unescape(re.sub(r"<[^>]+>", "", name_m.group(1))).strip()
+        raw_ticker = html_lib.unescape(re.sub(r"<[^>]+>", "", code_m.group(1))).strip().upper()
+
+        if not en_name or not raw_ticker:
+            continue
+        if raw_ticker in UNLISTED_TICKERS or en_name.lower() in UNLISTED_NAMES:
+            continue
+
+        # Parse Market Cap ($X.XX T / $XXX.XX B)
+        cap_m = re.search(r"\$\s*[0-9]+(?:\.[0-9]+)?\s*[TB]", tr)
+        if not cap_m:
+            continue
+        cap_b = parse_cmc_market_cap_b(cap_m.group(0))
+        if not cap_b or cap_b < 50:
+            continue
+
+        # Parse Daily % Change (e.g., 1.24% with rh-up / rh-down / red / green)
+        chg_pct = 0.0
+        pct_m = re.search(r'class="([^"]*(?:rh-up|rh-down|green|red|percentage)[^"]*)"[^>]*>([\s\S]*?)</span>', tr, re.IGNORECASE)
+        if pct_m:
+            cls_str = pct_m.group(1).lower()
+            pct_txt = re.sub(r"<[^>]+>", "", pct_m.group(2)).strip()
+            num_m = re.search(r"([+-]?[0-9]+(?:\.[0-9]+)?)\s*%", pct_txt)
+            if num_m:
+                val = abs(float(num_m.group(1)))
+                is_neg = ("down" in cls_str) or ("red" in cls_str) or ("-" in pct_txt)
+                chg_pct = round(-val if is_neg else val, 2)
+        else:
+            fallback_pct = re.search(r"([+-]?[0-9]+\.[0-9]+)\s*%", tr)
+            if fallback_pct:
+                chg_pct = round(float(fallback_pct.group(1)), 2)
+
+        # Parse Country Name if present in row
+        country_spans = re.findall(r'class="responsive-hidden"[^>]*>([^<]+)</span>', tr, re.IGNORECASE)
+        country_txt = country_spans[-1].strip() if country_spans else ""
+
+        # Match against Korean Metadata Dictionary
+        norm_name_key = re.sub(r"[^a-z0-9]", "", en_name.lower())
+        meta = (
+            META_BY_TICKER.get(raw_ticker)
+            or META_BY_TICKER.get(raw_ticker.split(".")[0])
+            or META_BY_NAME.get(norm_name_key)
+        )
+
+        cid = meta["id"] if meta else re.sub(r"[^a-z0-9]+", "_", en_name.lower()).strip("_")
+        if cid in seen_ids:
+            continue
+        seen_ids.add(cid)
+
+        country_code = meta["country"] if meta else infer_country_from_ticker_or_text(raw_ticker, country_txt)
+        ko_name = meta["koName"] if meta else en_name
+        clean_en_name = meta["name"] if meta else en_name
+        sector_str = meta["sector"] if meta else "글로벌 상장 대기업"
+
+        dynamic_items.append({
+            "id": cid,
+            "name": clean_en_name,
+            "koName": ko_name,
+            "ticker": raw_ticker,
+            "country": country_code,
+            "marketCapB": cap_b,
+            "changePct": chg_pct,
+            "sector": sector_str,
+        })
+
+        if len(dynamic_items) >= 50:
+            break
+
+    if len(dynamic_items) < 40:
+        raise ValueError(f"CMC returned only {len(dynamic_items)} valid rows; triggering Tier-2 pool fallback")
+
+    dynamic_items.sort(key=lambda x: x["marketCapB"], reverse=True)
+    return dynamic_items[:50]
 
 
 def fetch_single_quote(symbol: str) -> dict:
@@ -167,8 +449,38 @@ def fetch_single_quote(symbol: str) -> dict:
     return out
 
 
+def fetch_dynamic_top50_from_pool(fx_rates: dict, get_cached_quote) -> list:
+    """
+    Tier 2 Dynamic Fallback:
+    Evaluates all 90+ global mega-cap publicly listed stocks via Yahoo Finance,
+    converts native market caps into USD Billions, sorts dynamically, and returns Top 50.
+    """
+    candidates = []
+    for cid, en_name, ko_name, sym, ccy, country, sector in GLOBAL_PUBLIC_POOL:
+        q = get_cached_quote(sym)
+        if not q["market_cap"]:
+            continue
+        fx_div = fx_rates.get(ccy, 1.0)
+        cap_usd_b = round((q["market_cap"] / fx_div) / 1e9, 2)
+        if cap_usd_b < 40:
+            continue
+        candidates.append({
+            "id": cid,
+            "name": en_name,
+            "koName": ko_name,
+            "ticker": sym,
+            "country": country,
+            "marketCapB": cap_usd_b,
+            "changePct": q["change_pct"] if q["change_pct"] is not None else 0.0,
+            "sector": sector,
+        })
+
+    candidates.sort(key=lambda x: x["marketCapB"], reverse=True)
+    return candidates[:50]
+
+
 def fetch_commodities_6m() -> list:
-    """Fetch 6-month bi-weekly sampled history for Gold ($/oz), Copper ($/lb), WTI Oil ($/bbl)."""
+    """Fetch 6-month sampled history for Gold ($/oz), Copper ($/lb), WTI Oil ($/bbl)."""
     specs = [
         ("cmd_gold", "GC=F", 0),
         ("cmd_copper", "HG=F", 2),
@@ -181,7 +493,6 @@ def fetch_commodities_6m() -> list:
             df = df.dropna(subset=["Close"])
             if len(df) < 10:
                 continue
-            # Sample ~13 evenly spaced points across 6 months + exact latest point
             total = len(df)
             indices = sorted(list({min(total - 1, round(i * (total - 1) / 12)) for i in range(13)}))
             pts = []
@@ -204,12 +515,10 @@ def fetch_commodities_6m() -> list:
 def fetch_fred_series_csv(series_id: str, limit: int = 15) -> list:
     """Keyless public CSV reader from FRED (Federal Reserve Bank of St. Louis)."""
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
-    req = Request(url, headers={"User-Agent": "Mozilla/5.0 (StockInfoBot/1.0)"})
+    text = http_get_text(url, timeout=15)
     rows = []
-    with urlopen(req, timeout=15) as resp:
-        text = resp.read().decode("utf-8", errors="ignore")
     reader = csv.reader(io.StringIO(text))
-    next(reader, None)  # header
+    next(reader, None)
     for row in reader:
         if len(row) >= 2 and row[1] not in (".", "", "NA"):
             try:
@@ -220,10 +529,9 @@ def fetch_fred_series_csv(series_id: str, limit: int = 15) -> list:
 
 
 def build_macro_updates(fx_rates: dict) -> list:
-    """Fetch live US Treasury yields, Fed Funds, CPI, Unemployment, GDP & DXY/USDKRW."""
+    """Fetch live US Treasury yields, Fed Funds, CPI, Unemployment & DXY/USDKRW."""
     updates = {}
 
-    # 1. FX & Dollar Index (DXY)
     usd_krw = fx_rates["KRW"]
     prev_krw = fx_rates.get("KRW_PREV", usd_krw)
     krw_diff = round(usd_krw - prev_krw, 1)
@@ -250,7 +558,6 @@ def build_macro_updates(fx_rates: dict) -> list:
         "gapText": f"원/달러 {usd_krw:,.1f}원 · DXY {dxy_val:.1f}pt",
     }
 
-    # 2. US Policy Rate, 2Y, 10Y, 10Y-2Y Spread, Unemployment, CPI, Real GDP via FRED Public CSV
     us_2y = None
     us_10y = None
     try:
@@ -335,11 +642,9 @@ def build_macro_updates(fx_rates: dict) -> list:
     except Exception as exc:
         print(f"[WARN] FRED CPIAUCSL skipped: {exc}")
 
-    # Optional: Bank of Korea ECOS API if user adds BOK_ECOS_API_KEY in GitHub Secrets
     bok_key = os.environ.get("BOK_ECOS_API_KEY", "").strip()
     if bok_key:
         try:
-            # 722Y001 / 0101000 = BOK Base Rate
             end_ym = datetime.now(KST).strftime("%Y%m")
             start_ym = (datetime.now(KST) - timedelta(days=120)).strftime("%Y%m")
             ecos_url = f"https://ecos.bok.or.kr/api/StatisticSearch/{bok_key}/json/kr/1/10/722Y001/M/{start_ym}/{end_ym}/0101000"
@@ -362,13 +667,12 @@ def build_macro_updates(fx_rates: dict) -> list:
 
 def main():
     now_kst = datetime.now(KST)
-    print(f"[INFO] Starting market data sync at {now_kst.isoformat()}")
+    print(f"[INFO] Starting dynamic market data sync at {now_kst.isoformat()}")
 
     fx_rates = fetch_fx_rates()
     usd_krw = fx_rates["KRW"]
     print(f"[INFO] Live USD/KRW = {usd_krw}")
 
-    # Cache quotes across Global, S&P 500, and KOSPI 200 to avoid duplicate Yahoo calls
     quote_cache = {}
 
     def get_cached_quote(sym: str) -> dict:
@@ -376,21 +680,17 @@ def main():
             quote_cache[sym] = fetch_single_quote(sym)
         return quote_cache[sym]
 
-    # 1. Global Top 50 Companies
-    companies_out = []
-    for cid, sym, ccy in GLOBAL_COMPANY_MAP:
-        q = get_cached_quote(sym)
-        if q["market_cap"]:
-            fx_div = fx_rates.get(ccy, 1.0)
-            cap_usd_b = round((q["market_cap"] / fx_div) / 1e9, 2)
-            item = {"id": cid, "marketCapB": cap_usd_b}
-            if q["change_pct"] is not None:
-                item["changePct"] = q["change_pct"]
-            companies_out.append(item)
+    # 1. Dynamic Global Top 50 Listed Companies (Tier 1: Live CMC -> Tier 2: 90+ Yahoo Pool)
+    try:
+        companies_out = fetch_dynamic_top50_cmc()
+        print(f"[INFO] Tier-1 CMC dynamic Top 50 loaded ({len(companies_out)} listed companies).")
+    except Exception as cmc_err:
+        print(f"[WARN] Tier-1 CMC scrape fallback ({cmc_err}); running Tier-2 90+ Global Stock Pool...")
+        companies_out = fetch_dynamic_top50_from_pool(fx_rates, get_cached_quote)
+        print(f"[INFO] Tier-2 Global Pool dynamic Top 50 loaded ({len(companies_out)} listed companies).")
 
     # 2. S&P 500 Sectors + Top 3
     sp500_out = []
-    # Preload previous file to preserve baseline ratios if needed
     prev_sp_caps = {}
     if os.path.exists(OUT_PATH):
         try:
@@ -418,11 +718,9 @@ def main():
         sec_obj = {"id": sec_id, "top3": top3_items}
         if etf_q["change_pct"] is not None:
             sec_obj["changePct"] = etf_q["change_pct"]
-        # Scale sector marketCapB smoothly by ETF daily move if previous baseline exists
         if sec_id in prev_sp_caps and prev_sp_caps[sec_id] and etf_q["change_pct"] is not None:
             sec_obj["marketCapB"] = round(prev_sp_caps[sec_id] * (1.0 + etf_q["change_pct"] / 100.0), 1)
         elif top3_sum_b > 0:
-            # Fallback sector cap floor > top3 sum
             sec_obj["marketCapB"] = round(max(top3_sum_b * 1.45, prev_sp_caps.get(sec_id, top3_sum_b * 1.6)), 1)
         sp500_out.append(sec_obj)
 
@@ -463,6 +761,7 @@ def main():
 
     payload = {
         "isBootstrap": False,
+        "dynamicTop50": True,
         "updatedAt": now_kst.isoformat(),
         "updatedLabel": now_kst.strftime("%Y년 %m월 %d일 %H:%M 기준").replace(" 0", " "),
         "usdKrw": usd_krw,
@@ -477,7 +776,7 @@ def main():
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    print(f"[INFO] Wrote {OUT_PATH} successfully ({len(companies_out)} global firms, {len(commodities_out)} commodities).")
+    print(f"[INFO] Wrote {OUT_PATH} successfully ({len(companies_out)} dynamic listed Top 50 firms).")
 
 
 if __name__ == "__main__":
