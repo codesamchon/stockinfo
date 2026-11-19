@@ -59,7 +59,7 @@
   };
 
   const TOP_LIMIT = 50;
-  const DEFAULT_USD_KRW = 1398.5;
+  const DEFAULT_USD_KRW = 1328.0;
 
   // Baseline Top 50 Global Companies Dataset (Market Cap in Billions USD)
   const INITIAL_COMPANIES = [
@@ -417,6 +417,116 @@
     }
   ];
 
+  // 6-Month Key Commodities Dataset (Market Units on Cards: $/oz, $/lb, $/bbl | SI Metric in Detail Modal Only)
+  const INITIAL_MACRO_COMMODITIES = [
+    {
+      id: "cmd_gold",
+      koName: "금",
+      enName: "Gold Futures",
+      unit: "$/oz",
+      unitDesc: "트로이온스당 달러 (1 oz ≈ 31.10g)",
+      color: "#D49B27",
+      decimals: 0,
+      exchange: "COMEX · LBMA 국제 금 시세",
+      cardSubNote: (val, usdKrw) => {
+        const manKrwPerOz = Math.round((val * usdKrw) / 10000);
+        return `약 ${manKrwPerOz.toLocaleString("ko-KR")}만 원/oz`;
+      },
+      modalSiNote: (val, usdKrw) => {
+        const usdPerG = val / 31.1034768;
+        const krwPerG = Math.round(usdPerG * usdKrw);
+        return `$${usdPerG.toFixed(2)}/g · 약 ${krwPerG.toLocaleString("ko-KR")}원/g`;
+      },
+      history: [
+        { label: "26.06 초", val: 3378 },
+        { label: "26.06 말", val: 3428 },
+        { label: "26.07 초", val: 3477 },
+        { label: "26.07 말", val: 3530 },
+        { label: "26.08 초", val: 3580 },
+        { label: "26.08 말", val: 3636 },
+        { label: "26.09 초", val: 3683 },
+        { label: "26.09 말", val: 3736 },
+        { label: "26.10 초", val: 3788 },
+        { label: "26.10 중", val: 3838 },
+        { label: "26.10 말", val: 3798 },
+        { label: "26.11 초", val: 3765 },
+        { label: "26.11 현재", val: 3742 }
+      ],
+      summary: "금은 실질금리(명목금리-기대인플레이션)와 역의 관계를 갖는 대표 안전자산이자 인플레이션 헤지 수단입니다. 글로벌 중앙은행들의 외환보유고 다변화 매수세와 금리 인하 사이클이 맞물리며 최근 6개월간 온스당 3,700달러 선 위에서 견조한 흐름을 이어가고 있습니다."
+    },
+    {
+      id: "cmd_copper",
+      koName: "구리",
+      enName: "COMEX Copper",
+      unit: "$/lb",
+      unitDesc: "파운드당 달러 (1 lb ≈ 0.4536kg)",
+      color: "#C86432",
+      decimals: 2,
+      exchange: "COMEX 국제 구리 선물",
+      cardSubNote: (val, usdKrw) => {
+        const krwPerLb = Math.round(val * usdKrw);
+        return `약 ${krwPerLb.toLocaleString("ko-KR")}원/lb`;
+      },
+      modalSiNote: (val, usdKrw) => {
+        const usdPerTon = Math.round(val * 2204.62262);
+        const usdPerKg = val * 2.20462262;
+        const manKrwPerTon = Math.round((usdPerTon * usdKrw) / 10000);
+        return `$${usdPerTon.toLocaleString("en-US")}/t ($${usdPerKg.toFixed(2)}/kg) · 약 ${manKrwPerTon.toLocaleString("ko-KR")}만 원/t`;
+      },
+      history: [
+        { label: "26.06 초", val: 6.13 },
+        { label: "26.06 말", val: 6.16 },
+        { label: "26.07 초", val: 6.09 },
+        { label: "26.07 말", val: 6.13 },
+        { label: "26.08 초", val: 6.34 },
+        { label: "26.08 말", val: 6.51 },
+        { label: "26.09 초", val: 6.54 },
+        { label: "26.09 말", val: 6.57 },
+        { label: "26.10 초", val: 6.58 },
+        { label: "26.10 중", val: 6.44 },
+        { label: "26.10 말", val: 6.25 },
+        { label: "26.11 초", val: 6.10 },
+        { label: "26.11 현재", val: 6.01 }
+      ],
+      summary: "실물 제조업·건설·전력망 투자를 가장 민감하게 선행 반영해 '닥터 코퍼(Dr. Copper)'로 불리는 핵심 산업금속입니다. AI 데이터센터 전력망 확충과 전기차 수요가 구조적 하단을 지지하는 가운데 글로벌 제조업 경기 기대에 따라 등락하고 있습니다."
+    },
+    {
+      id: "cmd_oil",
+      koName: "원유 (WTI)",
+      enName: "WTI Crude Oil",
+      unit: "$/bbl",
+      unitDesc: "배럴당 달러 (1배럴 ≈ 158.99L)",
+      color: "#3B82A6",
+      decimals: 2,
+      exchange: "NYMEX WTI 원유 선물",
+      cardSubNote: (val, usdKrw) => {
+        const manKrwPerBbl = ((val * usdKrw) / 10000).toFixed(1);
+        return `약 ${manKrwPerBbl}만 원/bbl`;
+      },
+      modalSiNote: (val, usdKrw) => {
+        const usdPerL = val / 158.987295;
+        const krwPerL = Math.round(usdPerL * usdKrw);
+        return `$${usdPerL.toFixed(3)}/L · 약 ${krwPerL.toLocaleString("ko-KR")}원/L`;
+      },
+      history: [
+        { label: "26.06 초", val: 91.28 },
+        { label: "26.06 말", val: 70.60 },
+        { label: "26.07 초", val: 74.57 },
+        { label: "26.07 말", val: 86.18 },
+        { label: "26.08 초", val: 79.82 },
+        { label: "26.08 말", val: 86.97 },
+        { label: "26.09 초", val: 92.53 },
+        { label: "26.09 말", val: 97.14 },
+        { label: "26.10 초", val: 98.73 },
+        { label: "26.10 중", val: 104.78 },
+        { label: "26.10 말", val: 107.64 },
+        { label: "26.11 초", val: 90.78 },
+        { label: "26.11 현재", val: 85.69 }
+      ],
+      summary: "에너지 비용과 운송비·석유화학 원가를 결정하여 헤드라인 소비자물가(CPI) 및 생산자물가(PPI)에 즉각적인 영향을 미치는 핵심 원자재입니다. 지정학적 공급 변수 이후 최근 배럴당 80달러 중반대로 안정화되며 인플레이션 재반등 우려를 완화하고 있습니다."
+    }
+  ];
+
   const MACRO_CATEGORIES = {
     ALL: { ko: "전체", color: "var(--all-swatch)" },
     rates: { ko: "금리·환율", color: "#3B6FD8" },
@@ -520,13 +630,13 @@
       usDir: "up",
       usPeriod: "주요 6개국 통화 대비",
       usSource: "ICE (DXY)",
-      krDisplay: "1,398.5원",
-      krNum: 1398.5,
-      krChange: "▲ 4.2원",
-      krDir: "up",
+      krDisplay: "1,328.0원",
+      krNum: 1328.0,
+      krChange: "▼ 3.5원",
+      krDir: "down",
       krPeriod: "서울외환시장 기준",
       krSource: "서울외국환중개",
-      gapText: "강달러 기조 속 1,400원선 등락",
+      gapText: "1,320~1,330원대 안정 흐름",
       scaleMax: 0,
       summary: "미국 달러인덱스(DXY)는 유로·엔 등 6개 주요 통화 대비 달러 가치를 나타내며, 원/달러 환율은 국내 수출기업 채산성(반도체·자동차 수혜)과 외국인 증시 수급을 좌우하는 핵심 지표입니다."
     },
@@ -702,6 +812,8 @@
         sortDir: "asc"
       }
     },
+    macroCommodities: INITIAL_MACRO_COMMODITIES,
+    macroCommoditiesVisible: true,
     macroIndicators: INITIAL_MACRO_INDICATORS.map((m) => ({ ...m })),
     macroViewMode: "cards",
     macroCategory: "ALL",
@@ -710,7 +822,8 @@
     macroSortDir: "asc",
     activeCompanyObj: null,
     activeMacroObj: null,
-    baseDateObj: new Date()
+    baseDateObj: new Date(),
+    lastSyncedLabel: null
   };
 
   // Safe Storage Helpers
@@ -772,6 +885,11 @@
     const savedCountryMenu = safeGetStorage("VC_COUNTRY_MENU_OPEN");
     if (savedCountryMenu === "false") {
       state.countryMenuOpen = false;
+    }
+
+    const savedCmdVis = safeGetStorage("VC_MACRO_COMMODITIES_VISIBLE");
+    if (savedCmdVis === "false") {
+      state.macroCommoditiesVisible = false;
     }
   }
 
@@ -1028,6 +1146,7 @@
     document.getElementById("macroContentWrap")?.classList.toggle("hidden", !isMacro);
 
     if (isMacro) {
+      syncCommodityToggleUI();
       document.getElementById("btnViewMacroCards")?.classList.toggle("active", state.macroViewMode === "cards");
       document.getElementById("btnViewMacroTable")?.classList.toggle("active", state.macroViewMode === "table");
       const mSearch = document.getElementById("macroSearchInput");
@@ -1099,7 +1218,7 @@
     if (posterDateEl) posterDateEl.textContent = koDate;
     if (posterBaseNoteEl) posterBaseNoteEl.textContent = koDate;
     if (syncDateEl && !document.getElementById("syncStatusBadge")?.classList.contains("syncing")) {
-      syncDateEl.textContent = `${koDate} 기준`;
+      syncDateEl.textContent = state.lastSyncedLabel || `${koDate} 기준`;
     }
     if (posterSubEl) posterSubEl.textContent = copy.kicker;
     if (posterTitleEl) posterTitleEl.textContent = copy.mainTitle;
@@ -2018,6 +2137,224 @@
     });
   }
 
+  function formatCommodityPrice(val, decimals, unit) {
+    const numStr = val.toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+    return `$${numStr}${unit.replace("$", "")}`;
+  }
+
+  function syncCommodityToggleUI() {
+    const secEl = document.getElementById("macroCommoditySection");
+    const btnEl = document.getElementById("btnToggleCommodities");
+    const lblEl = document.getElementById("toggleCommoditiesLabel");
+
+    const visible = Boolean(state.macroCommoditiesVisible);
+    if (secEl) secEl.classList.toggle("hidden", !visible);
+    if (btnEl) {
+      btnEl.setAttribute("aria-pressed", String(visible));
+    }
+    if (lblEl) {
+      lblEl.textContent = visible ? "원자재 그래프 숨기기" : "원자재 그래프 보기";
+    }
+  }
+
+  function renderMacroCommodities() {
+    syncCommodityToggleUI();
+    if (!state.macroCommoditiesVisible) return;
+
+    const gridEl = document.getElementById("macroCommodityGrid");
+    if (!gridEl) return;
+
+    const svgW = 280;
+    const svgH = 72;
+    const padX = 6;
+    const padY = 8;
+
+    gridEl.innerHTML = state.macroCommodities
+      .map((item) => {
+        const pts = item.history;
+        const firstVal = pts[0].val;
+        const lastVal = pts[pts.length - 1].val;
+        const chgPct = ((lastVal - firstVal) / firstVal) * 100;
+        const chgSign = chgPct > 0 ? "+" : "";
+        const chgCls = chgPct > 0 ? "chg-up" : chgPct < 0 ? "chg-down" : "";
+
+        const vals = pts.map((p) => p.val);
+        const minVal = Math.min(...vals);
+        const maxVal = Math.max(...vals);
+        const span = Math.max(maxVal - minVal, maxVal * 0.02, 0.001);
+
+        const coords = pts.map((p, idx) => {
+          const x = padX + (idx / Math.max(1, pts.length - 1)) * (svgW - padX * 2);
+          const y = svgH - padY - ((p.val - minVal) / span) * (svgH - padY * 2);
+          return { x, y, label: p.label, val: p.val };
+        });
+
+        const linePath = coords
+          .map((c, i) => `${i === 0 ? "M" : "L"}${c.x.toFixed(1)},${c.y.toFixed(1)}`)
+          .join(" ");
+        const areaPath = `${linePath} L${coords[coords.length - 1].x.toFixed(1)},${(svgH - 2).toFixed(1)} L${coords[0].x.toFixed(1)},${(svgH - 2).toFixed(1)} Z`;
+        const lastCoord = coords[coords.length - 1];
+        const gradId = `grad_${item.id}`;
+
+        return `
+          <div class="commodity-card" data-cmd-id="${item.id}" role="button" tabindex="0" aria-label="${item.koName} 최근 6개월 추이 및 표준 미터법 환산 보기">
+            <div class="commodity-card-top">
+              <div class="commodity-name-group">
+                <span class="commodity-dot" style="background:${item.color}"></span>
+                <span class="commodity-ko-name">${item.koName}</span>
+                <span class="commodity-unit-tag">${item.unit}</span>
+              </div>
+              <span class="commodity-chg-badge ${chgCls}">6개월 ${chgSign}${chgPct.toFixed(1)}%</span>
+            </div>
+
+            <div class="commodity-price-row">
+              <span class="commodity-main-price">${formatCommodityPrice(lastVal, item.decimals, item.unit)}</span>
+              <span class="commodity-sub-price">${item.cardSubNote(lastVal, state.usdKrw)}</span>
+            </div>
+
+            <div class="commodity-chart-wrap">
+              <svg class="commodity-svg" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="${item.color}" stop-opacity="0.30" />
+                    <stop offset="100%" stop-color="${item.color}" stop-opacity="0.02" />
+                  </linearGradient>
+                </defs>
+                <path d="${areaPath}" fill="url(#${gradId})" />
+                <path d="${linePath}" fill="none" stroke="${item.color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />
+                <line class="cmd-hover-line hidden" x1="0" y1="2" x2="0" y2="${svgH - 2}" stroke="var(--ink-muted)" stroke-width="1" stroke-dasharray="2,2" />
+                <circle cx="${lastCoord.x.toFixed(1)}" cy="${lastCoord.y.toFixed(1)}" r="3.4" fill="${item.color}" />
+                <circle class="cmd-hover-dot hidden" cx="0" cy="0" r="4.2" fill="${item.color}" stroke="#FFFFFF" stroke-width="1.5" />
+              </svg>
+            </div>
+
+            <div class="commodity-range-row">
+              <span>6개월 최저 <strong>${formatCommodityPrice(minVal, item.decimals, item.unit)}</strong></span>
+              <span>최고 <strong>${formatCommodityPrice(maxVal, item.decimals, item.unit)}</strong></span>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+
+    // Bind Interactive Sparkline Tooltip (Market Units only) & Modal Click (Includes SI Metric)
+    gridEl.querySelectorAll(".commodity-card").forEach((card) => {
+      const cmdId = card.getAttribute("data-cmd-id");
+      const item = state.macroCommodities.find((c) => c.id === cmdId);
+      if (!item) return;
+
+      const pts = item.history;
+      const vals = pts.map((p) => p.val);
+      const minVal = Math.min(...vals);
+      const maxVal = Math.max(...vals);
+      const span = Math.max(maxVal - minVal, maxVal * 0.02, 0.001);
+
+      const chartWrap = card.querySelector(".commodity-chart-wrap");
+      const hoverLine = card.querySelector(".cmd-hover-line");
+      const hoverDot = card.querySelector(".cmd-hover-dot");
+
+      chartWrap?.addEventListener("mousemove", (ev) => {
+        const rect = chartWrap.getBoundingClientRect();
+        const relX = Math.max(0, Math.min(1, (ev.clientX - rect.left) / Math.max(1, rect.width)));
+        const idx = Math.round(relX * (pts.length - 1));
+        const pt = pts[idx];
+
+        const cx = padX + (idx / Math.max(1, pts.length - 1)) * (svgW - padX * 2);
+        const cy = svgH - padY - ((pt.val - minVal) / span) * (svgH - padY * 2);
+
+        if (hoverLine) {
+          hoverLine.setAttribute("x1", cx.toFixed(1));
+          hoverLine.setAttribute("x2", cx.toFixed(1));
+          hoverLine.classList.remove("hidden");
+        }
+        if (hoverDot) {
+          hoverDot.setAttribute("cx", cx.toFixed(1));
+          hoverDot.setAttribute("cy", cy.toFixed(1));
+          hoverDot.classList.remove("hidden");
+        }
+
+        const tip = document.getElementById("tileTooltip");
+        if (tip) {
+          tip.innerHTML = `
+            <div style="font-weight:800;font-size:13px">${item.koName} (${item.enName}) · ${pt.label}</div>
+            <div style="margin-top:3px">시세: <strong>${formatCommodityPrice(pt.val, item.decimals, item.unit)}</strong></div>
+            <div style="opacity:0.86;font-size:11.5px">${item.cardSubNote(pt.val, state.usdKrw)}</div>
+          `;
+          tip.classList.remove("hidden");
+          moveTooltip(ev);
+        }
+      });
+
+      chartWrap?.addEventListener("mouseleave", () => {
+        hoverLine?.classList.add("hidden");
+        hoverDot?.classList.add("hidden");
+        hideTooltip();
+      });
+
+      const openHandler = () => {
+        hideTooltip();
+        openCommodityModal(item);
+      };
+      card.addEventListener("click", openHandler);
+      card.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          openHandler();
+        }
+      });
+    });
+  }
+
+  function openCommodityModal(item) {
+    state.activeMacroObj = null;
+    state.activeCompanyObj = null;
+
+    const pts = item.history;
+    const firstVal = pts[0].val;
+    const lastVal = pts[pts.length - 1].val;
+    const diff = lastVal - firstVal;
+    const chgPct = (diff / firstVal) * 100;
+    const chgSign = chgPct > 0 ? "+" : "";
+    const vals = pts.map((p) => p.val);
+    const minVal = Math.min(...vals);
+    const maxVal = Math.max(...vals);
+
+    document.getElementById("modalHeaderBadge").innerHTML = `
+      <span class="country-pill" style="background:${item.color}">핵심 원자재 · 6개월 추이</span>
+      <span class="chip" style="cursor:default">기준 단위 (${item.unit}) + 표준 미터법(SI) 환산</span>
+    `;
+    document.getElementById("modalCompanyTitle").textContent = `${item.koName} (${item.enName})`;
+    document.getElementById("modalCompanySub").textContent = `기준 시장: ${item.exchange} | 기준 단위: ${item.unitDesc}`;
+
+    document.getElementById("modalMetricsGrid").innerHTML = `
+      <div class="metric-box">
+        <span>현재 기준 시세 (${item.unit})</span>
+        <strong>${formatCommodityPrice(lastVal, item.decimals, item.unit)} <span style="font-size:12px;font-weight:600;color:var(--ink-muted)">(${item.cardSubNote(lastVal, state.usdKrw)})</span></strong>
+      </div>
+      <div class="metric-box">
+        <span>표준 미터법(SI) 환산 시세</span>
+        <strong style="font-size:14.5px">${item.modalSiNote(lastVal, state.usdKrw)}</strong>
+      </div>
+      <div class="metric-box">
+        <span>최근 6개월 변동률</span>
+        <strong>${chgSign}${chgPct.toFixed(2)}% <span style="font-size:12.5px;font-weight:700;color:var(--ink-muted)">(${pts[0].label} 대비)</span></strong>
+      </div>
+      <div class="metric-box">
+        <span>6개월 최저 ~ 최고 (${item.unit})</span>
+        <strong style="font-size:14.5px">${formatCommodityPrice(minVal, item.decimals, item.unit)} ~ ${formatCommodityPrice(maxVal, item.decimals, item.unit)}</strong>
+      </div>
+    `;
+
+    const headingEl = document.getElementById("modalBriefingHeading");
+    if (headingEl) headingEl.textContent = "원자재 거시경제 영향 및 핵심 해설";
+
+    document.getElementById("modalBriefingContent").textContent = item.summary;
+    document.getElementById("companyModal").classList.remove("hidden");
+  }
+
   function openMacroModal(item) {
     state.activeMacroObj = item;
     state.activeCompanyObj = null;
@@ -2132,6 +2469,168 @@
     }, 4500);
   }
 
+  // =========================================================
+  // METHOD A: STATIC JSON AUTO-LOADER (GitHub Actions + Live FX Fallback)
+  // =========================================================
+  function applyLiveMarketData(payload) {
+    if (!payload || typeof payload !== "object") return;
+
+    if (typeof payload.usdKrw === "number" && payload.usdKrw > 800 && payload.usdKrw < 2500) {
+      state.usdKrw = payload.usdKrw;
+    }
+
+    if (typeof payload.updatedAt === "string") {
+      const parsedDate = new Date(payload.updatedAt);
+      if (!Number.isNaN(parsedDate.getTime())) {
+        state.baseDateObj = parsedDate;
+      }
+    }
+    if (typeof payload.updatedLabel === "string" && payload.updatedLabel.trim()) {
+      state.lastSyncedLabel = payload.updatedLabel.trim();
+    }
+
+    // 1. Global Top 50 Companies
+    if (Array.isArray(payload.companies)) {
+      const cMap = new Map(payload.companies.map((item) => [item.id, item]));
+      state.companies = state.companies.map((c) => {
+        const hit = cMap.get(c.id);
+        if (!hit) return c;
+        return {
+          ...c,
+          marketCapB: typeof hit.marketCapB === "number" && hit.marketCapB > 20 ? hit.marketCapB : c.marketCapB,
+          changePct: typeof hit.changePct === "number" ? hit.changePct : c.changePct
+        };
+      });
+    }
+
+    // 2. S&P 500 Sectors + Top 3
+    if (Array.isArray(payload.sp500Sectors)) {
+      const sMap = new Map(payload.sp500Sectors.map((s) => [s.id, s]));
+      state.sp500Sectors = state.sp500Sectors.map((sec) => {
+        const hit = sMap.get(sec.id);
+        if (!hit) return sec;
+        const tMap = new Map(Array.isArray(hit.top3) ? hit.top3.map((t) => [t.id, t]) : []);
+        return {
+          ...sec,
+          companyCount: typeof hit.companyCount === "number" && hit.companyCount > 0 ? hit.companyCount : sec.companyCount,
+          marketCapB: typeof hit.marketCapB === "number" && hit.marketCapB > 100 ? hit.marketCapB : sec.marketCapB,
+          changePct: typeof hit.changePct === "number" ? hit.changePct : sec.changePct,
+          top3: sec.top3.map((c) => {
+            const th = tMap.get(c.id);
+            if (!th) return c;
+            return {
+              ...c,
+              name: th.name || c.name,
+              koName: th.koName || c.koName,
+              ticker: th.ticker || c.ticker,
+              marketCapB: typeof th.marketCapB === "number" && th.marketCapB > 10 ? th.marketCapB : c.marketCapB,
+              changePct: typeof th.changePct === "number" ? th.changePct : c.changePct
+            };
+          })
+        };
+      });
+    }
+
+    // 3. KOSPI 200 Sectors + Top 3
+    if (Array.isArray(payload.kospi200Sectors)) {
+      const kMap = new Map(payload.kospi200Sectors.map((s) => [s.id, s]));
+      state.kospi200Sectors = state.kospi200Sectors.map((sec) => {
+        const hit = kMap.get(sec.id);
+        if (!hit) return sec;
+        const tMap = new Map(Array.isArray(hit.top3) ? hit.top3.map((t) => [t.id, t]) : []);
+        return {
+          ...sec,
+          companyCount: typeof hit.companyCount === "number" && hit.companyCount > 0 ? hit.companyCount : sec.companyCount,
+          marketCapJo: typeof hit.marketCapJo === "number" && hit.marketCapJo > 3 ? hit.marketCapJo : sec.marketCapJo,
+          changePct: typeof hit.changePct === "number" ? hit.changePct : sec.changePct,
+          top3: sec.top3.map((c) => {
+            const th = tMap.get(c.id);
+            if (!th) return c;
+            return {
+              ...c,
+              name: th.name || c.name,
+              koName: th.koName || c.koName,
+              ticker: th.ticker || c.ticker,
+              marketCapJo: typeof th.marketCapJo === "number" && th.marketCapJo > 0.3 ? th.marketCapJo : c.marketCapJo,
+              changePct: typeof th.changePct === "number" ? th.changePct : c.changePct
+            };
+          })
+        };
+      });
+    }
+
+    // 4. Commodities 6-Month History (Gold $/oz, Copper $/lb, WTI $/bbl)
+    if (Array.isArray(payload.commodities)) {
+      const cmdMap = new Map(payload.commodities.map((item) => [item.id, item]));
+      state.macroCommodities = state.macroCommodities.map((cmd) => {
+        const hit = cmdMap.get(cmd.id);
+        if (!hit || !Array.isArray(hit.history) || hit.history.length < 4) return cmd;
+        return {
+          ...cmd,
+          history: hit.history
+        };
+      });
+    }
+
+    // 5. US & KR Macro Indicators
+    if (Array.isArray(payload.macroIndicators)) {
+      const mMap = new Map(payload.macroIndicators.map((item) => [item.id, item]));
+      state.macroIndicators = state.macroIndicators.map((m) => {
+        const hit = mMap.get(m.id);
+        if (!hit) return m;
+        return {
+          ...m,
+          usDisplay: typeof hit.usDisplay === "string" && hit.usDisplay ? hit.usDisplay : m.usDisplay,
+          usNum: typeof hit.usNum === "number" ? hit.usNum : m.usNum,
+          usChange: typeof hit.usChange === "string" && hit.usChange ? hit.usChange : m.usChange,
+          usDir: hit.usDir === "up" || hit.usDir === "down" || hit.usDir === "flat" ? hit.usDir : m.usDir,
+          usPeriod: typeof hit.usPeriod === "string" && hit.usPeriod ? hit.usPeriod : m.usPeriod,
+          krDisplay: typeof hit.krDisplay === "string" && hit.krDisplay ? hit.krDisplay : m.krDisplay,
+          krNum: typeof hit.krNum === "number" ? hit.krNum : m.krNum,
+          krChange: typeof hit.krChange === "string" && hit.krChange ? hit.krChange : m.krChange,
+          krDir: hit.krDir === "up" || hit.krDir === "down" || hit.krDir === "flat" ? hit.krDir : m.krDir,
+          krPeriod: typeof hit.krPeriod === "string" && hit.krPeriod ? hit.krPeriod : m.krPeriod,
+          gapText: typeof hit.gapText === "string" && hit.gapText ? hit.gapText : m.gapText
+        };
+      });
+    }
+  }
+
+  async function loadLiveMarketJson() {
+    let loadedJson = false;
+
+    // Step 1: Load ./data/live_market.json updated automatically by GitHub Actions (cache-busted)
+    try {
+      const cacheBust = Math.floor(Date.now() / 60000); // 1-minute bucket
+      const resp = await fetch(`./data/live_market.json?v=${cacheBust}`, { cache: "no-store" });
+      if (resp.ok) {
+        const payload = await resp.json();
+        applyLiveMarketData(payload);
+        loadedJson = Boolean(payload && !payload.isBootstrap);
+      }
+    } catch (_err) {
+      // Ignore on local file:// or before first workflow run
+    }
+
+    // Step 2: Instant Keyless Public FX Sync (open.er-api.com) so USD/KRW is ALWAYS fresh even before first Action run
+    if (!loadedJson) {
+      try {
+        const fxResp = await fetch("https://open.er-api.com/v6/latest/USD", { cache: "no-store" });
+        if (fxResp.ok) {
+          const fxData = await fxResp.json();
+          const liveKrw = fxData?.rates?.KRW;
+          if (typeof liveKrw === "number" && liveKrw > 800 && liveKrw < 2500) {
+            state.usdKrw = Number(liveKrw.toFixed(2));
+          }
+        }
+      } catch (_fxErr) {
+        // Keep DEFAULT_USD_KRW (1328.0) fallback
+      }
+    }
+
+    updateAllViews();
+  }
+
   // Master Render Orchestrator
   function updateAllViews() {
     renderHeaderAndFootnotes();
@@ -2140,6 +2639,7 @@
       const allMacro = getEffectiveMacroIndicators();
       renderMacroCategoryChips(allMacro);
       renderMacroKpis(allMacro);
+      renderMacroCommodities();
 
       const cardsSec = document.getElementById("macroCardsView");
       const tblSec = document.getElementById("macroTableView");
@@ -2353,6 +2853,18 @@
     });
 
     // Macro Page Controls
+    const toggleCommodityVisibility = () => {
+      state.macroCommoditiesVisible = !state.macroCommoditiesVisible;
+      safeSetStorage("VC_MACRO_COMMODITIES_VISIBLE", String(state.macroCommoditiesVisible));
+      renderMacroCommodities();
+    };
+    document.getElementById("btnToggleCommodities")?.addEventListener("click", toggleCommodityVisibility);
+    document.getElementById("btnHideCommoditiesInline")?.addEventListener("click", () => {
+      state.macroCommoditiesVisible = false;
+      safeSetStorage("VC_MACRO_COMMODITIES_VISIBLE", "false");
+      syncCommodityToggleUI();
+    });
+
     document.getElementById("btnViewMacroCards")?.addEventListener("click", () => {
       state.macroViewMode = "cards";
       document.getElementById("btnViewMacroCards")?.classList.add("active");
@@ -2429,6 +2941,7 @@
 
     bindEvents();
     updateAllViews();
+    loadLiveMarketJson();
   }
 
   if (document.readyState === "loading") {

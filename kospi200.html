@@ -25,7 +25,7 @@
   <!-- D3.js v7 -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
   <!-- Shared Stylesheet -->
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=12" />
 </head>
 <body data-page="kospi200">
   <!-- Top Interactive Control Bar -->
@@ -41,7 +41,7 @@
 
         <span id="syncStatusBadge" class="sync-badge synced">
           <span class="pulse-dot"></span>
-          <span id="syncDateLabel">2026년 11월 19일 기준</span>
+          <span id="syncDateLabel">실시간 자동 동기화</span>
         </span>
       </div>
 
@@ -128,7 +128,12 @@
 
     <!-- Macro Filter Row -->
     <div id="macroFilterInner" class="filter-inner hidden">
-      <div id="macroCategoryChips" class="country-chips" role="group" aria-label="거시지표 분류 필터"></div>
+      <div class="country-filter-area">
+        <div id="macroCategoryChips" class="country-chips" role="group" aria-label="거시지표 분류 필터"></div>
+        <button id="btnToggleCommodities" type="button" class="btn-country-toggle" aria-pressed="true" title="금·구리·원유 최근 6개월 그래프 보이기/숨기기">
+          <span id="toggleCommoditiesLabel">원자재 그래프 숨기기</span>
+        </button>
+      </div>
       <div class="search-box">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8" />
@@ -223,6 +228,20 @@
       <div id="macroContentWrap" class="hidden">
         <div id="macroKpiStrip" class="kpi-strip"></div>
 
+        <!-- 6-Month Key Commodities Sparkline Strip (Placed right above Policy Rate) -->
+        <section id="macroCommoditySection" class="commodity-strip-section" aria-label="주요 원자재 최근 6개월 시세 추이">
+          <div class="commodity-strip-header">
+            <div class="commodity-strip-title">
+              <strong>핵심 원자재 최근 6개월 추이</strong>
+              <span>금($/oz) · 구리($/lb) · WTI 원유($/bbl) — 클릭 시 표준 미터법(SI) 환산 및 해설 보기</span>
+            </div>
+            <button id="btnHideCommoditiesInline" type="button" class="btn-ghost commodity-hide-btn" title="원자재 그래프 영역 숨기기">
+              그래프 숨기기 &times;
+            </button>
+          </div>
+          <div id="macroCommodityGrid" class="commodity-grid"></div>
+        </section>
+
         <section id="macroCardsView" class="macro-cards-section" aria-label="한·미 거시지표 나란히 비교 대시보드">
           <div class="sector-guide-bar">
             <span class="guide-hint">각 지표를 클릭하면 <strong>경제적 의미와 핵심 해설</strong>을 확인할 수 있습니다.</span>
@@ -290,6 +309,6 @@
 
 
   <!-- Shared Application Script -->
-  <script src="./app.js" defer></script>
+  <script src="./app.js?v=12" defer></script>
 </body>
 </html>
