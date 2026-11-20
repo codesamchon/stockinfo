@@ -8,7 +8,7 @@ Updates:
   2. USD/KRW, DXY & Global Foreign Exchange Rates
   3. 6-Month Commodity History: Gold ($/oz), Copper ($/lb), WTI Crude Oil ($/bbl)
   4. S&P 500 11 GICS Sectors Market Cap & Top 3 Companies
-  5. KOSPI 200 10 Core Sectors Market Cap (KRW Trillions) & Top 3 Companies
+  5. KOSPI 200 10 Core Sectors Real-Time Intraday Market Cap & Daily Change via Naver Finance API
   6. Full US (FRED CSV) & KR (BOK ECOS API: Base Rate, 2Y/10Y KTB, CPI, Core CPI, PPI, Employment, Real GDP) Macro Sync
 """
 
@@ -428,22 +428,144 @@ def fetch_dynamic_top50_cmc() -> list:
     return dynamic_items[:50]
 
 
-def fetch_single_quote(symbol: str) -> dict:
-    """Return {'market_cap': float|None, 'price': float|None, 'change_pct': float|None}."""
+def parse_korean_market_cap_krw(val_str: str):
+    """
+    Parse Naver Finance Korean market cap strings into exact KRW float:
+      - '1,307조 8,120억' -> 1307812000000000.0
+      - '345조' -> 345000000000000.0
+      - '9,850억' -> 985000000000.0
+    """
+    if not val_str:
+        return None
+    clean = str(val_str).replace(",", "").replace("원", "").strip()
+    total_krw = 0.0
+    matched_unit = False
+
+    m_jo = re.search(r"([0-9]+(?:\.[0-9]+)?)\s*조", clean)
+    if m_jo:
+        total_krw += float(m_jo.group(1)) * 1e12
+        matched_unit = True
+
+    m_eok = re.search(r"([0-9]+(?:\.[0-9]+)?)\s*억", clean)
+    if m_eok:
+        total_krw += float(m_eok.group(1)) * 1e8
+        matched_unit = True
+
+    m_bm = re.search(r"([0-9]+(?:\.[0-9]+)?)\s*백만", clean)
+    if m_bm:
+        total_krw += float(m_bm.group(1)) * 1e6
+        matched_unit = True
+
+    if matched_unit and total_krw > 0:
+        return total_krw
+
+    # Fallback if raw numeric string in 억원 is ever returned
+    if re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", clean):
+        return float(clean) * 1e8
+    return None
+
+
+def fetch_korean_quote_naver(code: str) -> dict:
+    """
+    Fetch real-time KRX intraday price, daily % change, and market cap (KRW)
+    directly from Naver Pay Securities Mobile JSON API (zero 1d-candle lag).
+    """
     out = {"market_cap": None, "price": None, "change_pct": None}
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+        ),
+        "Referer": f"https://m.stock.naver.com/domestic/stock/{code}/total",
+        "Accept": "application/json, text/plain, */*",
+    }
+
+    # 1. Live price & daily fluctuation ratio (/basic)
+    basic_url = f"https://m.stock.naver.com/api/stock/{code}/basic"
+    req_basic = Request(basic_url, headers=headers)
+    with urlopen(req_basic, timeout=12) as resp:
+        basic_data = json.loads(resp.read().decode("utf-8", errors="ignore"))
+
+    raw_price = str(basic_data.get("closePrice", "")).replace(",", "").strip()
+    if raw_price and raw_price not in ("-", "N/A"):
+        out["price"] = float(raw_price)
+
+    raw_ratio = str(basic_data.get("fluctuationsRatio", "")).replace(",", "").replace("%", "").strip()
+    if raw_ratio and raw_ratio not in ("-", "N/A"):
+        ratio_val = float(raw_ratio)
+        cmp_info = basic_data.get("compareToPreviousPrice") or {}
+        dir_name = str(cmp_info.get("name", "")).upper()
+        dir_code = str(cmp_info.get("code", ""))
+        if dir_name in ("FALLING", "LOWER_LIMIT") or dir_code in ("4", "5"):
+            ratio_val = -abs(ratio_val)
+        elif dir_name in ("RISING", "UPPER_LIMIT") or dir_code in ("1", "2"):
+            ratio_val = abs(ratio_val)
+        elif dir_name == "UNCHANGED" or dir_code == "3":
+            ratio_val = 0.0
+        out["change_pct"] = round(ratio_val, 2)
+
+    # 2. Live intraday market capitalization (/integration -> totalInfos[marketValue])
+    integ_url = f"https://m.stock.naver.com/api/stock/{code}/integration"
+    req_integ = Request(integ_url, headers=headers)
+    with urlopen(req_integ, timeout=12) as resp:
+        integ_data = json.loads(resp.read().decode("utf-8", errors="ignore"))
+
+    for info in integ_data.get("totalInfos", []):
+        if info.get("code") == "marketValue" or "시총" in str(info.get("key", "")):
+            mcap_krw = parse_korean_market_cap_krw(info.get("value", ""))
+            if mcap_krw and mcap_krw > 0:
+                out["market_cap"] = mcap_krw
+                break
+
+    return out
+
+
+def fetch_single_quote(symbol: str) -> dict:
+    """
+    Return {'market_cap': float|None, 'price': float|None, 'change_pct': float|None}.
+    - Korean stocks (.KS / .KQ): Primary real-time KRX feed via Naver Mobile API, fallback to yfinance intraday.
+    - US / Global stocks: Primary fast_info real-time feed + history fallback via yfinance.
+    """
+    out = {"market_cap": None, "price": None, "change_pct": None}
+
+    # Route Korean KRX stocks (.KS / .KQ) to Naver Finance Real-Time API first
+    kr_match = re.match(r"^([0-9A-Z]{6})\.(KS|KQ)$", symbol.upper())
+    if kr_match:
+        kr_code = kr_match.group(1)
+        try:
+            naver_q = fetch_korean_quote_naver(kr_code)
+            if naver_q["price"] is not None and naver_q["market_cap"] is not None:
+                return naver_q
+            # Keep partial fields if any succeeded before falling back
+            out.update({k: v for k, v in naver_q.items() if v is not None})
+        except Exception as nav_exc:
+            print(f"[WARN] Naver real-time fetch fallback for {symbol}: {nav_exc}")
+
+    # Global stocks (and backup for KR stocks) via Yahoo Finance
     try:
         tk = yf.Ticker(symbol)
         fi = tk.fast_info
+
         mcap = getattr(fi, "market_cap", None)
-        if mcap and mcap > 0:
+        if out["market_cap"] is None and mcap and mcap > 0:
             out["market_cap"] = float(mcap)
 
-        hist = tk.history(period="5d")
-        closes = hist["Close"].dropna().tolist()
-        if len(closes) >= 1:
-            out["price"] = float(closes[-1])
-        if len(closes) >= 2 and closes[-2] != 0:
-            out["change_pct"] = round(((closes[-1] - closes[-2]) / closes[-2]) * 100.0, 2)
+        last_p = getattr(fi, "last_price", None)
+        prev_p = getattr(fi, "previous_close", None)
+        if last_p and last_p > 0:
+            if out["price"] is None:
+                out["price"] = float(last_p)
+            if out["change_pct"] is None and prev_p and prev_p > 0:
+                out["change_pct"] = round(((float(last_p) - float(prev_p)) / float(prev_p)) * 100.0, 2)
+
+        # History fallback if fast_info missed price or change_pct
+        if out["price"] is None or out["change_pct"] is None:
+            hist = tk.history(period="5d")
+            closes = hist["Close"].dropna().tolist()
+            if out["price"] is None and len(closes) >= 1:
+                out["price"] = float(closes[-1])
+            if out["change_pct"] is None and len(closes) >= 2 and closes[-2] != 0:
+                out["change_pct"] = round(((closes[-1] - closes[-2]) / closes[-2]) * 100.0, 2)
     except Exception as exc:
         print(f"[WARN] Quote fetch failed for {symbol}: {exc}")
     return out
@@ -1171,10 +1293,23 @@ def main():
             quote_cache[sym] = fetch_single_quote(sym)
         return quote_cache[sym]
 
-    # 1. Dynamic Global Top 50 Listed Companies (Tier 1: Live CMC -> Tier 2: 90+ Yahoo Pool)
+    # 1. Dynamic Global Top 50 Listed Companies (Tier 1: Live CMC -> Tier 2: 90+ Yahoo/Naver Pool)
     try:
         companies_out = fetch_dynamic_top50_cmc()
         print(f"[INFO] Tier-1 CMC dynamic Top 50 loaded ({len(companies_out)} listed companies).")
+        # Refresh any Korean listed stocks (.KS/.KQ) in Global Top 50 with real-time Naver KRX quote
+        kr_id_to_sym = {"samsung": "005930.KS", "skhynix": "000660.KS"}
+        for item in companies_out:
+            kr_sym = kr_id_to_sym.get(item["id"])
+            if not kr_sym and item.get("country") == "KR" and str(item.get("ticker", "")).endswith((".KS", ".KQ")):
+                kr_sym = item["ticker"]
+            if kr_sym:
+                kq = get_cached_quote(kr_sym)
+                if kq["market_cap"] and usd_krw > 0:
+                    item["marketCapB"] = round((kq["market_cap"] / usd_krw) / 1e9, 2)
+                if kq["change_pct"] is not None:
+                    item["changePct"] = kq["change_pct"]
+        companies_out.sort(key=lambda x: x["marketCapB"], reverse=True)
     except Exception as cmc_err:
         print(f"[WARN] Tier-1 CMC scrape fallback ({cmc_err}); running Tier-2 90+ Global Stock Pool...")
         companies_out = fetch_dynamic_top50_from_pool(fx_rates, get_cached_quote)
