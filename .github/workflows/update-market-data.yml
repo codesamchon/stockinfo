@@ -1,12 +1,16 @@
-name: Auto Update Market & Macro Data
+name: Auto Update Market Data
 
-on:
+"on":
   schedule:
-    - cron: "0 * * * *"
+    # 매시 7분, 37분 실행 (정각 혼잡 지연 회피 + 장중 30분 간격 최신화)
+    - cron: "7,37 * * * *"
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
   workflow_dispatch:
 
 permissions:
   contents: write
+  issues: read
 
 concurrency:
   group: market-data-sync
@@ -25,23 +29,35 @@ jobs:
           python-version: "3.11"
           cache: "pip"
 
-      - name: Install dependencies
+      - name: Fast Sync Insights Backup Only (on Issue change)
+        if: github.event_name == 'issues'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/sync_insights.py
+
+      - name: Install dependencies (for Market & Macro Sync)
+        if: github.event_name != 'issues'
         run: pip install -r scripts/requirements.txt
 
-      - name: Collect latest market & macro data
+      - name: Collect latest market, macro, and insights data
+        if: github.event_name != 'issues'
         env:
           BOK_ECOS_API_KEY: ${{ secrets.BOK_ECOS_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/update_market_data.py
 
-      - name: Commit and push updated data/live_market.json
+      - name: Commit and push updated JSON files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/live_market.json
+          touch data/insights.json
+          git add data/live_market.json data/insights.json
           if git diff --staged --quiet; then
-            echo "변경된 시세 데이터가 없습니다."
+            echo "No changes to commit."
           else
-            git commit -m "chore(data): auto-sync live market & macro data [skip ci]"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            git commit -m "chore(data): auto-sync market & insights data"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}."
           fi
