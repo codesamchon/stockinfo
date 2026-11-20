@@ -2436,8 +2436,8 @@
 
   function buildMiniSparkSVG(historyPts, strokeColor) {
     if (!Array.isArray(historyPts) || historyPts.length < 2) return "";
-    const w = 38;
-    const h = 15;
+    const w = 28;
+    const h = 14;
     const vals = historyPts.map((p) => p.val);
     const minV = Math.min(...vals);
     const maxV = Math.max(...vals);
@@ -2462,12 +2462,12 @@
     const indexPillsHTML = state.marketIndices
       .map((item) => {
         const chgCls = item.changePct > 0 ? "chg-up" : item.changePct < 0 ? "chg-down" : "";
-        const arrow = item.changePct > 0 ? "▲ " : item.changePct < 0 ? "▼ " : "";
+        const arrow = item.changePct > 0 ? "▲" : item.changePct < 0 ? "▼" : "";
         const sparkColor =
           item.changePct > 0 ? "var(--chg-up)" : item.changePct < 0 ? "var(--chg-down)" : item.color;
 
         return `<button type="button" class="index-ticker-pill" data-idx-pill="${item.id}" aria-label="${item.shortName} ${formatIndexNumber(item.price, item.decimals)} (${arrow}${Math.abs(item.changePct).toFixed(2)}%)">
-          <span class="idx-flag">${getFlagSVG(item.country, 16)}</span>
+          <span class="idx-flag">${getFlagSVG(item.country, 15)}</span>
           <span class="idx-name">${item.shortName}</span>
           <span class="idx-val">${formatIndexNumber(item.price, item.decimals)}</span>
           <span class="idx-chg ${chgCls}">${arrow}${Math.abs(item.changePct).toFixed(2)}%</span>
@@ -2476,15 +2476,16 @@
       })
       .join("");
 
-    // Also append live USD/KRW FX pill at the end of the top ticker strip
+    // Also append compact live USD/KRW FX pill at the end of the top ticker strip
     const fxItem = state.macroIndicators.find((m) => m.id === "fx_rate");
-    const fxChgText = fxItem ? fxItem.krChange : "";
+    const rawFxChg = fxItem ? fxItem.krChange : "";
+    const fxChgCompact = rawFxChg.startsWith("보합") ? "0.0원" : rawFxChg.replace(/\s+/g, "");
     const fxCls = fxItem ? getDirClass(fxItem.krDir) : "";
     const fxPillHTML = `<button type="button" class="index-ticker-pill" data-idx-pill="fx_usdkrw" aria-label="원/달러 환율 ${state.usdKrw.toFixed(1)}원">
-      <span class="idx-flag">${getFlagSVG("KR", 16)}</span>
+      <span class="idx-flag">${getFlagSVG("KR", 15)}</span>
       <span class="idx-name">USD/KRW</span>
       <span class="idx-val">${state.usdKrw.toLocaleString("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}원</span>
-      ${fxChgText ? `<span class="idx-chg ${fxCls}">${fxChgText}</span>` : ""}
+      ${fxChgCompact ? `<span class="idx-chg ${fxCls}">${fxChgCompact}</span>` : ""}
     </button>`;
 
     stripEl.innerHTML = indexPillsHTML + fxPillHTML;
