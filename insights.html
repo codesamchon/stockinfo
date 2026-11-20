@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>경제 이야기 | 글로벌 시장·거시경제 인사이트 아카이브</title>
+  <!-- Prevent Theme Flash (FOUC) Before First Paint -->
+  <script>
+    (function () {
+      try {
+        var saved = window.localStorage.getItem("VC_THEME_MODE");
+        document.documentElement.setAttribute("data-theme", saved === "dark" ? "dark" : "light");
+      } catch (_e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <!-- Pretendard & Display Fonts -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Inter:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+  <!-- D3.js v7 -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="./style.css?v=19" />
+</head>
+<body data-page="insights">
+  <!-- Top Interactive Control Bar -->
+  <header id="controlBar" class="control-bar">
+    <div class="control-inner">
+      <div class="sync-group">
+        <nav class="segmented page-nav" aria-label="페이지 전환">
+          <a id="navGlobal" data-target-page="global" href="./index.html" class="seg-btn">글로벌 Top 50</a>
+          <a id="navSp500" data-target-page="sp500" href="./sp500.html" class="seg-btn">S&amp;P 500 섹터</a>
+          <a id="navKospi200" data-target-page="kospi200" href="./kospi200.html" class="seg-btn">KOSPI 200 섹터</a>
+          <a id="navMacro" data-target-page="macro" href="./macro.html" class="seg-btn">거시 지표</a>
+          <a id="navInsights" data-target-page="insights" class="seg-btn active is-disabled" aria-current="page" aria-disabled="true" tabindex="-1">경제 이야기</a>
+        </nav>
+
+        <span id="syncStatusBadge" class="sync-badge synced">
+          <span class="pulse-dot"></span>
+          <span id="syncDateLabel">실시간 자동 동기화</span>
+        </span>
+      </div>
+
+      <div class="view-group">
+        <!-- Global View Mode Buttons -->
+        <div id="globalViewGroup" class="segmented hidden" role="group" aria-label="글로벌 화면 보기 방식">
+          <button id="btnViewPoster" type="button" class="seg-btn active">포스터 트리맵</button>
+          <button id="btnViewTable" type="button" class="seg-btn">상세 순위표</button>
+        </div>
+
+        <!-- Sector Page View Mode Buttons (S&P 500 & KOSPI 200) -->
+        <div id="sectorViewGroup" class="segmented hidden" role="group" aria-label="섹터 화면 보기 방식">
+          <button id="btnViewSectorBar" type="button" class="seg-btn active">섹터 그래프</button>
+          <button id="btnViewSectorTable" type="button" class="seg-btn">섹터 요약표</button>
+        </div>
+
+        <!-- Macro Page View Mode Buttons -->
+        <div id="macroViewGroup" class="segmented hidden" role="group" aria-label="거시지표 화면 보기 방식">
+          <button id="btnViewMacroCards" type="button" class="seg-btn active">비교 대시보드</button>
+          <button id="btnViewMacroTable" type="button" class="seg-btn">전체 요약표</button>
+        </div>
+
+        <!-- Insights Page Sort & Refresh Buttons -->
+        <div id="insightsViewGroup" class="insights-view-tools" role="group" aria-label="경제 이야기 정렬 및 새로고침">
+          <div class="segmented">
+            <button id="btnInsightsNewest" type="button" class="seg-btn active">최신순</button>
+            <button id="btnInsightsOldest" type="button" class="seg-btn">등록순</button>
+          </div>
+          <button id="btnRefreshInsights" type="button" class="btn-ghost btn-insights-refresh" title="GitHub Issues 최신 글 즉시 불러오기">
+            <svg class="refresh-icon" viewBox="0 0 24 24" width="13.5" height="13.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+            <span>새로고침</span>
+          </button>
+        </div>
+
+        <button id="btnThemeToggle" type="button" class="btn-ghost btn-theme-toggle" aria-pressed="false" title="라이트/다크 모드 전환">
+          <svg id="iconMoon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <svg id="iconSun" class="hidden" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <span id="themeToggleLabel">다크 모드</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Major Market Indices Slim Ticker Bar (Option 1: Visible across all 4 pages) -->
+    <div id="marketIndexBar" class="market-index-bar" role="region" aria-label="한·미 4대 주요 주가지수 및 원/달러 환율 실시간 현황">
+      <div id="marketIndexStrip" class="market-index-strip"></div>
+    </div>
+
+    <!-- Global Filter Row -->
+    <div id="globalFilterInner" class="filter-inner hidden">
+      <div class="country-filter-area">
+        <button id="btnToggleCountryMenu" type="button" class="btn-country-toggle" aria-expanded="true" aria-controls="countryChips" title="국가 선택 메뉴 접기/펼치기">
+          <span id="countryToggleLabel">국가 선택</span>
+          <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <div id="countryChips" class="country-chips" role="group" aria-label="국가별 필터 (클릭하여 선택/해제)"></div>
+      </div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input id="searchInput" type="search" placeholder="기업명, 한글명, 티커 검색 (예: 삼성전자, AAPL, NVDA)" autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- Sector Filter Row (Shared by S&P 500 & KOSPI 200) -->
+    <div id="sectorFilterInner" class="filter-inner hidden">
+      <div class="sector-toolbar-left">
+        <div class="segmented" role="group" aria-label="막대 크기 비율 조절">
+          <button id="btnScaleCompressed" type="button" class="seg-btn active" title="초대형 섹터 막대를 완만하게 보정하여 하위 섹터까지 비교하기 쉽게 표시합니다">크기 보정 (가독성)</button>
+          <button id="btnScaleLinear" type="button" class="seg-btn" title="실제 시가총액 정비례 길이로 막대를 표시합니다">실제 비례</button>
+        </div>
+        <button id="btnToggleAllAccordions" type="button" class="btn-ghost" style="padding:5px 10px;font-size:12px">
+          Top 3 전체 펼치기
+        </button>
+      </div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input id="sectorSearchInput" type="search" placeholder="섹터명 또는 Top 3 기업·티커 검색 (예: 정보기술, 금융, NVDA)" autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- Macro Filter Row -->
+    <div id="macroFilterInner" class="filter-inner hidden">
+      <div class="country-filter-area">
+        <div id="macroCategoryChips" class="country-chips" role="group" aria-label="거시지표 분류 필터"></div>
+        <button id="btnToggleIndices" type="button" class="btn-country-toggle" aria-pressed="true" title="S&amp;P 500·나스닥·코스피·코스닥 최근 6개월 추이 그래프 보이기/숨기기">
+          <span id="toggleIndicesLabel">주가지수 그래프 숨기기</span>
+        </button>
+        <button id="btnToggleCommodities" type="button" class="btn-country-toggle" aria-pressed="true" title="금·구리·원유 최근 6개월 그래프 보이기/숨기기">
+          <span id="toggleCommoditiesLabel">원자재 그래프 숨기기</span>
+        </button>
+      </div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input id="macroSearchInput" type="search" placeholder="지표명, 영문 약어 검색 (예: 국채금리, CPI, PPI, 실업률, GDP)" autocomplete="off" />
+      </div>
+    </div>
+    <!-- Insights Filter Row -->
+    <div id="insightsFilterInner" class="filter-inner">
+      <div class="country-filter-area">
+        <div id="insightsCategoryChips" class="country-chips" role="group" aria-label="경제 이야기 태그 필터"></div>
+      </div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input id="insightsSearchInput" type="search" placeholder="제목, 요약문, 라벨 태그 검색 (예: 환율, 반도체, 금리)" autocomplete="off" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Status Notification Banner -->
+  <div id="toastBanner" class="toast-banner hidden" role="status" aria-live="polite"></div>
+
+  <!-- Main Poster Container -->
+  <main class="page-wrap">
+    <article id="posterSection" class="poster-paper">
+      <!-- Poster Header -->
+      <header class="poster-header">
+        <div class="poster-kicker-row">
+          <span id="posterSubLabel" class="poster-kicker">글로벌 시장 · 거시경제 심층 리포트 &amp; 페이지 큐레이션</span>
+          <time id="posterDateLabel" class="poster-date">2026년 11월 19일</time>
+        </div>
+        <h1 id="posterMainTitle" class="poster-main-title">경제 이야기</h1>
+      </header>
+
+      <!-- ================= GLOBAL TOP 50 CONTENT ================= -->
+      <div id="globalContentWrap" class="hidden">
+        <section id="treemapView" class="treemap-section" aria-label="국가별 시가총액 비대칭 트리맵">
+          <div id="treemapStage" class="treemap-stage">
+            <div id="usColumn" class="treemap-col us-col"></div>
+            <div id="intlColumn" class="treemap-col intl-col"></div>
+          </div>
+          <div id="posterLegend" class="poster-legend"></div>
+        </section>
+
+        <section id="tableView" class="table-section hidden" aria-label="시가총액 상세 순위표">
+          <div id="kpiStrip" class="kpi-strip"></div>
+          <div class="table-scroll">
+            <table id="rankingTable" class="ranking-table">
+              <thead>
+                <tr>
+                  <th data-sort="rank">순위</th>
+                  <th data-sort="name">기업명</th>
+                  <th data-sort="ticker">티커</th>
+                  <th data-sort="country">국가</th>
+                  <th data-sort="marketCapB" class="num">시가총액 (USD)</th>
+                  <th data-sort="krwCap" class="num">원화 환산 추정</th>
+                  <th data-sort="changePct" class="num">일간 등락</th>
+                  <th>상세</th>
+                </tr>
+              </thead>
+              <tbody id="rankingTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- ================= SECTOR CONTENT (S&P 500 & KOSPI 200) ================= -->
+      <div id="sectorContentWrap" class="hidden">
+        <div id="sectorKpiStrip" class="kpi-strip"></div>
+
+        <section id="sectorBarView" class="sector-bar-section" aria-label="섹터별 가로 막대 그래프">
+          <div class="sector-guide-bar">
+            <span class="guide-hint">막대를 클릭하면 각 섹터의 시가총액 <strong>Top 3 대표 기업</strong>이 아래로 펼쳐집니다.</span>
+            <span id="scaleModeNote" class="scale-mode-note">※ 초대형 섹터 편중 완화를 위해 막대 길이가 완만하게 보정(≈)되어 표시됩니다.</span>
+          </div>
+          <div id="sectorBarList" class="sector-bar-list"></div>
+        </section>
+
+        <section id="sectorTableView" class="table-section hidden" aria-label="섹터 요약표">
+          <div class="table-scroll">
+            <table id="sectorTable" class="ranking-table">
+              <thead>
+                <tr>
+                  <th data-sector-sort="rank">순위</th>
+                  <th data-sector-sort="name">섹터명</th>
+                  <th data-sector-sort="count" class="num">종목 수</th>
+                  <th id="thSectorPrimaryCap" data-sector-sort="primaryCap" class="num">섹터 합산 시총 (USD)</th>
+                  <th id="thSectorSecondaryCap" data-sector-sort="secondaryCap" class="num">원화 환산 추정</th>
+                  <th data-sector-sort="weightPct" class="num">지수 내 비중</th>
+                  <th data-sector-sort="changePct" class="num">평균 등락</th>
+                  <th>섹터 내 Top 3 기업</th>
+                </tr>
+              </thead>
+              <tbody id="sectorTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- ================= US & KR ECONOMIC INDICATORS CONTENT ================= -->
+      <div id="macroContentWrap" class="hidden">
+        <div id="macroKpiStrip" class="kpi-strip"></div>
+
+        <!-- 6-Month US & KR 4 Major Stock Indices Sparkline Strip (Option 2) -->
+        <section id="macroIndexSection" class="commodity-strip-section index-strip-section" aria-label="한·미 4대 주가지수 최근 6개월 추이">
+          <div class="commodity-strip-header">
+            <div class="commodity-strip-title">
+              <strong>한·미 4대 주가지수 최근 6개월 추이</strong>
+              <span>S&amp;P 500 · NASDAQ · KOSPI · KOSDAQ — 클릭 시 지수 상세 지표 및 거시 해설 보기</span>
+            </div>
+            <button id="btnHideIndicesInline" type="button" class="btn-ghost commodity-hide-btn" title="주가지수 그래프 영역 숨기기">
+              그래프 숨기기 &times;
+            </button>
+          </div>
+          <div id="macroIndexGrid" class="index-spark-grid"></div>
+        </section>
+
+        <!-- 6-Month Key Commodities Sparkline Strip (Placed right above Policy Rate) -->
+        <section id="macroCommoditySection" class="commodity-strip-section" aria-label="주요 원자재 최근 6개월 시세 추이">
+          <div class="commodity-strip-header">
+            <div class="commodity-strip-title">
+              <strong>핵심 원자재 최근 6개월 추이</strong>
+              <span>금($/oz) · 구리($/lb) · WTI 원유($/bbl) — 클릭 시 표준 미터법(SI) 환산 및 해설 보기</span>
+            </div>
+            <button id="btnHideCommoditiesInline" type="button" class="btn-ghost commodity-hide-btn" title="원자재 그래프 영역 숨기기">
+              그래프 숨기기 &times;
+            </button>
+          </div>
+          <div id="macroCommodityGrid" class="commodity-grid"></div>
+        </section>
+
+        <section id="macroCardsView" class="macro-cards-section" aria-label="한·미 거시지표 나란히 비교 대시보드">
+          <div class="sector-guide-bar">
+            <span class="guide-hint">각 지표를 클릭하면 <strong>경제적 의미와 핵심 해설</strong>을 확인할 수 있습니다.</span>
+            <span class="scale-mode-note">※ 데스크톱은 좌(미국)·우(한국) 나란히, 모바일은 상·하 배치로 표시됩니다.</span>
+          </div>
+          <div id="macroCardList" class="macro-card-list"></div>
+        </section>
+
+        <section id="macroTableView" class="table-section hidden" aria-label="한·미 거시지표 전체 요약표">
+          <div class="table-scroll">
+            <table id="macroTable" class="ranking-table">
+              <thead>
+                <tr>
+                  <th data-macro-sort="category">분류</th>
+                  <th data-macro-sort="name">거시지표명</th>
+                  <th data-macro-sort="usVal" class="num">미국 (US)</th>
+                  <th class="num">미국 직전 대비</th>
+                  <th data-macro-sort="krVal" class="num">대한민국 (KR)</th>
+                  <th class="num">한국 직전 대비</th>
+                  <th>한·미 격차 / 비교</th>
+                  <th>기준 시점</th>
+                  <th>해설</th>
+                </tr>
+              </thead>
+              <tbody id="macroTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- ================= ECONOMIC INSIGHTS CMS CONTENT (insights.html) ================= -->
+      <div id="insightsContentWrap" class="">
+        <div class="sector-guide-bar insights-guide-bar">
+          <span id="insightsCountSummary" class="guide-hint">카드를 클릭하면 연결된 상세 페이지가 <strong>새 탭</strong>에서 열립니다.</span>
+          <span id="insightsSourceNote" class="scale-mode-note">GitHub Issues 연동</span>
+        </div>
+        <section class="insights-grid-section" aria-label="경제 이야기 카드 그리드">
+          <div id="insightsGrid" class="insights-grid"></div>
+        </section>
+      </div>
+
+      <!-- Poster Footer -->
+      <footer class="poster-footer">
+        <div class="poster-footnotes">
+          <p>
+            <span id="posterFootnotePrefix">저장소 공식 등록 아카이브 기준,</span>
+            <strong id="posterBaseDateNote">2026년 11월 19일</strong> 기준 데이터 |
+            <span id="posterFootnoteSource">관리: GitHub Issues 연동 읽기 전용 아카이브 (모든 카드 링크 새 탭 열기)</span>
+          </p>
+        </div>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Floating Tile Tooltip -->
+  <div id="tileTooltip" class="tile-tooltip hidden" role="tooltip"></div>
+
+  <!-- Detail Summary Modal (Shared across Companies & Indicators) -->
+  <div id="companyModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalCompanyTitle">
+    <div class="modal-card">
+      <button id="btnCloseModal" type="button" class="modal-close" aria-label="닫기">&times;</button>
+      <div id="modalHeaderBadge" class="modal-badge-row"></div>
+      <h2 id="modalCompanyTitle" class="modal-title"></h2>
+      <p id="modalCompanySub" class="modal-sub"></p>
+
+      <div id="modalMetricsGrid" class="modal-metrics"></div>
+
+      <div class="modal-briefing-box">
+        <div class="briefing-header">
+          <strong id="modalBriefingHeading">기업 핵심 요약</strong>
+        </div>
+        <div id="modalBriefingContent" class="briefing-body"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Shared Application Script -->
+  <script src="./app.js?v=19" defer></script>
+</body>
+</html>

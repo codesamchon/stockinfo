@@ -25,7 +25,7 @@
   <!-- D3.js v7 -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
   <!-- Shared Stylesheet -->
-  <link rel="stylesheet" href="./style.css?v=18" />
+  <link rel="stylesheet" href="./style.css?v=19" />
 </head>
 <body data-page="macro">
   <!-- Top Interactive Control Bar -->
@@ -37,6 +37,7 @@
           <a id="navSp500" data-target-page="sp500" href="./sp500.html" class="seg-btn">S&amp;P 500 섹터</a>
           <a id="navKospi200" data-target-page="kospi200" href="./kospi200.html" class="seg-btn">KOSPI 200 섹터</a>
           <a id="navMacro" data-target-page="macro" class="seg-btn active is-disabled" aria-current="page" aria-disabled="true" tabindex="-1">거시 지표</a>
+          <a id="navInsights" data-target-page="insights" href="./insights.html" class="seg-btn">경제 이야기</a>
         </nav>
 
         <span id="syncStatusBadge" class="sync-badge synced">
@@ -62,6 +63,22 @@
         <div id="macroViewGroup" class="segmented" role="group" aria-label="거시지표 화면 보기 방식">
           <button id="btnViewMacroCards" type="button" class="seg-btn active">비교 대시보드</button>
           <button id="btnViewMacroTable" type="button" class="seg-btn">전체 요약표</button>
+        </div>
+
+        <!-- Insights Page Sort & Refresh Buttons -->
+        <div id="insightsViewGroup" class="insights-view-tools hidden" role="group" aria-label="경제 이야기 정렬 및 새로고침">
+          <div class="segmented">
+            <button id="btnInsightsNewest" type="button" class="seg-btn active">최신순</button>
+            <button id="btnInsightsOldest" type="button" class="seg-btn">등록순</button>
+          </div>
+          <button id="btnRefreshInsights" type="button" class="btn-ghost btn-insights-refresh" title="GitHub Issues 최신 글 즉시 불러오기">
+            <svg class="refresh-icon" viewBox="0 0 24 24" width="13.5" height="13.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+            <span>새로고침</span>
+          </button>
         </div>
 
         <button id="btnThemeToggle" type="button" class="btn-ghost btn-theme-toggle" aria-pressed="false" title="라이트/다크 모드 전환">
@@ -148,6 +165,19 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
         <input id="macroSearchInput" type="search" placeholder="지표명, 영문 약어 검색 (예: 국채금리, CPI, PPI, 실업률, GDP)" autocomplete="off" />
+      </div>
+    </div>
+    <!-- Insights Filter Row -->
+    <div id="insightsFilterInner" class="filter-inner hidden">
+      <div class="country-filter-area">
+        <div id="insightsCategoryChips" class="country-chips" role="group" aria-label="경제 이야기 태그 필터"></div>
+      </div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input id="insightsSearchInput" type="search" placeholder="제목, 요약문, 라벨 태그 검색 (예: 환율, 반도체, 금리)" autocomplete="off" />
       </div>
     </div>
   </header>
@@ -294,6 +324,17 @@
         </section>
       </div>
 
+      <!-- ================= ECONOMIC INSIGHTS CMS CONTENT (insights.html) ================= -->
+      <div id="insightsContentWrap" class="hidden">
+        <div class="sector-guide-bar insights-guide-bar">
+          <span id="insightsCountSummary" class="guide-hint">카드를 클릭하면 연결된 상세 페이지가 <strong>새 탭</strong>에서 열립니다.</span>
+          <span id="insightsSourceNote" class="scale-mode-note">GitHub Issues 연동</span>
+        </div>
+        <section class="insights-grid-section" aria-label="경제 이야기 카드 그리드">
+          <div id="insightsGrid" class="insights-grid"></div>
+        </section>
+      </div>
+
       <!-- Poster Footer -->
       <footer class="poster-footer">
         <div class="poster-footnotes">
@@ -331,6 +372,6 @@
 
 
   <!-- Shared Application Script -->
-  <script src="./app.js?v=18" defer></script>
+  <script src="./app.js?v=19" defer></script>
 </body>
 </html>

@@ -71,6 +71,14 @@
       footnotePrefix: "각국 중앙은행·통계청 최근 공식 발표치 및 시장 기준금리·환율 데이터,",
       footnoteSource: "출처: 미 연준(Fed)·노동통계국(BLS)·상무부(BEA), 한국은행(BOK)·통계청(KOSTAT)",
       href: "./macro.html"
+    },
+    insights: {
+      docTitle: "경제 이야기 | 글로벌 시장·거시경제 인사이트 아카이브",
+      kicker: "글로벌 시장 · 거시경제 심층 리포트 & 페이지 큐레이션",
+      mainTitle: "경제 이야기",
+      footnotePrefix: "저장소 공식 등록 아카이브 기준,",
+      footnoteSource: "관리: GitHub Issues 연동 읽기 전용 아카이브 (모든 카드 링크 새 탭 열기)",
+      href: "./insights.html"
     }
   };
 
@@ -975,7 +983,7 @@
   ];
 
   function normalizePageType(raw) {
-    if (raw === "sp500" || raw === "kospi200" || raw === "macro") return raw;
+    if (raw === "sp500" || raw === "kospi200" || raw === "macro" || raw === "insights") return raw;
     return "global";
   }
 
@@ -1031,6 +1039,13 @@
     macroSearchQuery: "",
     macroSortKey: "default",
     macroSortDir: "asc",
+    insightsItems: [],
+    insightsLoaded: false,
+    insightsLoading: false,
+    insightsSourceNote: "GitHub Issues 실시간 연동",
+    insightsSelectedLabel: "ALL",
+    insightsSearchQuery: "",
+    insightsSortOrder: "newest",
     activeCompanyObj: null,
     activeMacroObj: null,
     baseDateObj: new Date(),
@@ -1385,7 +1400,8 @@
       { id: "navGlobal", page: "global" },
       { id: "navSp500", page: "sp500" },
       { id: "navKospi200", page: "kospi200" },
-      { id: "navMacro", page: "macro" }
+      { id: "navMacro", page: "macro" },
+      { id: "navInsights", page: "insights" }
     ];
 
     navItems.forEach(({ id, page }) => {
@@ -1409,6 +1425,7 @@
     const isGlobal = state.currentPage === "global";
     const isSector = state.currentPage === "sp500" || state.currentPage === "kospi200";
     const isMacro = state.currentPage === "macro";
+    const isInsights = state.currentPage === "insights";
 
     document.getElementById("globalViewGroup")?.classList.toggle("hidden", !isGlobal);
     document.getElementById("globalFilterInner")?.classList.toggle("hidden", !isGlobal);
@@ -1421,6 +1438,22 @@
     document.getElementById("macroViewGroup")?.classList.toggle("hidden", !isMacro);
     document.getElementById("macroFilterInner")?.classList.toggle("hidden", !isMacro);
     document.getElementById("macroContentWrap")?.classList.toggle("hidden", !isMacro);
+
+    document.getElementById("insightsViewGroup")?.classList.toggle("hidden", !isInsights);
+    document.getElementById("insightsFilterInner")?.classList.toggle("hidden", !isInsights);
+    document.getElementById("insightsContentWrap")?.classList.toggle("hidden", !isInsights);
+
+    if (isInsights) {
+      document.getElementById("btnInsightsNewest")?.classList.toggle("active", state.insightsSortOrder === "newest");
+      document.getElementById("btnInsightsOldest")?.classList.toggle("active", state.insightsSortOrder === "oldest");
+      const iSearch = document.getElementById("insightsSearchInput");
+      if (iSearch && iSearch.value !== state.insightsSearchQuery) {
+        iSearch.value = state.insightsSearchQuery;
+      }
+      if (!state.insightsLoaded && !state.insightsLoading) {
+        loadInsightsData(false);
+      }
+    }
 
     if (isMacro) {
       syncIndexToggleUI();
@@ -3330,10 +3363,514 @@
     updateAllViews();
   }
 
+  // =========================================================
+  // ECONOMIC INSIGHTS CMS ENGINE (insights.html - GitHub Issues + Static JSON Backup)
+  // =========================================================
+  const INSIGHTS_DEFAULT_OWNER = "codesamchon";
+  const INSIGHTS_DEFAULT_REPO = "stockinfo";
+  const INSIGHTS_CACHE_KEY = "VC_INSIGHTS_CACHE_V19";
+  const INSIGHTS_CACHE_TTL_MS = 180 * 1000; // 3-minute session cache
+
+  const COVER_ACCENT_PALETTE = [
+    ["#1E3A8A", "#3B6FD8"],
+    ["#134E4A", "#259B8E"],
+    ["#4C1D95", "#7C58C9"],
+    ["#7C2D12", "#D96B27"],
+    ["#831843", "#D64D73"],
+    ["#1E293B", "#475569"]
+  ];
+
+  function resolveRepoCoordinates() {
+    try {
+      const host = window.location.hostname.toLowerCase();
+      if (host.endsWith(".github.io")) {
+        const subOwner = host.replace(".github.io", "");
+        const segs = window.location.pathname.split("/").filter(Boolean);
+        const firstSeg = segs[0] && !segs[0].endsWith(".html") ? segs[0] : INSIGHTS_DEFAULT_REPO;
+        if (subOwner && firstSeg) {
+          return { owner: subOwner, repo: firstSeg };
+        }
+      }
+    } catch (_e) {
+      // Fallback to default repo coordinates
+    }
+    return { owner: INSIGHTS_DEFAULT_OWNER, repo: INSIGHTS_DEFAULT_REPO };
+  }
+
+  function escapeHtmlText(raw) {
+    return String(raw ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function extractThumbFromIssueBody(body) {
+    if (!body) return "";
+    const mdMatch = body.match(/!\[[^\]]*\]\(\s*([^\s)]+)(?:\s+['"][^'"]*['"])?\s*\)/);
+    if (mdMatch && mdMatch[1]) {
+      const u = mdMatch[1].trim();
+      if (!/^(javascript|data|vbscript):/i.test(u)) return u;
+    }
+    const imgMatch = body.match(/<img\b[^>]*?\bsrc=['"]([^'"]+)['"]/i);
+    if (imgMatch && imgMatch[1]) {
+      const u = imgMatch[1].trim();
+      if (!/^(javascript|data|vbscript):/i.test(u)) return u;
+    }
+    return "";
+  }
+
+  function parseLineAsTargetUrl(line) {
+    let s = String(line || "").trim();
+    if (!s) return "";
+    s = s.replace(/^(?:링크|주소|url|link)\s*[:：]\s*/i, "").trim();
+
+    const angleMatch = s.match(/^<([^>\s]+)>$/);
+    if (angleMatch) s = angleMatch[1].trim();
+
+    const mdLink = s.match(/^\[[^\]]*\]\(\s*([^\s)]+)(?:\s+['"][^'"]*['"])?\s*\)$/);
+    if (mdLink) s = mdLink[1].trim();
+
+    if (/^(javascript|data|vbscript):/i.test(s)) return "";
+    if (/^(https?:\/\/|\.\/|\.\.\/|\/)/i.test(s) && !/\s/.test(s)) {
+      return s;
+    }
+    if (/^[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*\.html?(?:[?#][^\s]*)?$/.test(s)) {
+      return `./${s}`;
+    }
+    return "";
+  }
+
+  function cleanIssueMarkdownText(text) {
+    return String(text || "")
+      .replace(/```[\s\S]*?```/g, " ")
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/^[#>*\-\s]+/gm, "")
+      .replace(/[*_~]+/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function parseGithubIssueClient(issue, expectedOwner) {
+    if (!issue || typeof issue !== "object") return null;
+    if (issue.pull_request) return null;
+    if (String(issue.state || "").toLowerCase() !== "open") return null;
+
+    const login = String(issue.user?.login || "").trim().toLowerCase();
+    const assoc = String(issue.author_association || "").toUpperCase();
+    if (login !== expectedOwner.toLowerCase() && assoc !== "OWNER") {
+      return null;
+    }
+
+    const rawBody = String(issue.body || "");
+    const thumbnailUrl = extractThumbFromIssueBody(rawBody);
+
+    const stripped = rawBody
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+      .replace(/<img\b[^>]*>/gi, "");
+
+    const lines = stripped
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+
+    let linkUrl = "";
+    let summaryLines = lines;
+    if (lines.length > 0) {
+      const detected = parseLineAsTargetUrl(lines[0]);
+      if (detected) {
+        linkUrl = detected;
+        summaryLines = lines.slice(1);
+      }
+    }
+
+    const issueUrl = String(issue.html_url || "");
+    const finalUrl = linkUrl || issueUrl;
+    let summary = cleanIssueMarkdownText(summaryLines.join(" "));
+    if (summary.length > 220) {
+      summary = `${summary.slice(0, 217).trimEnd()}...`;
+    }
+
+    const labels = Array.isArray(issue.labels)
+      ? issue.labels
+          .filter((l) => l && l.name)
+          .map((l) => {
+            const hex = String(l.color || "").replace(/[^0-9a-fA-F]/g, "");
+            return {
+              name: String(l.name).trim(),
+              color: hex.length >= 6 ? `#${hex.slice(0, 6)}` : "#3B6FD8"
+            };
+          })
+      : [];
+
+    return {
+      id: issue.id,
+      number: issue.number,
+      title: String(issue.title || "").trim(),
+      linkUrl: finalUrl,
+      hasCustomLink: Boolean(linkUrl),
+      issueUrl,
+      thumbnailUrl,
+      summary,
+      labels,
+      createdAt: String(issue.created_at || ""),
+      updatedAt: String(issue.updated_at || "")
+    };
+  }
+
+  function readInsightsSessionCache() {
+    try {
+      const raw = window.sessionStorage.getItem(INSIGHTS_CACHE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed.ts !== "number" || !Array.isArray(parsed.items)) return null;
+      if (Date.now() - parsed.ts > INSIGHTS_CACHE_TTL_MS) return null;
+      return parsed;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  function writeInsightsSessionCache(items, sourceNote) {
+    try {
+      window.sessionStorage.setItem(
+        INSIGHTS_CACHE_KEY,
+        JSON.stringify({ ts: Date.now(), items, sourceNote })
+      );
+    } catch (_e) {
+      // Ignore sessionStorage restrictions
+    }
+  }
+
+  async function fetchStaticInsightsBackup() {
+    const cacheBust = Math.floor(Date.now() / 60000);
+    const resp = await fetch(`./data/insights.json?v=${cacheBust}`, { cache: "no-store" });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    if (!data || !Array.isArray(data.items)) throw new Error("Invalid backup schema");
+    return data;
+  }
+
+  async function loadInsightsData(forceRefresh = false) {
+    if (state.insightsLoading) return;
+    state.insightsLoading = true;
+
+    const refreshBtn = document.getElementById("btnRefreshInsights");
+    refreshBtn?.classList.add("is-spinning");
+
+    if (!forceRefresh) {
+      const cached = readInsightsSessionCache();
+      if (cached) {
+        state.insightsItems = cached.items;
+        state.insightsSourceNote = cached.sourceNote || "GitHub Issues 실시간 연동";
+        state.insightsLoaded = true;
+        state.insightsLoading = false;
+        refreshBtn?.classList.remove("is-spinning");
+        if (state.currentPage === "insights") updateAllViews();
+        return;
+      }
+    }
+
+    const { owner, repo } = resolveRepoCoordinates();
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/issues?state=open&creator=${owner}&per_page=100`;
+
+    let loadedFromLiveApi = false;
+    try {
+      const resp = await fetch(apiUrl, {
+        headers: { Accept: "application/vnd.github+json" },
+        cache: forceRefresh ? "no-store" : "default"
+      });
+
+      if (resp.ok) {
+        const rawIssues = await resp.json();
+        if (Array.isArray(rawIssues)) {
+          const parsedList = rawIssues
+            .map((iss) => parseGithubIssueClient(iss, owner))
+            .filter((item) => item && item.title);
+
+          state.insightsItems = parsedList;
+          state.insightsSourceNote = "GitHub Issues 실시간 연동 (모든 링크 새 탭 열기)";
+          state.insightsLoaded = true;
+          loadedFromLiveApi = true;
+          writeInsightsSessionCache(parsedList, state.insightsSourceNote);
+          if (forceRefresh) {
+            showToast(`최신 경제 이야기 ${parsedList.length}건을 불러왔습니다.`);
+          }
+        }
+      }
+    } catch (_apiErr) {
+      // Proceed to static backup JSON fallback
+    }
+
+    // Dual-Safety Fallback: Unlimited static ./data/insights.json (protects against 60/hr IP rate limit)
+    if (!loadedFromLiveApi) {
+      try {
+        const backup = await fetchStaticInsightsBackup();
+        state.insightsItems = backup.items.filter(
+          (item) => item && item.title && !/^(javascript|data):/i.test(String(item.linkUrl || ""))
+        );
+        state.insightsSourceNote = backup.updatedLabel
+          ? `백업 캐시 연동 (${backup.updatedLabel})`
+          : "정적 백업 데이터 연동";
+        state.insightsLoaded = true;
+        writeInsightsSessionCache(state.insightsItems, state.insightsSourceNote);
+        if (forceRefresh) {
+          showToast("GitHub API 호출 한도 보호를 위해 정적 백업 아카이브에서 불러왔습니다.");
+        }
+      } catch (_backupErr) {
+        state.insightsLoaded = true;
+        state.insightsSourceNote = "연동 대기 중";
+      }
+    }
+
+    state.insightsLoading = false;
+    refreshBtn?.classList.remove("is-spinning");
+    if (state.currentPage === "insights") {
+      updateAllViews();
+    }
+  }
+
+  function formatInsightShortDate(isoStr) {
+    if (!isoStr) return "";
+    const d = new Date(isoStr);
+    if (Number.isNaN(d.getTime())) return "";
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}.${m}.${day}`;
+  }
+
+  function formatLinkDisplayHost(urlStr) {
+    if (!urlStr) return "상세 페이지";
+    try {
+      const u = new URL(urlStr, window.location.href);
+      if (u.origin === window.location.origin) {
+        const cleanPath = u.pathname.split("/").filter(Boolean).pop() || u.pathname;
+        return `내부 페이지 · ${cleanPath}`;
+      }
+      return u.hostname.replace(/^www\./, "");
+    } catch (_e) {
+      return urlStr;
+    }
+  }
+
+  function matchesInsightsFilter(item) {
+    if (state.insightsSelectedLabel !== "ALL") {
+      const hasLbl = Array.isArray(item.labels) && item.labels.some((l) => l.name === state.insightsSelectedLabel);
+      if (!hasLbl) return false;
+    }
+    const q = state.insightsSearchQuery.trim().toLowerCase();
+    if (!q) return true;
+    const labelText = Array.isArray(item.labels) ? item.labels.map((l) => l.name).join(" ") : "";
+    const hay = `${item.title} ${item.summary} ${labelText}`.toLowerCase();
+    return hay.includes(q);
+  }
+
+  function renderInsightsCategoryChips(allItems) {
+    const wrap = document.getElementById("insightsCategoryChips");
+    if (!wrap) return;
+
+    const labelCounts = new Map();
+    const labelColors = new Map();
+
+    allItems.forEach((item) => {
+      (item.labels || []).forEach((lbl) => {
+        labelCounts.set(lbl.name, (labelCounts.get(lbl.name) || 0) + 1);
+        if (!labelColors.has(lbl.name)) {
+          labelColors.set(lbl.name, lbl.color || "#3B6FD8");
+        }
+      });
+    });
+
+    if (state.insightsSelectedLabel !== "ALL" && !labelCounts.has(state.insightsSelectedLabel)) {
+      state.insightsSelectedLabel = "ALL";
+    }
+
+    const chips = [
+      {
+        key: "ALL",
+        label: `전체 (${allItems.length})`,
+        color: "var(--all-swatch)",
+        active: state.insightsSelectedLabel === "ALL"
+      },
+      ...Array.from(labelCounts.entries()).map(([name, cnt]) => ({
+        key: name,
+        label: `${name} (${cnt})`,
+        color: labelColors.get(name) || "#3B6FD8",
+        active: state.insightsSelectedLabel === name
+      }))
+    ];
+
+    wrap.innerHTML = chips
+      .map(
+        (c) => `<button type="button" class="chip ${c.active ? "active" : ""}" data-insight-lbl="${escapeHtmlText(c.key)}" aria-pressed="${c.active}">
+          <span class="chip-swatch" style="background:${escapeHtmlText(c.color)}"></span>
+          <span>${escapeHtmlText(c.label)}</span>
+        </button>`
+      )
+      .join("");
+
+    wrap.querySelectorAll(".chip").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-insight-lbl") || "ALL";
+        state.insightsSelectedLabel = state.insightsSelectedLabel === key && key !== "ALL" ? "ALL" : key;
+        updateAllViews();
+      });
+    });
+  }
+
+  function renderInsightsPage() {
+    const allItems = state.insightsItems.slice();
+    renderInsightsCategoryChips(allItems);
+
+    const countEl = document.getElementById("insightsCountSummary");
+    const noteEl = document.getElementById("insightsSourceNote");
+    const gridEl = document.getElementById("insightsGrid");
+    if (!gridEl) return;
+
+    if (noteEl) {
+      noteEl.textContent = state.insightsLoading ? "최신 글 동기화 중..." : state.insightsSourceNote;
+    }
+
+    const filtered = allItems.filter(matchesInsightsFilter);
+    filtered.sort((a, b) => {
+      const tA = new Date(a.createdAt || 0).getTime() || (a.number || 0);
+      const tB = new Date(b.createdAt || 0).getTime() || (b.number || 0);
+      return state.insightsSortOrder === "oldest" ? tA - tB : tB - tA;
+    });
+
+    if (countEl) {
+      countEl.innerHTML =
+        allItems.length > 0
+          ? `총 <strong>${filtered.length}개</strong>의 경제 이야기 · 카드를 클릭하면 연결된 페이지가 <strong>새 탭</strong>에서 열립니다.`
+          : `카드를 클릭하면 연결된 상세 페이지가 <strong>새 탭</strong>에서 열립니다.`;
+    }
+
+    if (state.insightsLoading && !state.insightsLoaded) {
+      gridEl.innerHTML = `<div class="insights-empty-card">
+        <h3>경제 이야기 목록을 불러오는 중입니다...</h3>
+        <p>잠시만 기다려 주세요.</p>
+      </div>`;
+      return;
+    }
+
+    const { owner, repo } = resolveRepoCoordinates();
+
+    if (allItems.length === 0) {
+      const newIssueUrl = `https://github.com/${owner}/${repo}/issues/new`;
+      gridEl.innerHTML = `
+        <div class="insights-empty-card">
+          <h3>아직 등록된 경제 이야기 카드가 없습니다</h3>
+          <p>저장소 소유자(<strong>${escapeHtmlText(owner)}</strong>) 계정으로 GitHub Issue를 작성하면 이 그리드에 카드가 자동 생성됩니다. (일반 방문자는 읽기만 가능)</p>
+          <div class="insights-howto-box">
+            <strong>3초 카드 등록 규칙 (Open 상태 이슈만 표시 · Close 시 즉시 숨김)</strong><br />
+            1. <strong>이슈 제목:</strong> 카드 제목으로 표시됩니다.<br />
+            2. <strong>Labels 선택:</strong> 상단 카테고리 필터 버튼과 컬러 배지로 자동 생성됩니다.<br />
+            3. <strong>본문 첫 줄:</strong> 이동할 페이지 주소 입력 (예: <code>./pages/report1.html</code> 또는 <code>https://...</code>)<br />
+            4. <strong>둘째 줄부터:</strong> 카드 요약문 작성 (이미지 드래그 첨부 시 상단 썸네일로 자동 적용)
+          </div>
+          <a href="${escapeHtmlText(newIssueUrl)}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration:none;margin-top:4px">
+            GitHub Issues에서 첫 카드 작성하기 &#8599;
+          </a>
+        </div>
+      `;
+      return;
+    }
+
+    if (filtered.length === 0) {
+      gridEl.innerHTML = `<div class="insights-empty-card">
+        <h3>검색 조건에 일치하는 경제 이야기가 없습니다</h3>
+        <p>다른 검색어를 입력하거나 상단 라벨 필터를 '전체'로 변경해 보세요.</p>
+      </div>`;
+      return;
+    }
+
+    gridEl.innerHTML = filtered
+      .map((item, idx) => {
+        const primaryLbl = item.labels?.[0];
+        const palettePair = COVER_ACCENT_PALETTE[(item.number || idx) % COVER_ACCENT_PALETTE.length];
+        const gradBg = primaryLbl
+          ? `linear-gradient(135deg, #182232 0%, ${escapeHtmlText(primaryLbl.color)} 100%)`
+          : `linear-gradient(135deg, ${palettePair[0]} 0%, ${palettePair[1]} 100%)`;
+
+        const coverBadgeText = primaryLbl ? primaryLbl.name : "ECONOMIC INSIGHT";
+        const autoCoverHTML = `
+          <div class="insight-auto-cover" style="background:${gradBg}">
+            <div class="insight-cover-top">
+              <span class="insight-cover-badge">${escapeHtmlText(coverBadgeText)}</span>
+              <span>#${escapeHtmlText(item.number || idx + 1)}</span>
+            </div>
+            <div class="insight-cover-headline">${escapeHtmlText(item.title)}</div>
+          </div>
+        `;
+
+        const thumbInnerHTML = item.thumbnailUrl
+          ? `<img class="insight-thumb-img" src="${escapeHtmlText(item.thumbnailUrl)}" alt="${escapeHtmlText(item.title)}" loading="lazy" />
+             <div class="insight-auto-cover hidden" style="background:${gradBg}">
+               <div class="insight-cover-top">
+                 <span class="insight-cover-badge">${escapeHtmlText(coverBadgeText)}</span>
+                 <span>#${escapeHtmlText(item.number || idx + 1)}</span>
+               </div>
+               <div class="insight-cover-headline">${escapeHtmlText(item.title)}</div>
+             </div>`
+          : autoCoverHTML;
+
+        const tagsHTML =
+          item.labels && item.labels.length > 0
+            ? item.labels
+                .map(
+                  (l) =>
+                    `<span class="insight-label-pill" style="background:${escapeHtmlText(l.color)}">${escapeHtmlText(l.name)}</span>`
+                )
+                .join("")
+            : `<span class="insight-label-pill" style="background:#475569">경제 브리핑</span>`;
+
+        const summaryText =
+          item.summary || "카드를 클릭하면 새 탭에서 해당 상세 리포트 페이지로 이동합니다.";
+
+        return `
+          <a class="insight-card" href="${escapeHtmlText(item.linkUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtmlText(item.title)} (새 탭에서 열기)">
+            <div class="insight-thumb-wrap">
+              ${thumbInnerHTML}
+            </div>
+            <div class="insight-card-body">
+              <div class="insight-meta-row">
+                <div class="insight-tags-row">${tagsHTML}</div>
+                <time class="insight-date">${escapeHtmlText(formatInsightShortDate(item.createdAt))}</time>
+              </div>
+              <h2 class="insight-card-title">${escapeHtmlText(item.title)}</h2>
+              <p class="insight-card-summary">${escapeHtmlText(summaryText)}</p>
+              <div class="insight-card-footer">
+                <span class="insight-link-host">${escapeHtmlText(formatLinkDisplayHost(item.linkUrl))}</span>
+                <span class="insight-open-cta">새 탭 열기 &#8599;</span>
+              </div>
+            </div>
+          </a>
+        `;
+      })
+      .join("");
+
+    // Graceful image error fallback to typographic cover
+    gridEl.querySelectorAll(".insight-thumb-img").forEach((imgEl) => {
+      imgEl.addEventListener("error", () => {
+        imgEl.classList.add("hidden");
+        imgEl.nextElementSibling?.classList.remove("hidden");
+      });
+    });
+  }
+
   // Master Render Orchestrator
   function updateAllViews() {
     renderHeaderAndFootnotes();
     renderTopMarketIndexBar();
+
+    if (state.currentPage === "insights") {
+      renderInsightsPage();
+      return;
+    }
 
     if (state.currentPage === "macro") {
       const allMacro = getEffectiveMacroIndicators();
@@ -3399,7 +3936,7 @@
   // Event Listeners Binding
   function bindEvents() {
     // Top Page Navigation (Seamless instant switch + disabled self-link)
-    ["navGlobal", "navSp500", "navKospi200", "navMacro"].forEach((id) => {
+    ["navGlobal", "navSp500", "navKospi200", "navMacro", "navInsights"].forEach((id) => {
       document.getElementById(id)?.addEventListener("click", (ev) => {
         const targetPage = ev.currentTarget.getAttribute("data-target-page");
         if (!targetPage || targetPage === state.currentPage) {
@@ -3424,6 +3961,8 @@
         switchPage("kospi200", false);
       } else if (window.location.pathname.endsWith("macro.html")) {
         switchPage("macro", false);
+      } else if (window.location.pathname.endsWith("insights.html")) {
+        switchPage("insights", false);
       } else {
         switchPage("global", false);
       }
@@ -3608,6 +4147,30 @@
         }
         updateAllViews();
       });
+    });
+
+    // Insights CMS Page Controls
+    document.getElementById("btnInsightsNewest")?.addEventListener("click", () => {
+      state.insightsSortOrder = "newest";
+      document.getElementById("btnInsightsNewest")?.classList.add("active");
+      document.getElementById("btnInsightsOldest")?.classList.remove("active");
+      updateAllViews();
+    });
+
+    document.getElementById("btnInsightsOldest")?.addEventListener("click", () => {
+      state.insightsSortOrder = "oldest";
+      document.getElementById("btnInsightsOldest")?.classList.add("active");
+      document.getElementById("btnInsightsNewest")?.classList.remove("active");
+      updateAllViews();
+    });
+
+    document.getElementById("btnRefreshInsights")?.addEventListener("click", () => {
+      loadInsightsData(true);
+    });
+
+    document.getElementById("insightsSearchInput")?.addEventListener("input", (ev) => {
+      state.insightsSearchQuery = ev.target.value || "";
+      updateAllViews();
     });
 
     // Modals & Resize

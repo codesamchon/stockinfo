@@ -1629,6 +1629,13 @@ def main():
 
     print(f"[INFO] Wrote {OUT_PATH} successfully ({len(companies_out)} dynamic listed Top 50 firms).")
 
+    # 7. Also refresh static backup data/insights.json for insights.html ("경제 이야기")
+    try:
+        from sync_insights import sync_insights_json
+        sync_insights_json()
+    except Exception as ins_exc:
+        print(f"[WARN] Optional insights.json backup sync skipped: {ins_exc}")
+
 
 if __name__ == "__main__":
     main()
