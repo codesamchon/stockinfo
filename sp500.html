@@ -25,7 +25,7 @@
   <!-- D3.js v7 -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
   <!-- Shared Stylesheet -->
-  <link rel="stylesheet" href="./style.css?v=16" />
+  <link rel="stylesheet" href="./style.css?v=17" />
 </head>
 <body data-page="sp500">
   <!-- Top Interactive Control Bar -->
@@ -84,6 +84,15 @@
       </div>
     </div>
 
+    <!-- Live Major Market Indices Slim Ticker Bar (Option 1: Visible across all 4 pages) -->
+    <div id="marketIndexBar" class="market-index-bar" role="region" aria-label="한·미 4대 주요 주가지수 및 원/달러 환율 실시간 현황">
+      <span class="index-bar-kicker">
+        <span class="index-live-dot"></span>
+        <span>주요 지수</span>
+      </span>
+      <div id="marketIndexStrip" class="market-index-strip"></div>
+    </div>
+
     <!-- Global Filter Row -->
     <div id="globalFilterInner" class="filter-inner hidden">
       <div class="country-filter-area">
@@ -130,6 +139,9 @@
     <div id="macroFilterInner" class="filter-inner hidden">
       <div class="country-filter-area">
         <div id="macroCategoryChips" class="country-chips" role="group" aria-label="거시지표 분류 필터"></div>
+        <button id="btnToggleIndices" type="button" class="btn-country-toggle" aria-pressed="true" title="S&amp;P 500·나스닥·코스피·코스닥 최근 6개월 추이 그래프 보이기/숨기기">
+          <span id="toggleIndicesLabel">주가지수 그래프 숨기기</span>
+        </button>
         <button id="btnToggleCommodities" type="button" class="btn-country-toggle" aria-pressed="true" title="금·구리·원유 최근 6개월 그래프 보이기/숨기기">
           <span id="toggleCommoditiesLabel">원자재 그래프 숨기기</span>
         </button>
@@ -228,6 +240,20 @@
       <div id="macroContentWrap" class="hidden">
         <div id="macroKpiStrip" class="kpi-strip"></div>
 
+        <!-- 6-Month US & KR 4 Major Stock Indices Sparkline Strip (Option 2) -->
+        <section id="macroIndexSection" class="commodity-strip-section index-strip-section" aria-label="한·미 4대 주가지수 최근 6개월 추이">
+          <div class="commodity-strip-header">
+            <div class="commodity-strip-title">
+              <strong>한·미 4대 주가지수 최근 6개월 추이</strong>
+              <span>S&amp;P 500 · NASDAQ · KOSPI · KOSDAQ — 클릭 시 지수 상세 지표 및 거시 해설 보기</span>
+            </div>
+            <button id="btnHideIndicesInline" type="button" class="btn-ghost commodity-hide-btn" title="주가지수 그래프 영역 숨기기">
+              그래프 숨기기 &times;
+            </button>
+          </div>
+          <div id="macroIndexGrid" class="index-spark-grid"></div>
+        </section>
+
         <!-- 6-Month Key Commodities Sparkline Strip (Placed right above Policy Rate) -->
         <section id="macroCommoditySection" class="commodity-strip-section" aria-label="주요 원자재 최근 6개월 시세 추이">
           <div class="commodity-strip-header">
@@ -309,6 +335,6 @@
 
 
   <!-- Shared Application Script -->
-  <script src="./app.js?v=16" defer></script>
+  <script src="./app.js?v=17" defer></script>
 </body>
 </html>

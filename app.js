@@ -495,6 +495,134 @@
     }
   ];
 
+  // 4 Major US & KR Stock Market Indices Dataset (Option 1 Top Ticker Bar + Option 2 Macro 6M Sparklines)
+  const INITIAL_MARKET_INDICES = [
+    {
+      id: "idx_sp500",
+      shortName: "S&P 500",
+      koName: "S&P 500 대형주",
+      enName: "S&P 500 Index",
+      ticker: "^GSPC",
+      country: "US",
+      color: "#3B6FD8",
+      decimals: 2,
+      targetPage: "sp500",
+      exchange: "미국 NYSE · NASDAQ 대형주 500종목",
+      price: 6012.45,
+      changePts: 22.84,
+      changePct: 0.38,
+      history: [
+        { label: "26.06 초", val: 5492.4 },
+        { label: "26.06 말", val: 5560.8 },
+        { label: "26.07 초", val: 5634.2 },
+        { label: "26.07 말", val: 5588.5 },
+        { label: "26.08 초", val: 5512.9 },
+        { label: "26.08 말", val: 5695.3 },
+        { label: "26.09 초", val: 5718.6 },
+        { label: "26.09 말", val: 5814.0 },
+        { label: "26.10 초", val: 5865.7 },
+        { label: "26.10 중", val: 5932.1 },
+        { label: "26.10 말", val: 5905.4 },
+        { label: "26.11 초", val: 5978.2 },
+        { label: "26.11 현재", val: 6012.45 }
+      ],
+      summary: "미국 증시에 상장된 시가총액 상위 500개 우량 대기업을 포괄하는 글로벌 대표 벤치마크 지수입니다. 정보기술(AI·클라우드)·금융·헬스케어 비중이 높으며 글로벌 기관 자금의 핵심 기준점 역할을 합니다."
+    },
+    {
+      id: "idx_nasdaq",
+      shortName: "NASDAQ",
+      koName: "나스닥 종합",
+      enName: "NASDAQ Composite",
+      ticker: "^IXIC",
+      country: "US",
+      color: "#7C58C9",
+      decimals: 2,
+      targetPage: "macro",
+      exchange: "미국 NASDAQ 기술·성장주 중심 종합지수",
+      price: 19348.60,
+      changePts: 118.40,
+      changePct: 0.62,
+      history: [
+        { label: "26.06 초", val: 17320.5 },
+        { label: "26.06 말", val: 17785.2 },
+        { label: "26.07 초", val: 18140.8 },
+        { label: "26.07 말", val: 17860.4 },
+        { label: "26.08 초", val: 17495.0 },
+        { label: "26.08 말", val: 18190.6 },
+        { label: "26.09 초", val: 18310.2 },
+        { label: "26.09 말", val: 18680.9 },
+        { label: "26.10 초", val: 18895.4 },
+        { label: "26.10 중", val: 19180.7 },
+        { label: "26.10 말", val: 19042.3 },
+        { label: "26.11 초", val: 19230.2 },
+        { label: "26.11 현재", val: 19348.60 }
+      ],
+      summary: "애플·엔비디아·마이크로소프트·알파벳·앤트로픽·스페이스X 등 글로벌 빅테크와 AI 반도체·소프트웨어 혁신 기업들이 집중된 기술주 대표 지수입니다. 미국 국채 금리(할인율) 변화와 AI 설비투자 사이클에 민감하게 반응합니다."
+    },
+    {
+      id: "idx_kospi",
+      shortName: "KOSPI",
+      koName: "코스피 종합",
+      enName: "KOSPI Composite",
+      ticker: "KOSPI",
+      country: "KR",
+      color: "#259B8E",
+      decimals: 2,
+      targetPage: "kospi200",
+      exchange: "한국거래소(KRX) 유가증권시장 종합주가지수",
+      price: 2684.50,
+      changePts: 16.25,
+      changePct: 0.61,
+      history: [
+        { label: "26.06 초", val: 2662.0 },
+        { label: "26.06 말", val: 2748.5 },
+        { label: "26.07 초", val: 2795.2 },
+        { label: "26.07 말", val: 2732.8 },
+        { label: "26.08 초", val: 2618.4 },
+        { label: "26.08 말", val: 2674.1 },
+        { label: "26.09 초", val: 2635.9 },
+        { label: "26.09 말", val: 2658.4 },
+        { label: "26.10 초", val: 2642.0 },
+        { label: "26.10 중", val: 2669.7 },
+        { label: "26.10 말", val: 2651.3 },
+        { label: "26.11 초", val: 2668.2 },
+        { label: "26.11 현재", val: 2684.50 }
+      ],
+      summary: "대한민국 유가증권시장 상장 보통주 전체의 시가총액을 기준시점(1980.01.04=100)과 비교한 대표 지수입니다. AI 메모리 반도체·조선·방산·자동차 수출 실적 및 원/달러 환율·외국인 수급 흐름과 높은 동조성을 보입니다."
+    },
+    {
+      id: "idx_kosdaq",
+      shortName: "KOSDAQ",
+      koName: "코스닥 종합",
+      enName: "KOSDAQ Composite",
+      ticker: "KOSDAQ",
+      country: "KR",
+      color: "#E07A38",
+      decimals: 2,
+      targetPage: "macro",
+      exchange: "한국거래소(KRX) 코스닥 기술·성장주 시장",
+      price: 768.40,
+      changePts: -2.35,
+      changePct: -0.30,
+      history: [
+        { label: "26.06 초", val: 832.5 },
+        { label: "26.06 말", val: 841.0 },
+        { label: "26.07 초", val: 828.4 },
+        { label: "26.07 말", val: 804.2 },
+        { label: "26.08 초", val: 764.8 },
+        { label: "26.08 말", val: 778.5 },
+        { label: "26.09 초", val: 759.2 },
+        { label: "26.09 말", val: 772.6 },
+        { label: "26.10 초", val: 776.1 },
+        { label: "26.10 중", val: 781.4 },
+        { label: "26.10 말", val: 765.9 },
+        { label: "26.11 초", val: 770.8 },
+        { label: "26.11 현재", val: 768.40 }
+      ],
+      summary: "바이오·2차전지 소재·반도체 소부장·로보틱스·엔터테인먼트 등 국내 중소·벤처 혁신 성장주가 포진한 시장 지수입니다. 개인 투자자 수급 비중이 높고 국내외 금리 인하 속도 및 성장주 투자심리를 민감하게 반영합니다."
+    }
+  ];
+
   // 6-Month Key Commodities Dataset (Market Units on Cards: $/oz, $/lb, $/bbl | SI Metric in Detail Modal Only)
   const INITIAL_MACRO_COMMODITIES = [
     {
@@ -890,6 +1018,11 @@
         sortDir: "asc"
       }
     },
+    marketIndices: INITIAL_MARKET_INDICES.map((item) => ({
+      ...item,
+      history: item.history.map((h) => ({ ...h }))
+    })),
+    macroIndicesVisible: true,
     macroCommodities: INITIAL_MACRO_COMMODITIES,
     macroCommoditiesVisible: true,
     macroIndicators: INITIAL_MACRO_INDICATORS.map((m) => ({ ...m })),
@@ -963,6 +1096,11 @@
     const savedCountryMenu = safeGetStorage("VC_COUNTRY_MENU_OPEN");
     if (savedCountryMenu === "false") {
       state.countryMenuOpen = false;
+    }
+
+    const savedIdxVis = safeGetStorage("VC_MACRO_INDICES_VISIBLE");
+    if (savedIdxVis === "false") {
+      state.macroIndicesVisible = false;
     }
 
     const savedCmdVis = safeGetStorage("VC_MACRO_COMMODITIES_VISIBLE");
@@ -1285,6 +1423,7 @@
     document.getElementById("macroContentWrap")?.classList.toggle("hidden", !isMacro);
 
     if (isMacro) {
+      syncIndexToggleUI();
       syncCommodityToggleUI();
       document.getElementById("btnViewMacroCards")?.classList.toggle("active", state.macroViewMode === "cards");
       document.getElementById("btnViewMacroTable")?.classList.toggle("active", state.macroViewMode === "table");
@@ -2285,6 +2424,358 @@
     return `$${numStr}${unit.replace("$", "")}`;
   }
 
+  // =========================================================
+  // HYBRID OPTION 1 + OPTION 2: LIVE 4 MAJOR INDICES ENGINE
+  // =========================================================
+  function formatIndexNumber(val, decimals = 2) {
+    return Number(val).toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  function buildMiniSparkSVG(historyPts, strokeColor) {
+    if (!Array.isArray(historyPts) || historyPts.length < 2) return "";
+    const w = 38;
+    const h = 15;
+    const vals = historyPts.map((p) => p.val);
+    const minV = Math.min(...vals);
+    const maxV = Math.max(...vals);
+    const span = Math.max(maxV - minV, maxV * 0.005, 0.01);
+    const d = historyPts
+      .map((p, idx) => {
+        const x = 1 + (idx / (historyPts.length - 1)) * (w - 2);
+        const y = h - 2 - ((p.val - minV) / span) * (h - 4);
+        return `${idx === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+      })
+      .join(" ");
+    return `<svg class="idx-mini-spark" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+      <path d="${d}" fill="none" stroke="${strokeColor}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>`;
+  }
+
+  // Option 1: Top Slim Live Ticker Bar (Rendered across all 4 pages)
+  function renderTopMarketIndexBar() {
+    const stripEl = document.getElementById("marketIndexStrip");
+    if (!stripEl) return;
+
+    const indexPillsHTML = state.marketIndices
+      .map((item) => {
+        const chgCls = item.changePct > 0 ? "chg-up" : item.changePct < 0 ? "chg-down" : "";
+        const arrow = item.changePct > 0 ? "▲ " : item.changePct < 0 ? "▼ " : "";
+        const sparkColor =
+          item.changePct > 0 ? "var(--chg-up)" : item.changePct < 0 ? "var(--chg-down)" : item.color;
+
+        return `<button type="button" class="index-ticker-pill" data-idx-pill="${item.id}" aria-label="${item.shortName} ${formatIndexNumber(item.price, item.decimals)} (${arrow}${Math.abs(item.changePct).toFixed(2)}%)">
+          <span class="idx-flag">${getFlagSVG(item.country, 16)}</span>
+          <span class="idx-name">${item.shortName}</span>
+          <span class="idx-val">${formatIndexNumber(item.price, item.decimals)}</span>
+          <span class="idx-chg ${chgCls}">${arrow}${Math.abs(item.changePct).toFixed(2)}%</span>
+          ${buildMiniSparkSVG(item.history, sparkColor)}
+        </button>`;
+      })
+      .join("");
+
+    // Also append live USD/KRW FX pill at the end of the top ticker strip
+    const fxItem = state.macroIndicators.find((m) => m.id === "fx_rate");
+    const fxChgText = fxItem ? fxItem.krChange : "";
+    const fxCls = fxItem ? getDirClass(fxItem.krDir) : "";
+    const fxPillHTML = `<button type="button" class="index-ticker-pill" data-idx-pill="fx_usdkrw" aria-label="원/달러 환율 ${state.usdKrw.toFixed(1)}원">
+      <span class="idx-flag">${getFlagSVG("KR", 16)}</span>
+      <span class="idx-name">USD/KRW</span>
+      <span class="idx-val">${state.usdKrw.toLocaleString("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}원</span>
+      ${fxChgText ? `<span class="idx-chg ${fxCls}">${fxChgText}</span>` : ""}
+    </button>`;
+
+    stripEl.innerHTML = indexPillsHTML + fxPillHTML;
+
+    stripEl.querySelectorAll(".index-ticker-pill").forEach((btn) => {
+      const pillId = btn.getAttribute("data-idx-pill");
+
+      btn.addEventListener("mouseenter", (ev) => {
+        const tip = document.getElementById("tileTooltip");
+        if (!tip) return;
+
+        if (pillId === "fx_usdkrw") {
+          const fx = getEffectiveMacroIndicators().find((m) => m.id === "fx_rate");
+          tip.innerHTML = `
+            <div style="font-weight:800;font-size:13px">원/달러 환율 (USD/KRW)</div>
+            <div style="margin-top:3px">현재 환율: <strong>${state.usdKrw.toLocaleString("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}원</strong> ${fx ? `(${fx.krChange})` : ""}</div>
+            <div style="opacity:0.84;font-size:11.5px;margin-top:2px">${state.currentPage === "macro" ? "클릭 시 환율·달러인덱스 상세 해설 열기" : "클릭 시 거시 지표 탭으로 이동"}</div>
+          `;
+          tip.classList.remove("hidden");
+          moveTooltip(ev);
+          return;
+        }
+
+        const item = state.marketIndices.find((x) => x.id === pillId);
+        if (!item) return;
+        const pts = item.history;
+        const firstVal = pts[0]?.val || item.price;
+        const sixMoPct = ((item.price - firstVal) / Math.max(1, firstVal)) * 100;
+        const sixSign = sixMoPct > 0 ? "+" : "";
+        const ptSign = item.changePts > 0 ? "+" : "";
+        const pctSign = item.changePct > 0 ? "+" : "";
+        const actionHint =
+          state.currentPage === item.targetPage || state.currentPage === "macro"
+            ? "클릭 시 6개월 추이 및 상세 해설 모달 열기"
+            : `클릭 시 ${item.targetPage === "sp500" ? "S&P 500 섹터" : item.targetPage === "kospi200" ? "KOSPI 200 섹터" : "거시 지표 (4대 지수 차트)"} 탭으로 이동`;
+
+        tip.innerHTML = `
+          <div style="font-weight:800;font-size:13px">${item.shortName} · ${item.koName}</div>
+          <div style="margin-top:3px">현재 지수: <strong>${formatIndexNumber(item.price, item.decimals)}pt</strong> (${ptSign}${item.changePts.toFixed(2)} / ${pctSign}${item.changePct.toFixed(2)}%)</div>
+          <div style="font-size:11.5px">최근 6개월 변동: <strong>${sixSign}${sixMoPct.toFixed(1)}%</strong></div>
+          <div style="opacity:0.84;font-size:11px;margin-top:3px">${actionHint}</div>
+        `;
+        tip.classList.remove("hidden");
+        moveTooltip(ev);
+      });
+
+      btn.addEventListener("mousemove", moveTooltip);
+      btn.addEventListener("mouseleave", hideTooltip);
+
+      btn.addEventListener("click", () => {
+        hideTooltip();
+        if (pillId === "fx_usdkrw") {
+          if (state.currentPage !== "macro") {
+            switchPage("macro", true);
+          } else {
+            const fxTarget = getEffectiveMacroIndicators().find((m) => m.id === "fx_rate");
+            if (fxTarget) openMacroModal(fxTarget);
+          }
+          return;
+        }
+
+        const item = state.marketIndices.find((x) => x.id === pillId);
+        if (!item) return;
+
+        if (state.currentPage === item.targetPage || state.currentPage === "macro") {
+          openIndexModal(item);
+        } else {
+          if (item.targetPage === "macro" && !state.macroIndicesVisible) {
+            state.macroIndicesVisible = true;
+            safeSetStorage("VC_MACRO_INDICES_VISIBLE", "true");
+          }
+          switchPage(item.targetPage, true);
+        }
+      });
+    });
+  }
+
+  // Option 2: 6-Month 4 Major Stock Indices Sparkline Section on macro.html
+  function syncIndexToggleUI() {
+    const secEl = document.getElementById("macroIndexSection");
+    const btnEl = document.getElementById("btnToggleIndices");
+    const lblEl = document.getElementById("toggleIndicesLabel");
+
+    const visible = Boolean(state.macroIndicesVisible);
+    if (secEl) secEl.classList.toggle("hidden", !visible);
+    if (btnEl) btnEl.setAttribute("aria-pressed", String(visible));
+    if (lblEl) {
+      lblEl.textContent = visible ? "주가지수 그래프 숨기기" : "주가지수 그래프 보기";
+    }
+  }
+
+  function renderMacroIndices() {
+    syncIndexToggleUI();
+    if (!state.macroIndicesVisible) return;
+
+    const gridEl = document.getElementById("macroIndexGrid");
+    if (!gridEl) return;
+
+    const svgW = 260;
+    const svgH = 70;
+    const padX = 6;
+    const padY = 8;
+
+    gridEl.innerHTML = state.marketIndices
+      .map((item) => {
+        const pts = item.history;
+        const firstVal = pts[0].val;
+        const lastVal = item.price;
+        const sixMoPct = ((lastVal - firstVal) / Math.max(1, firstVal)) * 100;
+        const sixSign = sixMoPct > 0 ? "+" : "";
+        const sixCls = sixMoPct > 0 ? "chg-up" : sixMoPct < 0 ? "chg-down" : "";
+
+        const dayCls = item.changePct > 0 ? "chg-up" : item.changePct < 0 ? "chg-down" : "";
+        const dayArrow = item.changePct > 0 ? "▲ " : item.changePct < 0 ? "▼ " : "";
+        const daySign = item.changePct > 0 ? "+" : "";
+
+        const vals = pts.map((p) => p.val);
+        const minVal = Math.min(...vals);
+        const maxVal = Math.max(...vals);
+        const span = Math.max(maxVal - minVal, maxVal * 0.02, 0.1);
+
+        const coords = pts.map((p, idx) => {
+          const x = padX + (idx / Math.max(1, pts.length - 1)) * (svgW - padX * 2);
+          const y = svgH - padY - ((p.val - minVal) / span) * (svgH - padY * 2);
+          return { x, y, label: p.label, val: p.val };
+        });
+
+        const linePath = coords
+          .map((c, i) => `${i === 0 ? "M" : "L"}${c.x.toFixed(1)},${c.y.toFixed(1)}`)
+          .join(" ");
+        const areaPath = `${linePath} L${coords[coords.length - 1].x.toFixed(1)},${(svgH - 2).toFixed(1)} L${coords[0].x.toFixed(1)},${(svgH - 2).toFixed(1)} Z`;
+        const lastCoord = coords[coords.length - 1];
+        const gradId = `grad_${item.id}`;
+
+        return `
+          <div class="commodity-card index-spark-card" data-idx-card="${item.id}" role="button" tabindex="0" aria-label="${item.shortName} 최근 6개월 추이 및 해설 보기">
+            <div class="commodity-card-top">
+              <div class="commodity-name-group">
+                <span class="idx-flag" style="display:inline-flex">${getFlagSVG(item.country, 18)}</span>
+                <span class="commodity-ko-name">${item.shortName}</span>
+                <span class="commodity-unit-tag">${item.country === "US" ? "미국" : "한국"}</span>
+              </div>
+              <span class="commodity-chg-badge ${sixCls}">6개월 ${sixSign}${sixMoPct.toFixed(1)}%</span>
+            </div>
+
+            <div class="commodity-price-row">
+              <span class="commodity-main-price">${formatIndexNumber(lastVal, item.decimals)}</span>
+              <span class="commodity-sub-price ${dayCls}" style="font-weight:800">${dayArrow}${Math.abs(item.changePts).toFixed(2)} (${daySign}${item.changePct.toFixed(2)}%)</span>
+            </div>
+
+            <div class="commodity-chart-wrap">
+              <svg class="commodity-svg" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="${item.color}" stop-opacity="0.30" />
+                    <stop offset="100%" stop-color="${item.color}" stop-opacity="0.02" />
+                  </linearGradient>
+                </defs>
+                <path d="${areaPath}" fill="url(#${gradId})" />
+                <path d="${linePath}" fill="none" stroke="${item.color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />
+                <line class="cmd-hover-line hidden" x1="0" y1="2" x2="0" y2="${svgH - 2}" stroke="var(--ink-muted)" stroke-width="1" stroke-dasharray="2,2" />
+                <circle cx="${lastCoord.x.toFixed(1)}" cy="${lastCoord.y.toFixed(1)}" r="3.4" fill="${item.color}" />
+                <circle class="cmd-hover-dot hidden" cx="0" cy="0" r="4.2" fill="${item.color}" stroke="#FFFFFF" stroke-width="1.5" />
+              </svg>
+            </div>
+
+            <div class="commodity-range-row">
+              <span>6개월 최저 <strong>${formatIndexNumber(minVal, 0)}</strong></span>
+              <span>최고 <strong>${formatIndexNumber(maxVal, 0)}</strong></span>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+
+    gridEl.querySelectorAll(".index-spark-card").forEach((card) => {
+      const idxId = card.getAttribute("data-idx-card");
+      const item = state.marketIndices.find((x) => x.id === idxId);
+      if (!item) return;
+
+      const pts = item.history;
+      const vals = pts.map((p) => p.val);
+      const minVal = Math.min(...vals);
+      const maxVal = Math.max(...vals);
+      const span = Math.max(maxVal - minVal, maxVal * 0.02, 0.1);
+
+      const chartWrap = card.querySelector(".commodity-chart-wrap");
+      const hoverLine = card.querySelector(".cmd-hover-line");
+      const hoverDot = card.querySelector(".cmd-hover-dot");
+
+      chartWrap?.addEventListener("mousemove", (ev) => {
+        const rect = chartWrap.getBoundingClientRect();
+        const relX = Math.max(0, Math.min(1, (ev.clientX - rect.left) / Math.max(1, rect.width)));
+        const idx = Math.round(relX * (pts.length - 1));
+        const pt = pts[idx];
+
+        const cx = padX + (idx / Math.max(1, pts.length - 1)) * (svgW - padX * 2);
+        const cy = svgH - padY - ((pt.val - minVal) / span) * (svgH - padY * 2);
+
+        if (hoverLine) {
+          hoverLine.setAttribute("x1", cx.toFixed(1));
+          hoverLine.setAttribute("x2", cx.toFixed(1));
+          hoverLine.classList.remove("hidden");
+        }
+        if (hoverDot) {
+          hoverDot.setAttribute("cx", cx.toFixed(1));
+          hoverDot.setAttribute("cy", cy.toFixed(1));
+          hoverDot.classList.remove("hidden");
+        }
+
+        const tip = document.getElementById("tileTooltip");
+        if (tip) {
+          tip.innerHTML = `
+            <div style="font-weight:800;font-size:13px">${item.shortName} (${item.koName}) · ${pt.label}</div>
+            <div style="margin-top:3px">지수: <strong>${formatIndexNumber(pt.val, item.decimals)}pt</strong></div>
+          `;
+          tip.classList.remove("hidden");
+          moveTooltip(ev);
+        }
+      });
+
+      chartWrap?.addEventListener("mouseleave", () => {
+        hoverLine?.classList.add("hidden");
+        hoverDot?.classList.add("hidden");
+        hideTooltip();
+      });
+
+      const openHandler = () => {
+        hideTooltip();
+        openIndexModal(item);
+      };
+      card.addEventListener("click", openHandler);
+      card.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          openHandler();
+        }
+      });
+    });
+  }
+
+  function openIndexModal(item) {
+    state.activeMacroObj = null;
+    state.activeCompanyObj = null;
+
+    const pts = item.history;
+    const firstVal = pts[0].val;
+    const lastVal = item.price;
+    const sixMoPct = ((lastVal - firstVal) / Math.max(1, firstVal)) * 100;
+    const sixSign = sixMoPct > 0 ? "+" : "";
+    const vals = pts.map((p) => p.val);
+    const minVal = Math.min(...vals);
+    const maxVal = Math.max(...vals);
+    const bandPos = maxVal > minVal ? Math.round(((lastVal - minVal) / (maxVal - minVal)) * 100) : 50;
+
+    const ptSign = item.changePts > 0 ? "+" : "";
+    const pctSign = item.changePct > 0 ? "+" : "";
+
+    document.getElementById("modalHeaderBadge").innerHTML = `
+      <span class="country-pill" style="background:${item.color}">${getCountryMeta(item.country).ko} 대표 주가지수</span>
+      <span class="chip" style="cursor:default">티커: ${item.ticker} · 최근 6개월 추이</span>
+    `;
+    document.getElementById("modalCompanyTitle").textContent = `${item.shortName} · ${item.koName} (${item.enName})`;
+    document.getElementById("modalCompanySub").textContent = `산출 대상: ${item.exchange} | 기준일: ${formatKoreanDate(state.baseDateObj)}`;
+
+    document.getElementById("modalMetricsGrid").innerHTML = `
+      <div class="metric-box">
+        <span>현재 지수</span>
+        <strong>${formatIndexNumber(lastVal, item.decimals)}pt</strong>
+      </div>
+      <div class="metric-box">
+        <span>일간 전일 대비 등락</span>
+        <strong>${ptSign}${item.changePts.toFixed(2)}pt <span style="font-size:12.5px;font-weight:700;color:var(--ink-muted)">(${pctSign}${item.changePct.toFixed(2)}%)</span></strong>
+      </div>
+      <div class="metric-box">
+        <span>최근 6개월 수익률</span>
+        <strong>${sixSign}${sixMoPct.toFixed(2)}% <span style="font-size:12px;font-weight:600;color:var(--ink-muted)">(${pts[0].label} 대비)</span></strong>
+      </div>
+      <div class="metric-box">
+        <span>6개월 최저 ~ 최고 (밴드 위치)</span>
+        <strong style="font-size:14px">${formatIndexNumber(minVal, 0)} ~ ${formatIndexNumber(maxVal, 0)} (${bandPos}%)</strong>
+      </div>
+    `;
+
+    const headingEl = document.getElementById("modalBriefingHeading");
+    if (headingEl) headingEl.textContent = "지수 특징 및 거시경제 핵심 해설";
+
+    document.getElementById("modalBriefingContent").textContent = item.summary;
+    document.getElementById("companyModal").classList.remove("hidden");
+  }
+
   function syncCommodityToggleUI() {
     const secEl = document.getElementById("macroCommoditySection");
     const btnEl = document.getElementById("btnToggleCommodities");
@@ -2745,6 +3236,27 @@
       });
     }
 
+    // 3b. 4 Major US & KR Stock Market Indices (Live Price + Daily Change + 6-Month History)
+    if (Array.isArray(payload.marketIndices)) {
+      const idxMap = new Map(payload.marketIndices.map((item) => [item.id, item]));
+      state.marketIndices = state.marketIndices.map((idxObj) => {
+        const hit = idxMap.get(idxObj.id);
+        if (!hit) return idxObj;
+        const nextPrice = typeof hit.price === "number" && hit.price > 50 ? hit.price : idxObj.price;
+        const nextHistory =
+          Array.isArray(hit.history) && hit.history.length >= 4
+            ? hit.history.map((h, i, arr) => (i === arr.length - 1 ? { ...h, val: nextPrice } : h))
+            : idxObj.history.map((h, i, arr) => (i === arr.length - 1 ? { ...h, val: nextPrice } : h));
+        return {
+          ...idxObj,
+          price: nextPrice,
+          changePts: typeof hit.changePts === "number" ? hit.changePts : idxObj.changePts,
+          changePct: typeof hit.changePct === "number" ? hit.changePct : idxObj.changePct,
+          history: nextHistory
+        };
+      });
+    }
+
     // 4. Commodities 6-Month History (Gold $/oz, Copper $/lb, WTI $/bbl)
     if (Array.isArray(payload.commodities)) {
       const cmdMap = new Map(payload.commodities.map((item) => [item.id, item]));
@@ -2820,11 +3332,13 @@
   // Master Render Orchestrator
   function updateAllViews() {
     renderHeaderAndFootnotes();
+    renderTopMarketIndexBar();
 
     if (state.currentPage === "macro") {
       const allMacro = getEffectiveMacroIndicators();
       renderMacroCategoryChips(allMacro);
       renderMacroKpis(allMacro);
+      renderMacroIndices();
       renderMacroCommodities();
 
       const cardsSec = document.getElementById("macroCardsView");
@@ -3039,6 +3553,18 @@
     });
 
     // Macro Page Controls
+    const toggleIndexVisibility = () => {
+      state.macroIndicesVisible = !state.macroIndicesVisible;
+      safeSetStorage("VC_MACRO_INDICES_VISIBLE", String(state.macroIndicesVisible));
+      renderMacroIndices();
+    };
+    document.getElementById("btnToggleIndices")?.addEventListener("click", toggleIndexVisibility);
+    document.getElementById("btnHideIndicesInline")?.addEventListener("click", () => {
+      state.macroIndicesVisible = false;
+      safeSetStorage("VC_MACRO_INDICES_VISIBLE", "false");
+      syncIndexToggleUI();
+    });
+
     const toggleCommodityVisibility = () => {
       state.macroCommoditiesVisible = !state.macroCommoditiesVisible;
       safeSetStorage("VC_MACRO_COMMODITIES_VISIBLE", String(state.macroCommoditiesVisible));

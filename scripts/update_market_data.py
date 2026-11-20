@@ -605,6 +605,186 @@ def fetch_dynamic_top50_from_pool(fx_rates: dict, get_cached_quote) -> list:
     return candidates[:50]
 
 
+
+def fetch_korean_index_naver(index_code: str) -> dict:
+    """
+    Fetch real-time KRX intraday index level, point change, and % change
+    from Naver Pay Securities Mobile Index API (KOSPI / KOSDAQ).
+    """
+    out = {"price": None, "change_pts": None, "change_pct": None}
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+        ),
+        "Referer": f"https://m.stock.naver.com/domestic/index/{index_code}/total",
+        "Accept": "application/json, text/plain, */*",
+    }
+    url = f"https://m.stock.naver.com/api/index/{index_code}/basic"
+    req = Request(url, headers=headers)
+    with urlopen(req, timeout=12) as resp:
+        data = json.loads(resp.read().decode("utf-8", errors="ignore"))
+
+    raw_p = str(data.get("closePrice", "")).replace(",", "").strip()
+    if raw_p and raw_p not in ("-", "N/A"):
+        out["price"] = round(float(raw_p), 2)
+
+    cmp_info = data.get("compareToPreviousPrice") or {}
+    dir_name = str(cmp_info.get("name", "")).upper()
+    dir_code = str(cmp_info.get("code", ""))
+    is_neg = dir_name in ("FALLING", "LOWER_LIMIT") or dir_code in ("4", "5")
+    is_flat = dir_name == "UNCHANGED" or dir_code == "3"
+
+    raw_pts = str(data.get("compareToPreviousClosePrice", "")).replace(",", "").strip()
+    if raw_pts and raw_pts not in ("-", "N/A"):
+        pts_val = abs(float(raw_pts))
+        out["change_pts"] = 0.0 if is_flat else round(-pts_val if is_neg else pts_val, 2)
+
+    raw_pct = str(data.get("fluctuationsRatio", "")).replace(",", "").replace("%", "").strip()
+    if raw_pct and raw_pct not in ("-", "N/A"):
+        pct_val = abs(float(raw_pct))
+        out["change_pct"] = 0.0 if is_flat else round(-pct_val if is_neg else pct_val, 2)
+
+    return out
+
+
+def fetch_korean_index_history_naver(index_code: str) -> list:
+    """
+    Backup 6-month daily history fetcher from Naver Mobile Index price endpoint.
+    Returns chronological [(datetime_obj, close_float), ...].
+    """
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+        ),
+        "Referer": f"https://m.stock.naver.com/domestic/index/{index_code}/total",
+        "Accept": "application/json, text/plain, */*",
+    }
+    rows_out = []
+    for page in (1, 2, 3):
+        url = f"https://m.stock.naver.com/api/index/{index_code}/price?pageSize=45&page={page}"
+        req = Request(url, headers=headers)
+        with urlopen(req, timeout=12) as resp:
+            arr = json.loads(resp.read().decode("utf-8", errors="ignore"))
+        if not isinstance(arr, list) or not arr:
+            break
+        for item in arr:
+            dt_str = str(item.get("localTradedAt", "")).strip()
+            cl_str = str(item.get("closePrice", "")).replace(",", "").strip()
+            if not dt_str or not cl_str:
+                continue
+            try:
+                dt_obj = datetime.strptime(dt_str[:10], "%Y-%m-%d")
+                rows_out.append((dt_obj, float(cl_str)))
+            except ValueError:
+                continue
+    rows_out.sort(key=lambda x: x[0])
+    return rows_out
+
+
+def fetch_market_indices_6m() -> list:
+    """
+    Fetch live level, daily point/% change, and 13-point 6-month history for:
+      - S&P 500 (^GSPC)
+      - NASDAQ Composite (^IXIC)
+      - KOSPI (Naver real-time KOSPI + ^KS11 / Naver 6m history)
+      - KOSDAQ (Naver real-time KOSDAQ + ^KQ11 / Naver 6m history)
+    """
+    specs = [
+        ("idx_sp500", "^GSPC", None),
+        ("idx_nasdaq", "^IXIC", None),
+        ("idx_kospi", "^KS11", "KOSPI"),
+        ("idx_kosdaq", "^KQ11", "KOSDAQ"),
+    ]
+    results = []
+
+    for idx_id, yf_sym, naver_code in specs:
+        live_price = None
+        change_pts = None
+        change_pct = None
+        hist_pairs = []  # [(dt, float_val), ...]
+
+        # 1. Korean indices: Primary intraday real-time quote from Naver
+        if naver_code:
+            try:
+                nq = fetch_korean_index_naver(naver_code)
+                live_price = nq["price"]
+                change_pts = nq["change_pts"]
+                change_pct = nq["change_pct"]
+            except Exception as exc:
+                print(f"[WARN] Naver live index fallback for {naver_code}: {exc}")
+
+        # 2. Yahoo Finance quote (Primary for US indices, fallback for KR indices) & 6M daily history
+        try:
+            tk = yf.Ticker(yf_sym)
+            if live_price is None or change_pct is None:
+                fi = tk.fast_info
+                lp = getattr(fi, "last_price", None)
+                pp = getattr(fi, "previous_close", None)
+                if lp and lp > 0:
+                    if live_price is None:
+                        live_price = round(float(lp), 2)
+                    if pp and pp > 0:
+                        if change_pts is None:
+                            change_pts = round(float(lp) - float(pp), 2)
+                        if change_pct is None:
+                            change_pct = round(((float(lp) - float(pp)) / float(pp)) * 100.0, 2)
+
+            df = tk.history(period="6mo", interval="1d").dropna(subset=["Close"])
+            if len(df) >= 10:
+                hist_pairs = [(dt, float(val)) for dt, val in zip(df.index, df["Close"].tolist())]
+                if live_price is None:
+                    live_price = round(hist_pairs[-1][1], 2)
+                if len(hist_pairs) >= 2 and hist_pairs[-2][1] > 0:
+                    if change_pts is None:
+                        change_pts = round(hist_pairs[-1][1] - hist_pairs[-2][1], 2)
+                    if change_pct is None:
+                        change_pct = round(((hist_pairs[-1][1] - hist_pairs[-2][1]) / hist_pairs[-2][1]) * 100.0, 2)
+        except Exception as exc:
+            print(f"[WARN] yfinance index fetch failed for {yf_sym}: {exc}")
+
+        # 3. Backup 6M history via Naver if Yahoo missed ^KS11 / ^KQ11
+        if len(hist_pairs) < 10 and naver_code:
+            try:
+                hist_pairs = fetch_korean_index_history_naver(naver_code)
+            except Exception as exc:
+                print(f"[WARN] Naver 6m index history fallback failed for {naver_code}: {exc}")
+
+        if live_price is None:
+            continue
+
+        sampled_pts = []
+        if len(hist_pairs) >= 6:
+            total = len(hist_pairs)
+            sample_idx = sorted(list({min(total - 1, round(i * (total - 1) / 12)) for i in range(13)}))
+            for pos, r_idx in enumerate(sample_idx):
+                dt_obj, cl_val = hist_pairs[r_idx]
+                if pos == len(sample_idx) - 1:
+                    sampled_pts.append({
+                        "label": f"{dt_obj.strftime('%y.%m')} 현재",
+                        "val": round(live_price, 2),
+                    })
+                else:
+                    day_part = "초" if dt_obj.day <= 10 else ("중" if dt_obj.day <= 20 else "말")
+                    sampled_pts.append({
+                        "label": f"{dt_obj.strftime('%y.%m')} {day_part}",
+                        "val": round(cl_val, 2),
+                    })
+
+        entry = {
+            "id": idx_id,
+            "price": round(live_price, 2),
+            "changePts": round(change_pts, 2) if change_pts is not None else 0.0,
+            "changePct": round(change_pct, 2) if change_pct is not None else 0.0,
+        }
+        if len(sampled_pts) >= 4:
+            entry["history"] = sampled_pts
+        results.append(entry)
+
+    return results
+
+
 def fetch_commodities_6m() -> list:
     """Fetch 6-month sampled history for Gold ($/oz), Copper ($/lb), WTI Oil ($/bbl)."""
     specs = [
@@ -1419,10 +1599,14 @@ def main():
                 "top3": top3_items,
             })
 
-    # 4. Commodities 6-Month History
+    # 4. US & KR 4 Major Stock Market Indices (Live + 6-Month History)
+    indices_out = fetch_market_indices_6m()
+    print(f"[INFO] Loaded {len(indices_out)} major stock market indices (S&P 500, NASDAQ, KOSPI, KOSDAQ).")
+
+    # 5. Commodities 6-Month History
     commodities_out = fetch_commodities_6m()
 
-    # 5. Macro Indicators
+    # 6. Macro Indicators
     macro_out = build_macro_updates(fx_rates)
 
     payload = {
@@ -1431,6 +1615,7 @@ def main():
         "updatedAt": now_kst.isoformat(),
         "updatedLabel": now_kst.strftime("%Y년 %m월 %d일 %H:%M 기준").replace(" 0", " "),
         "usdKrw": usd_krw,
+        "marketIndices": indices_out,
         "companies": companies_out,
         "sp500Sectors": sp500_out,
         "kospi200Sectors": kospi_out,
