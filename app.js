@@ -126,14 +126,17 @@
     { id: "ge", name: "GE Aerospace", koName: "GE 에어로스페이스", ticker: "GE", country: "US", marketCapB: 341.90, changePct: 0.81, sector: "항공기 엔진·방산", summary: "민항기 엔진 인도 증가와 고수익 장기 유지보수(MRO) 서비스 매출 급성장." },
     { id: "pmi", name: "Philip Morris", koName: "필립모리스 인터내셔널", ticker: "PM", country: "US", marketCapB: 311.40, changePct: 0.47, sector: "무연담배·소비재", summary: "아이코스(IQOS) 및 니코틴 파우치 ZYN 등 비연소 제품 비중이 전체 매출의 핵심 성장동력으로 안착." },
     { id: "hsbc", name: "HSBC", koName: "HSBC 홀딩스", ticker: "HSBC", country: "GB", marketCapB: 307.20, changePct: 0.34, sector: "글로벌 은행·자산관리", summary: "아시아·중동 자산관리 및 글로벌 무역금융에 집중하며 높은 자본수익률을 기록 중인 영국계 금융그룹." },
-    { id: "intel", name: "Intel", koName: "인텔", ticker: "INTC", country: "US", marketCapB: 304.80, changePct: -1.85, sector: "CPU·파운드리 반도체", summary: "미국 내 첨단 파운드리 생산기지 가동 및 AI PC 프로세서 점유율 방어 추진." },
-    { id: "novartis", name: "Novartis", koName: "노바티스", ticker: "NVS", country: "CH", marketCapB: 301.60, changePct: 0.29, sector: "전문의약품·바이오", summary: "심혈관·면역·방사성 리간드 표적항암제에 집중하는 스위스 순수 혁신신약 기업." },
-    { id: "morganstanley", name: "Morgan Stanley", koName: "모건스탠리", ticker: "MS", country: "US", marketCapB: 296.80, changePct: 0.55, sector: "자산관리·투자은행", summary: "초고액자산가 자산관리(WM) 수수료 기반과 대형 테크 IPO 주관 실적이 돋보이는 글로벌 IB." }
+    { id: "spacex", name: "SpaceX", koName: "스페이스X", ticker: "SPCX", country: "US", marketCapB: 1912.0, changePct: 1.18, sector: "우주항공·위성통신·AI", summary: "2026년 6월 나스닥 정식 상장(SPCX) 이후 스타링크 글로벌 위성통신망과 차세대 발사체 시장을 주도 중." },
+    { id: "anthropic", name: "Anthropic", koName: "앤트로픽", ticker: "ANT", country: "US", marketCapB: 1271.6, changePct: 17.07, sector: "생성형 AI 모델·클라우드", summary: "2026년 11월 19일 나스닥에 정식 상장(ANT)하여 Claude 기반 엔터프라이즈 AI 에이전트 생태계를 선도하는 빅테크." },
+    { id: "cxmt", name: "CXMT", koName: "창신메모리(CXMT)", ticker: "688825.SS", country: "CN", marketCapB: 350.0, changePct: -1.20, sector: "DRAM 메모리 반도체", summary: "2026년 7월 상하이 증시 커창반 정식 상장(688825.SS) 이후 중국 AI 서버·모바일용 DRAM 수요를 흡수 중인 반도체 기업." }
   ];
 
 
   // Extended Korean Metadata Catalog for Top 100+ Global Publicly Listed Companies
   const EXTRA_COMPANY_CATALOG = [
+    { id: "intel", name: "Intel", koName: "인텔", ticker: "INTC", country: "US", sector: "CPU·파운드리 반도체", summary: "미국 내 첨단 파운드리 생산기지 가동 및 AI PC 프로세서 점유율 방어 추진." },
+    { id: "novartis", name: "Novartis", koName: "노바티스", ticker: "NVS", country: "CH", sector: "전문의약품·바이오", summary: "심혈관·면역·방사성 리간드 표적항암제에 집중하는 스위스 순수 혁신신약 기업." },
+    { id: "morganstanley", name: "Morgan Stanley", koName: "모건스탠리", ticker: "MS", country: "US", sector: "자산관리·투자은행", summary: "초고액자산가 자산관리(WM) 수수료 기반과 대형 테크 IPO 주관 실적이 돋보이는 글로벌 IB." },
     { id: "novonordisk", name: "Novo Nordisk", koName: "노보 노디스크", ticker: "NVO", country: "DK", sector: "제약·비만치료제", summary: "위고비·오젬픽 등 GLP-1 계열 비만·당뇨 치료제 시장을 개척한 덴마크 대표 바이오제약 기업." },
     { id: "sap", name: "SAP", koName: "SAP", ticker: "SAP", country: "DE", sector: "엔터프라이즈 ERP·클라우드", summary: "글로벌 대기업 ERP 클라우드 전환과 비즈니스 AI 구독 모델 확산으로 고성장 중인 독일 최대 소프트웨어 기업." },
     { id: "hermes", name: "Hermès", koName: "에르메스", ticker: "RMS.PA", country: "FR", sector: "하이엔드 럭셔리", summary: "희소성 높은 장인 생산 체제와 압도적인 브랜드 충성도로 최고 영업이익률을 기록하는 프랑스 명품 하우스." },
@@ -1193,6 +1196,12 @@
             <path d="M74 1l8 2-4 7" stroke="#FFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>`;
+      case "spacex":
+        return `<span class="tile-wordmark" style="font-size:${Math.round(19 * scale)}px;letter-spacing:0.18em;font-weight:800">SPACEX</span>`;
+      case "anthropic":
+        return `<span class="tile-wordmark" style="font-size:${Math.round(17 * scale)}px;letter-spacing:0.09em;font-weight:800">ANTHROP&#92;C</span>`;
+      case "cxmt":
+        return `<span class="tile-wordmark" style="font-size:${Math.round(20 * scale)}px;letter-spacing:0.10em;font-weight:800">CXMT</span>`;
       case "netflix":
         return `<span class="tile-wordmark" style="font-size:${Math.round(20 * scale)}px;letter-spacing:0.12em;font-weight:900">NETFLIX</span>`;
       case "broadcom":
@@ -2622,7 +2631,7 @@
 
     // 1. Dynamic Global Top 50 Listed Companies (replaces full list when dynamic mode is active)
     if (Array.isArray(payload.companies) && payload.companies.length > 0) {
-      const UNLISTED_IDS = new Set(["spacex", "anthropic", "cxmt", "openai", "bytedance", "stripe"]);
+      const UNLISTED_IDS = new Set(["openai", "bytedance", "stripe"]);
       const isDynamicFullList = Boolean(payload.dynamicTop50) && payload.companies.length >= 35;
 
       if (isDynamicFullList) {

@@ -27,9 +27,9 @@ KST = timezone(timedelta(hours=9))
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_PATH = os.path.join(ROOT_DIR, "data", "live_market.json")
 
-# Strictly exclude unlisted / private companies
-UNLISTED_TICKERS = {"SPCX", "ANT", "688825.SS", "OPENAI", "BYTEDANCE", "STRIPE"}
-UNLISTED_NAMES = {"spacex", "anthropic", "openai", "bytedance", "stripe", "changxin memory", "cxmt"}
+# Strictly exclude genuinely unlisted / private companies (SpaceX SPCX, Anthropic ANT, CXMT 688825.SS are officially listed)
+UNLISTED_TICKERS = {"OPENAI", "BYTEDANCE", "STRIPE"}
+UNLISTED_NAMES = {"openai", "bytedance", "stripe"}
 
 # Country Name -> ISO2 Code Mapping (for dynamic ranking parser)
 COUNTRY_NAME_TO_CODE = {
@@ -92,6 +92,9 @@ GLOBAL_PUBLIC_POOL = [
     ("nvidia", "NVIDIA", "엔비디아", "NVDA", "USD", "US", "AI 반도체"),
     ("alphabet", "Alphabet", "알파벳(구글)", "GOOG", "USD", "US", "플랫폼·클라우드·AI"),
     ("amazon", "Amazon", "아마존", "AMZN", "USD", "US", "이커머스·클라우드"),
+    ("spacex", "SpaceX", "스페이스X", "SPCX", "USD", "US", "우주항공·위성통신·AI"),
+    ("anthropic", "Anthropic", "앤트로픽", "ANT", "USD", "US", "생성형 AI 모델·클라우드"),
+    ("cxmt", "CXMT", "창신메모리(CXMT)", "688825.SS", "CNY", "CN", "DRAM 메모리 반도체"),
     ("aramco", "Saudi Aramco", "사우디 아람코", "2222.SR", "SAR", "SA", "에너지·석유화학"),
     ("meta", "Meta", "메타 플랫폼스", "META", "USD", "US", "소셜미디어·AI"),
     ("tsmc", "TSMC", "TSMC", "TSM", "USD", "TW", "파운드리 반도체"),
@@ -215,6 +218,7 @@ CMC_TICKER_ALIASES = {
     "3988.HK": META_BY_TICKER["601988.SS"],
     "0941.HK": META_BY_TICKER["600941.SS"],
     "0857.HK": META_BY_TICKER["601857.SS"],
+    "688825": META_BY_TICKER["688825.SS"],
 }
 META_BY_TICKER.update(CMC_TICKER_ALIASES)
 
@@ -1297,7 +1301,7 @@ def main():
     try:
         companies_out = fetch_dynamic_top50_cmc()
         print(f"[INFO] Tier-1 CMC dynamic Top 50 loaded ({len(companies_out)} listed companies).")
-        # Refresh any Korean listed stocks (.KS/.KQ) in Global Top 50 with real-time Naver KRX quote
+        # Refresh Korean listed stocks (.KS/.KQ) in Global Top 50 with real-time Naver KRX quote
         kr_id_to_sym = {"samsung": "005930.KS", "skhynix": "000660.KS"}
         for item in companies_out:
             kr_sym = kr_id_to_sym.get(item["id"])
@@ -1309,7 +1313,43 @@ def main():
                     item["marketCapB"] = round((kq["market_cap"] / usd_krw) / 1e9, 2)
                 if kq["change_pct"] is not None:
                     item["changePct"] = kq["change_pct"]
+
+        # Ensure 2026 mega-IPOs (Anthropic ANT, SpaceX SPCX, CXMT 688825.SS) are included even if external ranking lags IPO indexing
+        existing_ids = {c["id"] for c in companies_out}
+        recent_mega_ipos = [
+            ("spacex", "SpaceX", "스페이스X", "SPCX", "USD", "US", "우주항공·위성통신·AI", 1912.0),
+            ("anthropic", "Anthropic", "앤트로픽", "ANT", "USD", "US", "생성형 AI 모델·클라우드", 1271.6),
+            ("cxmt", "CXMT", "창신메모리(CXMT)", "688825.SS", "CNY", "CN", "DRAM 메모리 반도체", 350.0),
+        ]
+        for r_id, r_en, r_ko, r_sym, r_ccy, r_cnt, r_sec, r_fallback_b in recent_mega_ipos:
+            rq = get_cached_quote(r_sym)
+            live_cap_b = None
+            if rq["market_cap"]:
+                fx_div = fx_rates.get(r_ccy, 1.0)
+                live_cap_b = round((rq["market_cap"] / fx_div) / 1e9, 2)
+            effective_cap_b = live_cap_b if (live_cap_b and live_cap_b > 50) else r_fallback_b
+            effective_chg = rq["change_pct"] if rq["change_pct"] is not None else 0.0
+
+            if r_id in existing_ids:
+                for c in companies_out:
+                    if c["id"] == r_id and live_cap_b and live_cap_b > 50:
+                        c["marketCapB"] = live_cap_b
+                        if rq["change_pct"] is not None:
+                            c["changePct"] = rq["change_pct"]
+            elif len(companies_out) < 50 or effective_cap_b > companies_out[-1]["marketCapB"]:
+                companies_out.append({
+                    "id": r_id,
+                    "name": r_en,
+                    "koName": r_ko,
+                    "ticker": r_sym,
+                    "country": r_cnt,
+                    "marketCapB": effective_cap_b,
+                    "changePct": effective_chg,
+                    "sector": r_sec,
+                })
+
         companies_out.sort(key=lambda x: x["marketCapB"], reverse=True)
+        companies_out = companies_out[:50]
     except Exception as cmc_err:
         print(f"[WARN] Tier-1 CMC scrape fallback ({cmc_err}); running Tier-2 90+ Global Stock Pool...")
         companies_out = fetch_dynamic_top50_from_pool(fx_rates, get_cached_quote)
