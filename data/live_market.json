@@ -1,53 +1,1305 @@
 {
-  "isBootstrap": true,
-  "dynamicTop50": false,
-  "updatedAt": "2026-11-20T02:40:00+09:00",
-  "updatedLabel": "실시간 자동 동기화 대기",
-  "usdKrw": 1328.0,
+  "isBootstrap": false,
+  "dynamicTop50": true,
+  "updatedAt": "2026-11-20T14:39:54.840546+09:00",
+  "updatedLabel": "2026년 11월 20일 14:39 기준",
+  "usdKrw": 1337.04,
+  "companies": [
+    {
+      "id": "apple",
+      "name": "Apple",
+      "koName": "애플",
+      "ticker": "AAPL",
+      "country": "US",
+      "marketCapB": 5074.78,
+      "changePct": -1.31,
+      "sector": "IT·소비자기술"
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "koName": "마이크로소프트",
+      "ticker": "MSFT",
+      "country": "US",
+      "marketCapB": 3700.47,
+      "changePct": -2.49,
+      "sector": "클라우드·AI 소프트웨어"
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "koName": "엔비디아",
+      "ticker": "NVDA",
+      "country": "US",
+      "marketCapB": 3524.98,
+      "changePct": -3.87,
+      "sector": "AI 반도체"
+    },
+    {
+      "id": "alphabet",
+      "name": "Alphabet",
+      "koName": "알파벳(구글)",
+      "ticker": "GOOG",
+      "country": "US",
+      "marketCapB": 3331.92,
+      "changePct": -4.02,
+      "sector": "플랫폼·클라우드·AI"
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "koName": "아마존",
+      "ticker": "AMZN",
+      "country": "US",
+      "marketCapB": 2782.98,
+      "changePct": -4.59,
+      "sector": "이커머스·클라우드"
+    },
+    {
+      "id": "spacex",
+      "name": "SpaceX",
+      "koName": "스페이스X",
+      "ticker": "SPCX",
+      "country": "US",
+      "marketCapB": 1880.03,
+      "changePct": -4.27,
+      "sector": "우주항공·위성통신·AI"
+    },
+    {
+      "id": "tsmc",
+      "name": "TSMC",
+      "koName": "TSMC",
+      "ticker": "TSM",
+      "country": "TW",
+      "marketCapB": 1826.11,
+      "changePct": -3.72,
+      "sector": "파운드리 반도체"
+    },
+    {
+      "id": "aramco",
+      "name": "Saudi Aramco",
+      "koName": "사우디 아람코",
+      "ticker": "2222.SR",
+      "country": "SA",
+      "marketCapB": 1708.19,
+      "changePct": 0.38,
+      "sector": "에너지·석유화학"
+    },
+    {
+      "id": "broadcom",
+      "name": "Broadcom",
+      "koName": "브로드컴",
+      "ticker": "AVGO",
+      "country": "US",
+      "marketCapB": 1654.78,
+      "changePct": -2.97,
+      "sector": "맞춤형 AI 반도체·SW"
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "koName": "메타 플랫폼스",
+      "ticker": "META",
+      "country": "US",
+      "marketCapB": 1524.08,
+      "changePct": -3.73,
+      "sector": "소셜미디어·AI"
+    },
+    {
+      "id": "tesla",
+      "name": "Tesla",
+      "koName": "테슬라",
+      "ticker": "TSLA",
+      "country": "US",
+      "marketCapB": 1479.95,
+      "changePct": -2.72,
+      "sector": "자율주행·전기차·로보틱스"
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "koName": "앤트로픽",
+      "ticker": "ANT",
+      "country": "US",
+      "marketCapB": 1271.63,
+      "changePct": 0.0,
+      "sector": "생성형 AI 모델·클라우드"
+    },
+    {
+      "id": "berkshire",
+      "name": "Berkshire Hathaway",
+      "koName": "버크셔 해서웨이",
+      "ticker": "BRK-B",
+      "country": "US",
+      "marketCapB": 1215.31,
+      "changePct": -0.35,
+      "sector": "복합금융·지주"
+    },
+    {
+      "id": "lilly",
+      "name": "Eli Lilly",
+      "koName": "일라이 릴리",
+      "ticker": "LLY",
+      "country": "US",
+      "marketCapB": 1203.5,
+      "changePct": -2.1,
+      "sector": "제약·바이오"
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "koName": "월마트",
+      "ticker": "WMT",
+      "country": "US",
+      "marketCapB": 999.97,
+      "changePct": -1.05,
+      "sector": "필수소비재·유통"
+    },
+    {
+      "id": "jpmorgan",
+      "name": "J.P.Morgan",
+      "koName": "JP모건 체이스",
+      "ticker": "JPM",
+      "country": "US",
+      "marketCapB": 850.38,
+      "changePct": -1.47,
+      "sector": "글로벌 은행·투자금융"
+    },
+    {
+      "id": "amd",
+      "name": "AMD",
+      "koName": "AMD",
+      "ticker": "AMD",
+      "country": "US",
+      "marketCapB": 809.64,
+      "changePct": -8.25,
+      "sector": "AI GPU·CPU 반도체"
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung",
+      "koName": "삼성전자",
+      "ticker": "005930.KS",
+      "country": "KR",
+      "marketCapB": 795.8,
+      "changePct": -7.57,
+      "sector": "메모리·종합반도체·모바일"
+    },
+    {
+      "id": "micron",
+      "name": "Micron",
+      "koName": "마이크론 테크놀로지",
+      "ticker": "MU",
+      "country": "US",
+      "marketCapB": 781.18,
+      "changePct": -3.03,
+      "sector": "AI 메모리 반도체"
+    },
+    {
+      "id": "visa",
+      "name": "Visa",
+      "koName": "비자",
+      "ticker": "V",
+      "country": "US",
+      "marketCapB": 750.52,
+      "changePct": -3.3,
+      "sector": "글로벌 결제 네트워크"
+    },
+    {
+      "id": "exxon",
+      "name": "ExxonMobil",
+      "koName": "엑슨모빌",
+      "ticker": "XOM",
+      "country": "US",
+      "marketCapB": 648.31,
+      "changePct": -1.05,
+      "sector": "에너지·석유가스"
+    },
+    {
+      "id": "jnj",
+      "name": "Johnson & Johnson",
+      "koName": "존슨앤드존슨",
+      "ticker": "JNJ",
+      "country": "US",
+      "marketCapB": 643.09,
+      "changePct": -1.98,
+      "sector": "제약·의료기기"
+    },
+    {
+      "id": "skhynix",
+      "name": "SK hynix",
+      "koName": "SK하이닉스",
+      "ticker": "000660.KS",
+      "country": "KR",
+      "marketCapB": 582.55,
+      "changePct": -6.85,
+      "sector": "AI HBM 메모리 반도체"
+    },
+    {
+      "id": "mastercard",
+      "name": "Mastercard",
+      "koName": "마스터카드",
+      "ticker": "MA",
+      "country": "US",
+      "marketCapB": 545.79,
+      "changePct": -2.66,
+      "sector": "글로벌 결제·핀테크"
+    },
+    {
+      "id": "asml",
+      "name": "ASML",
+      "koName": "ASML",
+      "ticker": "ASML",
+      "country": "NL",
+      "marketCapB": 522.7,
+      "changePct": -3.35,
+      "sector": "반도체 노광장비"
+    },
+    {
+      "id": "abbvie",
+      "name": "AbbVie",
+      "koName": "애브비",
+      "ticker": "ABBV",
+      "country": "US",
+      "marketCapB": 501.19,
+      "changePct": -0.69,
+      "sector": "바이오·면역항암"
+    },
+    {
+      "id": "ccb",
+      "name": "CCB",
+      "koName": "중국건설은행",
+      "ticker": "601939.SS",
+      "country": "CN",
+      "marketCapB": 489.04,
+      "changePct": 1.05,
+      "sector": "국유 상업은행"
+    },
+    {
+      "id": "icbc",
+      "name": "ICBC",
+      "koName": "중국공상은행",
+      "ticker": "601398.SS",
+      "country": "CN",
+      "marketCapB": 486.78,
+      "changePct": 0.66,
+      "sector": "국유 상업은행"
+    },
+    {
+      "id": "costco",
+      "name": "Costco",
+      "koName": "코스트코",
+      "ticker": "COST",
+      "country": "US",
+      "marketCapB": 484.71,
+      "changePct": -0.47,
+      "sector": "회원제 창고형 유통"
+    },
+    {
+      "id": "cocacola",
+      "name": "Coca-Cola",
+      "koName": "코카콜라",
+      "ticker": "KO",
+      "country": "US",
+      "marketCapB": 413.37,
+      "changePct": -1.76,
+      "sector": "음료·필수소비재"
+    },
+    {
+      "id": "chevron",
+      "name": "Chevron",
+      "koName": "셰브론",
+      "ticker": "CVX",
+      "country": "US",
+      "marketCapB": 402.93,
+      "changePct": 0.05,
+      "sector": "종합 에너지"
+    },
+    {
+      "id": "abc",
+      "name": "ABC",
+      "koName": "중국농업은행",
+      "ticker": "601288.SS",
+      "country": "CN",
+      "marketCapB": 400.09,
+      "changePct": 0.0,
+      "sector": "국유 상업은행"
+    },
+    {
+      "id": "tencent",
+      "name": "Tencent",
+      "koName": "텐센트",
+      "ticker": "0700.HK",
+      "country": "CN",
+      "marketCapB": 390.75,
+      "changePct": -2.3,
+      "sector": "게임·메신저·AI 클라우드"
+    },
+    {
+      "id": "pg",
+      "name": "P&G",
+      "koName": "프록터앤드갬블",
+      "ticker": "PG",
+      "country": "US",
+      "marketCapB": 389.04,
+      "changePct": -1.26,
+      "sector": "생활용품·필수소비재"
+    },
+    {
+      "id": "cisco",
+      "name": "Cisco",
+      "koName": "시스코 시스템즈",
+      "ticker": "CSCO",
+      "country": "US",
+      "marketCapB": 373.35,
+      "changePct": -3.29,
+      "sector": "AI 네트워크·보안"
+    },
+    {
+      "id": "palantir",
+      "name": "Palantir",
+      "koName": "팔란티어",
+      "ticker": "PLTR",
+      "country": "US",
+      "marketCapB": 370.29,
+      "changePct": -3.16,
+      "sector": "AI 데이터 의사결정 SW"
+    },
+    {
+      "id": "cxmt",
+      "name": "CXMT",
+      "koName": "창신메모리(CXMT)",
+      "ticker": "688825.SS",
+      "country": "CN",
+      "marketCapB": 361.03,
+      "changePct": -5.24,
+      "sector": "DRAM 메모리 반도체"
+    },
+    {
+      "id": "boc",
+      "name": "BOC",
+      "koName": "중국은행",
+      "ticker": "601988.SS",
+      "country": "CN",
+      "marketCapB": 353.9,
+      "changePct": 0.0,
+      "sector": "국유 외환·상업은행"
+    },
+    {
+      "id": "chinamobile",
+      "name": "China Mobile",
+      "koName": "차이나모바일",
+      "ticker": "600941.SS",
+      "country": "CN",
+      "marketCapB": 350.21,
+      "changePct": 0.95,
+      "sector": "통신·클라우드 인프라"
+    },
+    {
+      "id": "petrochina",
+      "name": "PetroChina",
+      "koName": "페트로차이나",
+      "ticker": "601857.SS",
+      "country": "CN",
+      "marketCapB": 348.16,
+      "changePct": 1.03,
+      "sector": "천연가스·석유 에너지"
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "koName": "오라클",
+      "ticker": "ORCL",
+      "country": "US",
+      "marketCapB": 344.72,
+      "changePct": -3.6,
+      "sector": "클라우드 인프라·DB"
+    },
+    {
+      "id": "homedepot",
+      "name": "The Home Depot",
+      "koName": "홈디포",
+      "ticker": "HD",
+      "country": "US",
+      "marketCapB": 335.9,
+      "changePct": -0.33,
+      "sector": "주택개보수·건자재 유통"
+    },
+    {
+      "id": "bofa",
+      "name": "BofA",
+      "koName": "뱅크오브아메리카",
+      "ticker": "BAC",
+      "country": "US",
+      "marketCapB": 335.14,
+      "changePct": -1.12,
+      "sector": "종합은행·자산관리"
+    },
+    {
+      "id": "ge",
+      "name": "GE Aerospace",
+      "koName": "GE 에어로스페이스",
+      "ticker": "GE",
+      "country": "US",
+      "marketCapB": 329.52,
+      "changePct": -3.02,
+      "sector": "항공기 엔진·방산"
+    },
+    {
+      "id": "merck",
+      "name": "Merck",
+      "koName": "머크(MSD)",
+      "ticker": "MRK",
+      "country": "US",
+      "marketCapB": 327.41,
+      "changePct": -3.31,
+      "sector": "제약·면역항암"
+    },
+    {
+      "id": "intel",
+      "name": "Intel",
+      "koName": "인텔",
+      "ticker": "INTC",
+      "country": "US",
+      "marketCapB": 296.15,
+      "changePct": 0.49,
+      "sector": "CPU·파운드리 반도체"
+    },
+    {
+      "id": "unitedhealth",
+      "name": "UnitedHealth",
+      "koName": "유나이티드헬스",
+      "ticker": "UNH",
+      "country": "US",
+      "marketCapB": 296.12,
+      "changePct": -5.39,
+      "sector": "헬스케어·의료보험"
+    },
+    {
+      "id": "pmi",
+      "name": "Philip Morris",
+      "koName": "필립모리스 인터내셔널",
+      "ticker": "PM",
+      "country": "US",
+      "marketCapB": 290.58,
+      "changePct": -3.27,
+      "sector": "무연담배·소비재"
+    },
+    {
+      "id": "novartis",
+      "name": "Novartis",
+      "koName": "노바티스",
+      "ticker": "NVS",
+      "country": "CH",
+      "marketCapB": 285.6,
+      "changePct": -2.57,
+      "sector": "전문의약품·바이오"
+    },
+    {
+      "id": "hsbc",
+      "name": "HSBC",
+      "koName": "HSBC 홀딩스",
+      "ticker": "HSBC",
+      "country": "GB",
+      "marketCapB": 284.85,
+      "changePct": -1.55,
+      "sector": "글로벌 은행·자산관리"
+    }
+  ],
   "sp500Sectors": [
     {
       "id": "it",
-      "marketCapB": 19850.0
+      "top3": [
+        {
+          "id": "apple",
+          "ticker": "AAPL",
+          "marketCapB": 5074.78,
+          "changePct": -1.31
+        },
+        {
+          "id": "microsoft",
+          "ticker": "MSFT",
+          "marketCapB": 3700.47,
+          "changePct": -2.49
+        },
+        {
+          "id": "nvidia",
+          "ticker": "NVDA",
+          "marketCapB": 3524.98,
+          "changePct": -3.87
+        }
+      ],
+      "changePct": -2.74,
+      "marketCapB": 19306.1
     },
     {
       "id": "financials",
-      "marketCapB": 8150.0
+      "top3": [
+        {
+          "id": "berkshire",
+          "ticker": "BRK-B",
+          "marketCapB": 1215.31,
+          "changePct": -0.35
+        },
+        {
+          "id": "jpmorgan",
+          "ticker": "JPM",
+          "marketCapB": 850.38,
+          "changePct": -1.47
+        },
+        {
+          "id": "visa",
+          "ticker": "V",
+          "marketCapB": 750.52,
+          "changePct": -3.3
+        }
+      ],
+      "changePct": -1.61,
+      "marketCapB": 8018.8
     },
     {
       "id": "consumer_disc",
-      "marketCapB": 6580.0
+      "top3": [
+        {
+          "id": "amazon",
+          "ticker": "AMZN",
+          "marketCapB": 2782.98,
+          "changePct": -4.59
+        },
+        {
+          "id": "tesla",
+          "ticker": "TSLA",
+          "marketCapB": 1479.95,
+          "changePct": -2.72
+        },
+        {
+          "id": "homedepot",
+          "ticker": "HD",
+          "marketCapB": 335.9,
+          "changePct": -0.33
+        }
+      ],
+      "changePct": -3.19,
+      "marketCapB": 6370.1
     },
     {
       "id": "comm_services",
-      "marketCapB": 6420.0
+      "top3": [
+        {
+          "id": "alphabet",
+          "ticker": "GOOG",
+          "marketCapB": 3331.92,
+          "changePct": -4.02
+        },
+        {
+          "id": "meta",
+          "ticker": "META",
+          "marketCapB": 1524.08,
+          "changePct": -3.73
+        },
+        {
+          "id": "netflix",
+          "ticker": "NFLX",
+          "marketCapB": 240.06,
+          "changePct": -2.97
+        }
+      ],
+      "changePct": -2.64,
+      "marketCapB": 6250.5
     },
     {
       "id": "healthcare",
-      "marketCapB": 6120.0
+      "top3": [
+        {
+          "id": "lilly",
+          "ticker": "LLY",
+          "marketCapB": 1203.5,
+          "changePct": -2.1
+        },
+        {
+          "id": "jnj",
+          "ticker": "JNJ",
+          "marketCapB": 643.09,
+          "changePct": -1.98
+        },
+        {
+          "id": "abbvie",
+          "ticker": "ABBV",
+          "marketCapB": 501.19,
+          "changePct": -0.69
+        }
+      ],
+      "changePct": -1.88,
+      "marketCapB": 6004.9
     },
     {
       "id": "industrials",
-      "marketCapB": 4950.0
+      "top3": [
+        {
+          "id": "ge",
+          "ticker": "GE",
+          "marketCapB": 329.52,
+          "changePct": -3.02
+        },
+        {
+          "id": "caterpillar",
+          "ticker": "CAT",
+          "marketCapB": 245.9,
+          "changePct": -4.38
+        },
+        {
+          "id": "uber",
+          "ticker": "UBER",
+          "marketCapB": 133.95,
+          "changePct": -4.93
+        }
+      ],
+      "changePct": -2.0,
+      "marketCapB": 4851.0
     },
     {
       "id": "consumer_staples",
-      "marketCapB": 3680.0
+      "top3": [
+        {
+          "id": "walmart",
+          "ticker": "WMT",
+          "marketCapB": 999.97,
+          "changePct": -1.05
+        },
+        {
+          "id": "costco",
+          "ticker": "COST",
+          "marketCapB": 484.71,
+          "changePct": -0.47
+        },
+        {
+          "id": "cocacola",
+          "ticker": "KO",
+          "marketCapB": 413.37,
+          "changePct": -1.76
+        }
+      ],
+      "changePct": -1.4,
+      "marketCapB": 3628.5
     },
     {
       "id": "energy",
-      "marketCapB": 2140.0
+      "top3": [
+        {
+          "id": "exxon",
+          "ticker": "XOM",
+          "marketCapB": 648.31,
+          "changePct": -1.05
+        },
+        {
+          "id": "chevron",
+          "ticker": "CVX",
+          "marketCapB": 402.93,
+          "changePct": 0.05
+        },
+        {
+          "id": "conocophillips",
+          "ticker": "COP",
+          "marketCapB": 159.6,
+          "changePct": 0.21
+        }
+      ],
+      "changePct": -0.88,
+      "marketCapB": 2121.2
     },
     {
       "id": "utilities",
-      "marketCapB": 1520.0
+      "top3": [
+        {
+          "id": "nextera",
+          "ticker": "NEE",
+          "marketCapB": 175.73,
+          "changePct": -1.45
+        },
+        {
+          "id": "constellation",
+          "ticker": "CEG",
+          "marketCapB": 88.62,
+          "changePct": -5.1
+        },
+        {
+          "id": "southern",
+          "ticker": "SO",
+          "marketCapB": 108.61,
+          "changePct": -1.19
+        }
+      ],
+      "changePct": -1.66,
+      "marketCapB": 1494.8
     },
     {
       "id": "real_estate",
-      "marketCapB": 1340.0
+      "top3": [
+        {
+          "id": "prologis",
+          "ticker": "PLD",
+          "marketCapB": 117.26,
+          "changePct": -1.49
+        },
+        {
+          "id": "americantower",
+          "ticker": "AMT",
+          "marketCapB": 84.01,
+          "changePct": 0.16
+        },
+        {
+          "id": "equinix",
+          "ticker": "EQIX",
+          "marketCapB": 100.78,
+          "changePct": -1.78
+        }
+      ],
+      "changePct": -1.61,
+      "marketCapB": 1318.4
     },
     {
       "id": "materials",
-      "marketCapB": 1190.0
+      "top3": [
+        {
+          "id": "linde",
+          "ticker": "LIN",
+          "marketCapB": 234.23,
+          "changePct": -0.38
+        },
+        {
+          "id": "sherwin",
+          "ticker": "SHW",
+          "marketCapB": 82.1,
+          "changePct": -1.95
+        },
+        {
+          "id": "freeport",
+          "ticker": "FCX",
+          "marketCapB": 70.48,
+          "changePct": -5.05
+        }
+      ],
+      "changePct": -1.92,
+      "marketCapB": 1167.2
+    }
+  ],
+  "kospi200Sectors": [
+    {
+      "id": "kr_it",
+      "marketCapJo": 1967.0,
+      "changePct": -7.44,
+      "top3": [
+        {
+          "id": "kr_samsung",
+          "ticker": "005930.KS",
+          "marketCapJo": 1064.02,
+          "changePct": -7.57
+        },
+        {
+          "id": "kr_skhynix",
+          "ticker": "000660.KS",
+          "marketCapJo": 778.89,
+          "changePct": -6.85
+        },
+        {
+          "id": "kr_semco",
+          "ticker": "009150.KS",
+          "marketCapJo": 57.59,
+          "changePct": -12.88
+        }
+      ]
+    },
+    {
+      "id": "kr_industrials",
+      "marketCapJo": 258.5,
+      "changePct": -5.88,
+      "top3": [
+        {
+          "id": "kr_hanwhaaero",
+          "ticker": "012450.KS",
+          "marketCapJo": 31.25,
+          "changePct": -3.96
+        },
+        {
+          "id": "kr_hdhhi",
+          "ticker": "329180.KS",
+          "marketCapJo": 25.72,
+          "changePct": -6.31
+        },
+        {
+          "id": "kr_doosanenerbility",
+          "ticker": "034020.KS",
+          "marketCapJo": 25.88,
+          "changePct": -7.76
+        }
+      ]
+    },
+    {
+      "id": "kr_financials",
+      "marketCapJo": 304.9,
+      "changePct": 0.2,
+      "top3": [
+        {
+          "id": "kr_kbfg",
+          "ticker": "105560.KS",
+          "marketCapJo": 54.16,
+          "changePct": -0.13
+        },
+        {
+          "id": "kr_shinhan",
+          "ticker": "055550.KS",
+          "marketCapJo": 39.81,
+          "changePct": 0.47
+        },
+        {
+          "id": "kr_meritz",
+          "ticker": "138040.KS",
+          "marketCapJo": 21.07,
+          "changePct": 0.56
+        }
+      ]
+    },
+    {
+      "id": "kr_energy_chem",
+      "marketCapJo": 195.6,
+      "changePct": -3.2,
+      "top3": [
+        {
+          "id": "kr_lges",
+          "ticker": "373220.KS",
+          "marketCapJo": 69.73,
+          "changePct": -1.32
+        },
+        {
+          "id": "kr_samsungsdi",
+          "ticker": "006400.KS",
+          "marketCapJo": 32.23,
+          "changePct": -6.65
+        },
+        {
+          "id": "kr_skinnovation",
+          "ticker": "096770.KS",
+          "marketCapJo": 15.87,
+          "changePct": -4.48
+        }
+      ]
+    },
+    {
+      "id": "kr_consumer_disc",
+      "marketCapJo": 193.9,
+      "changePct": -5.05,
+      "top3": [
+        {
+          "id": "kr_hyundai",
+          "ticker": "005380.KS",
+          "marketCapJo": 51.63,
+          "changePct": -5.14
+        },
+        {
+          "id": "kr_kia",
+          "ticker": "000270.KS",
+          "marketCapJo": 34.08,
+          "changePct": -4.59
+        },
+        {
+          "id": "kr_mobis",
+          "ticker": "012330.KS",
+          "marketCapJo": 29.01,
+          "changePct": -5.42
+        }
+      ]
+    },
+    {
+      "id": "kr_healthcare",
+      "marketCapJo": 154.5,
+      "changePct": -1.32,
+      "top3": [
+        {
+          "id": "kr_sambaf",
+          "ticker": "207940.KS",
+          "marketCapJo": 62.59,
+          "changePct": -1.67
+        },
+        {
+          "id": "kr_celltrion",
+          "ticker": "068270.KS",
+          "marketCapJo": 49.44,
+          "changePct": -0.93
+        },
+        {
+          "id": "kr_yuhan",
+          "ticker": "000100.KS",
+          "marketCapJo": 5.93,
+          "changePct": -0.86
+        }
+      ]
+    },
+    {
+      "id": "kr_comm",
+      "marketCapJo": 68.8,
+      "changePct": -2.47,
+      "top3": [
+        {
+          "id": "kr_naver",
+          "ticker": "035420.KS",
+          "marketCapJo": 24.54,
+          "changePct": -4.16
+        },
+        {
+          "id": "kr_krafton",
+          "ticker": "259960.KS",
+          "marketCapJo": 9.23,
+          "changePct": 2.99
+        },
+        {
+          "id": "kr_kakao",
+          "ticker": "035720.KS",
+          "marketCapJo": 13.69,
+          "changePct": -3.13
+        }
+      ]
+    },
+    {
+      "id": "kr_materials",
+      "marketCapJo": 69.8,
+      "changePct": -4.5,
+      "top3": [
+        {
+          "id": "kr_posco",
+          "ticker": "005490.KS",
+          "marketCapJo": 19.93,
+          "changePct": -3.08
+        },
+        {
+          "id": "kr_koreazinc",
+          "ticker": "010130.KS",
+          "marketCapJo": 15.34,
+          "changePct": -7.2
+        },
+        {
+          "id": "kr_lgchem",
+          "ticker": "051910.KS",
+          "marketCapJo": 14.26,
+          "changePct": -3.58
+        }
+      ]
+    },
+    {
+      "id": "kr_staples",
+      "marketCapJo": 72.6,
+      "changePct": -1.56,
+      "top3": [
+        {
+          "id": "kr_ktng",
+          "ticker": "033780.KS",
+          "marketCapJo": 18.7,
+          "changePct": -1.32
+        },
+        {
+          "id": "kr_samyang",
+          "ticker": "003230.KS",
+          "marketCapJo": 9.28,
+          "changePct": -1.44
+        },
+        {
+          "id": "kr_amore",
+          "ticker": "090430.KS",
+          "marketCapJo": 8.15,
+          "changePct": -2.25
+        }
+      ]
+    },
+    {
+      "id": "kr_utilities",
+      "marketCapJo": 25.5,
+      "changePct": 0.58,
+      "top3": [
+        {
+          "id": "kr_kepco",
+          "ticker": "015760.KS",
+          "marketCapJo": 16.47,
+          "changePct": 1.39
+        },
+        {
+          "id": "kr_kogas",
+          "ticker": "036460.KS",
+          "marketCapJo": 3.46,
+          "changePct": -1.7
+        },
+        {
+          "id": "kr_kepcokps",
+          "ticker": "051600.KS",
+          "marketCapJo": 1.52,
+          "changePct": -3.02
+        }
+      ]
+    }
+  ],
+  "commodities": [
+    {
+      "id": "cmd_gold",
+      "history": [
+        {
+          "label": "26.05 중",
+          "val": 4535
+        },
+        {
+          "label": "26.06 초",
+          "val": 4365
+        },
+        {
+          "label": "26.06 말",
+          "val": 4203
+        },
+        {
+          "label": "26.07 초",
+          "val": 4082
+        },
+        {
+          "label": "26.07 말",
+          "val": 4050
+        },
+        {
+          "label": "26.08 초",
+          "val": 4300
+        },
+        {
+          "label": "26.08 말",
+          "val": 4681
+        },
+        {
+          "label": "26.09 초",
+          "val": 4439
+        },
+        {
+          "label": "26.09 말",
+          "val": 4376
+        },
+        {
+          "label": "26.10 초",
+          "val": 4141
+        },
+        {
+          "label": "26.10 말",
+          "val": 4060
+        },
+        {
+          "label": "26.11 초",
+          "val": 4114
+        },
+        {
+          "label": "26.11 현재",
+          "val": 3519
+        }
+      ]
+    },
+    {
+      "id": "cmd_copper",
+      "history": [
+        {
+          "label": "26.05 중",
+          "val": 6.29
+        },
+        {
+          "label": "26.06 초",
+          "val": 6.26
+        },
+        {
+          "label": "26.06 말",
+          "val": 6.36
+        },
+        {
+          "label": "26.07 초",
+          "val": 6.05
+        },
+        {
+          "label": "26.07 말",
+          "val": 6.3
+        },
+        {
+          "label": "26.08 초",
+          "val": 6.69
+        },
+        {
+          "label": "26.08 말",
+          "val": 6.58
+        },
+        {
+          "label": "26.09 초",
+          "val": 6.74
+        },
+        {
+          "label": "26.09 말",
+          "val": 6.76
+        },
+        {
+          "label": "26.10 초",
+          "val": 6.6
+        },
+        {
+          "label": "26.10 말",
+          "val": 6.36
+        },
+        {
+          "label": "26.11 초",
+          "val": 6.25
+        },
+        {
+          "label": "26.11 현재",
+          "val": 5.47
+        }
+      ]
+    },
+    {
+      "id": "cmd_oil",
+      "history": [
+        {
+          "label": "26.05 중",
+          "val": 98.26
+        },
+        {
+          "label": "26.06 초",
+          "val": 90.54
+        },
+        {
+          "label": "26.06 말",
+          "val": 74.82
+        },
+        {
+          "label": "26.07 초",
+          "val": 73.52
+        },
+        {
+          "label": "26.07 말",
+          "val": 92.19
+        },
+        {
+          "label": "26.08 초",
+          "val": 77.29
+        },
+        {
+          "label": "26.08 말",
+          "val": 87.06
+        },
+        {
+          "label": "26.09 초",
+          "val": 93.03
+        },
+        {
+          "label": "26.09 말",
+          "val": 94.59
+        },
+        {
+          "label": "26.10 초",
+          "val": 88.28
+        },
+        {
+          "label": "26.10 말",
+          "val": 99.47
+        },
+        {
+          "label": "26.11 초",
+          "val": 90.52
+        },
+        {
+          "label": "26.11 현재",
+          "val": 82.97
+        }
+      ]
+    }
+  ],
+  "macroIndicators": [
+    {
+      "id": "fx_rate",
+      "usDisplay": "103.8pt",
+      "usNum": 103.8,
+      "usChange": "▼ 0.08%",
+      "usDir": "down",
+      "krDisplay": "1,337.0원",
+      "krNum": 1337.04,
+      "krChange": "▲ 6.6원",
+      "krDir": "up",
+      "gapText": "원/달러 1,337.0원 · DXY 103.8pt"
+    },
+    {
+      "id": "policy_rate",
+      "krDisplay": "3.00%",
+      "krNum": 3.0,
+      "krPeriod": "금통위 기준금리",
+      "krChange": "▲ 0.25%p",
+      "krDir": "up"
+    },
+    {
+      "id": "bond_2y",
+      "krDisplay": "3.72%",
+      "krNum": 3.72,
+      "krChange": "▼ 1bp",
+      "krDir": "down",
+      "krPeriod": "국고채 2년 (11.19)"
+    },
+    {
+      "id": "bond_10y",
+      "krDisplay": "3.94%",
+      "krNum": 3.94,
+      "krChange": "▼ 4bp",
+      "krDir": "down",
+      "krPeriod": "국고채 10년 (11.19)"
+    },
+    {
+      "id": "yield_spread",
+      "krDisplay": "+22bp",
+      "krNum": 0.22,
+      "krPeriod": "정상 우상향 구간",
+      "krChange": "▼ 3bp",
+      "krDir": "down"
+    },
+    {
+      "id": "cpi",
+      "krDisplay": "2.8%",
+      "krNum": 2.8,
+      "krChange": "▼ 0.1%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 전년동월비"
+    },
+    {
+      "id": "core_cpi",
+      "krDisplay": "2.8%",
+      "krNum": 2.8,
+      "krChange": "보합 (0.0%p)",
+      "krDir": "flat",
+      "krPeriod": "2026.10월 농산물·석유류 제외"
+    },
+    {
+      "id": "ppi",
+      "krDisplay": "7.2%",
+      "krNum": 7.2,
+      "krChange": "▼ 0.4%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 전년동월비"
+    },
+    {
+      "id": "unemployment",
+      "krDisplay": "2.5%",
+      "krNum": 2.5,
+      "krChange": "▼ 0.1%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 계절조정"
+    },
+    {
+      "id": "employment_rate",
+      "krDisplay": "62.8%",
+      "krNum": 62.8,
+      "krChange": "▼ 0.1%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 15세 이상 (계절조정)"
+    },
+    {
+      "id": "real_gdp",
+      "krDisplay": "1.0%",
+      "krNum": 1.0,
+      "krChange": "▲ 0.4%p",
+      "krDir": "up",
+      "krPeriod": "2026년 3분기 전기비 (연율환산 4.1%)"
     }
   ]
 }
