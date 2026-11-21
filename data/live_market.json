@@ -1,8 +1,8 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-22T02:57:31.265181+09:00",
-  "updatedLabel": "2026년 11월 22일 2:57 기준",
+  "updatedAt": "2026-11-22T06:50:58.798242+09:00",
+  "updatedLabel": "2026년 11월 22일 6:50 기준",
   "usdKrw": 1334.79,
   "marketIndices": [
     {
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 14277.9
+      "marketCapB": 13282.7
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7603.1
+      "marketCapB": 7476.9
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 5916.4
+      "marketCapB": 5771.4
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 5830.2
+      "marketCapB": 5701.9
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6214.2
+      "marketCapB": 6222.9
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 4254.2
+      "marketCapB": 4118.9
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3844.6
+      "marketCapB": 3873.8
     },
     {
       "id": "energy",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2087.0
+      "marketCapB": 2072.0
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1499.8
+      "marketCapB": 1491.7
     },
     {
       "id": "real_estate",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1298.2
+      "marketCapB": 1286.6
     },
     {
       "id": "materials",
@@ -1142,7 +1142,7 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 1077.4
+      "marketCapB": 1057.5
     }
   ],
   "kospi200Sectors": [
@@ -1622,7 +1622,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 59975
+          "val": 60331
         }
       ]
     }
@@ -1639,6 +1639,86 @@
       "krChange": "▲ 4.4원",
       "krDir": "up",
       "gapText": "원/달러 1,334.8원 · DXY 103.8pt"
+    },
+    {
+      "id": "policy_rate",
+      "krDisplay": "3.00%",
+      "krNum": 3.0,
+      "krPeriod": "금통위 기준금리",
+      "krChange": "▲ 0.25%p",
+      "krDir": "up"
+    },
+    {
+      "id": "bond_2y",
+      "krDisplay": "3.65%",
+      "krNum": 3.65,
+      "krChange": "▼ 7bp",
+      "krDir": "down",
+      "krPeriod": "국고채 2년 (11.20)"
+    },
+    {
+      "id": "bond_10y",
+      "krDisplay": "3.86%",
+      "krNum": 3.86,
+      "krChange": "▼ 8bp",
+      "krDir": "down",
+      "krPeriod": "국고채 10년 (11.20)"
+    },
+    {
+      "id": "yield_spread",
+      "krDisplay": "+21bp",
+      "krNum": 0.21,
+      "krPeriod": "정상 우상향 구간",
+      "krChange": "▼ 1bp",
+      "krDir": "down"
+    },
+    {
+      "id": "cpi",
+      "krDisplay": "2.8%",
+      "krNum": 2.8,
+      "krChange": "▼ 0.1%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 전년동월비"
+    },
+    {
+      "id": "core_cpi",
+      "krDisplay": "2.8%",
+      "krNum": 2.8,
+      "krChange": "보합 (0.0%p)",
+      "krDir": "flat",
+      "krPeriod": "2026.10월 농산물·석유류 제외"
+    },
+    {
+      "id": "ppi",
+      "krDisplay": "7.2%",
+      "krNum": 7.2,
+      "krChange": "▼ 0.4%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 전년동월비"
+    },
+    {
+      "id": "unemployment",
+      "krDisplay": "2.5%",
+      "krNum": 2.5,
+      "krChange": "▼ 0.1%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 계절조정"
+    },
+    {
+      "id": "employment_rate",
+      "krDisplay": "62.8%",
+      "krNum": 62.8,
+      "krChange": "▼ 0.1%p",
+      "krDir": "down",
+      "krPeriod": "2026.10월 15세 이상 (계절조정)"
+    },
+    {
+      "id": "real_gdp",
+      "krDisplay": "1.0%",
+      "krNum": 1.0,
+      "krChange": "▲ 0.4%p",
+      "krDir": "up",
+      "krPeriod": "2026년 3분기 전기비 (연율환산 4.1%)"
     }
   ]
 }
