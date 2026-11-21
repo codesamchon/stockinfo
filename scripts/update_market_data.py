@@ -688,14 +688,18 @@ def fetch_market_indices_6m() -> list:
     Fetch live level, daily point/% change, and 13-point 6-month history for:
       - S&P 500 (^GSPC)
       - NASDAQ Composite (^IXIC)
+      - PHLX Semiconductor Index (^SOX)
       - KOSPI (Naver real-time KOSPI + ^KS11 / Naver 6m history)
       - KOSDAQ (Naver real-time KOSDAQ + ^KQ11 / Naver 6m history)
+      - CBOE Volatility Index (^VIX + FRED VIXCLS backup)
     """
     specs = [
         ("idx_sp500", "^GSPC", None),
         ("idx_nasdaq", "^IXIC", None),
+        ("idx_sox", "^SOX", None),
         ("idx_kospi", "^KS11", "KOSPI"),
         ("idx_kosdaq", "^KQ11", "KOSDAQ"),
+        ("idx_vix", "^VIX", None),
     ]
     results = []
 
@@ -715,7 +719,7 @@ def fetch_market_indices_6m() -> list:
             except Exception as exc:
                 print(f"[WARN] Naver live index fallback for {naver_code}: {exc}")
 
-        # 2. Yahoo Finance quote (Primary for US indices, fallback for KR indices) & 6M daily history
+        # 2. Yahoo Finance quote & 6M daily history
         try:
             tk = yf.Ticker(yf_sym)
             if live_price is None or change_pct is None:
@@ -750,6 +754,23 @@ def fetch_market_indices_6m() -> list:
                 hist_pairs = fetch_korean_index_history_naver(naver_code)
             except Exception as exc:
                 print(f"[WARN] Naver 6m index history fallback failed for {naver_code}: {exc}")
+
+        # 4. Backup VIX via FRED public CSV (VIXCLS) if Yahoo missed ^VIX
+        if idx_id == "idx_vix" and (live_price is None or len(hist_pairs) < 6):
+            try:
+                vix_rows = fetch_fred_series_csv("VIXCLS", 135)
+                if len(vix_rows) >= 6:
+                    hist_pairs = [
+                        (datetime.strptime(dt_s[:10], "%Y-%m-%d"), float(val_f))
+                        for dt_s, val_f in vix_rows
+                    ]
+                    if live_price is None:
+                        live_price = round(hist_pairs[-1][1], 2)
+                    if len(hist_pairs) >= 2 and hist_pairs[-2][1] > 0:
+                        change_pts = round(hist_pairs[-1][1] - hist_pairs[-2][1], 2)
+                        change_pct = round(((hist_pairs[-1][1] - hist_pairs[-2][1]) / hist_pairs[-2][1]) * 100.0, 2)
+            except Exception as exc:
+                print(f"[WARN] FRED VIXCLS backup failed: {exc}")
 
         if live_price is None:
             continue
@@ -786,17 +807,32 @@ def fetch_market_indices_6m() -> list:
 
 
 def fetch_commodities_6m() -> list:
-    """Fetch 6-month sampled history for Gold ($/oz), Copper ($/lb), WTI Oil ($/bbl)."""
+    """
+    Fetch 6-month sampled history & live spot/futures price for:
+      - Gold ($/oz, GC=F)
+      - Copper ($/lb, HG=F)
+      - WTI Crude Oil ($/bbl, CL=F)
+      - Bitcoin ($/BTC, BTC-USD)
+    """
     specs = [
         ("cmd_gold", "GC=F", 0),
         ("cmd_copper", "HG=F", 2),
         ("cmd_oil", "CL=F", 2),
+        ("cmd_btc", "BTC-USD", 0),
     ]
     result = []
     for cid, ticker, decimals in specs:
         try:
-            df = yf.Ticker(ticker).history(period="6mo", interval="1d")
-            df = df.dropna(subset=["Close"])
+            tk = yf.Ticker(ticker)
+            live_p = None
+            try:
+                lp = getattr(tk.fast_info, "last_price", None)
+                if lp and lp > 0:
+                    live_p = float(lp)
+            except Exception:
+                pass
+
+            df = tk.history(period="6mo", interval="1d").dropna(subset=["Close"])
             if len(df) < 10:
                 continue
             total = len(df)
@@ -804,9 +840,10 @@ def fetch_commodities_6m() -> list:
             pts = []
             for idx_pos, row_idx in enumerate(indices):
                 dt = df.index[row_idx]
-                val = float(df["Close"].iloc[row_idx])
+                is_last = idx_pos == len(indices) - 1
+                val = live_p if (is_last and live_p is not None) else float(df["Close"].iloc[row_idx])
                 val_rounded = round(val, decimals) if decimals > 0 else round(val)
-                if idx_pos == len(indices) - 1:
+                if is_last:
                     label = f"{dt.strftime('%y.%m')} 현재"
                 else:
                     day_part = "초" if dt.day <= 10 else ("중" if dt.day <= 20 else "말")
@@ -814,7 +851,7 @@ def fetch_commodities_6m() -> list:
                 pts.append({"label": label, "val": val_rounded})
             result.append({"id": cid, "history": pts})
         except Exception as exc:
-            print(f"[WARN] Commodity 6m fetch failed for {ticker}: {exc}")
+            print(f"[WARN] Commodity/Asset 6m fetch failed for {ticker}: {exc}")
     return result
 
 
@@ -1601,7 +1638,7 @@ def main():
 
     # 4. US & KR 4 Major Stock Market Indices (Live + 6-Month History)
     indices_out = fetch_market_indices_6m()
-    print(f"[INFO] Loaded {len(indices_out)} major stock market indices (S&P 500, NASDAQ, KOSPI, KOSDAQ).")
+    print(f"[INFO] Loaded {len(indices_out)} market & volatility indices (S&P 500, NASDAQ, SOX, KOSPI, KOSDAQ, VIX).")
 
     # 5. Commodities 6-Month History
     commodities_out = fetch_commodities_6m()

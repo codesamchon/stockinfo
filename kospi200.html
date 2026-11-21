@@ -25,7 +25,7 @@
   <!-- D3.js v7 -->
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
   <!-- Shared Stylesheet -->
-  <link rel="stylesheet" href="./style.css?v=19" />
+  <link rel="stylesheet" href="./style.css?v=20" />
 </head>
 <body data-page="kospi200">
   <!-- Top Interactive Control Bar -->
@@ -152,11 +152,11 @@
     <div id="macroFilterInner" class="filter-inner hidden">
       <div class="country-filter-area">
         <div id="macroCategoryChips" class="country-chips" role="group" aria-label="거시지표 분류 필터"></div>
-        <button id="btnToggleIndices" type="button" class="btn-country-toggle" aria-pressed="true" title="S&amp;P 500·나스닥·코스피·코스닥 최근 6개월 추이 그래프 보이기/숨기기">
-          <span id="toggleIndicesLabel">주가지수 그래프 숨기기</span>
+        <button id="btnToggleIndices" type="button" class="btn-country-toggle" aria-pressed="true" title="S&amp;P 500·나스닥·필라델피아 반도체(SOX)·코스피·코스닥·공포지수(VIX) 최근 6개월 추이 보이기/숨기기">
+          <span id="toggleIndicesLabel">지수·VIX 그래프 숨기기</span>
         </button>
-        <button id="btnToggleCommodities" type="button" class="btn-country-toggle" aria-pressed="true" title="금·구리·원유 최근 6개월 그래프 보이기/숨기기">
-          <span id="toggleCommoditiesLabel">원자재 그래프 숨기기</span>
+        <button id="btnToggleCommodities" type="button" class="btn-country-toggle" aria-pressed="true" title="금·구리·WTI 원유·비트코인(BTC) 최근 6개월 추이 보이기/숨기기">
+          <span id="toggleCommoditiesLabel">원자재·BTC 그래프 숨기기</span>
         </button>
       </div>
       <div class="search-box">
@@ -164,7 +164,7 @@
           <circle cx="11" cy="11" r="8" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
-        <input id="macroSearchInput" type="search" placeholder="지표명, 영문 약어 검색 (예: 국채금리, CPI, PPI, 실업률, GDP)" autocomplete="off" />
+        <input id="macroSearchInput" type="search" placeholder="지표명·지수·자산 검색 (예: 비트코인, 반도체, SOX, VIX, 국채금리, CPI)" autocomplete="off" />
       </div>
     </div>
     <!-- Insights Filter Row -->
@@ -266,28 +266,28 @@
       <div id="macroContentWrap" class="hidden">
         <div id="macroKpiStrip" class="kpi-strip"></div>
 
-        <!-- 6-Month US & KR 4 Major Stock Indices Sparkline Strip (Option 2) -->
-        <section id="macroIndexSection" class="commodity-strip-section index-strip-section" aria-label="한·미 4대 주가지수 최근 6개월 추이">
+        <!-- 6-Month Stock Indices, Semiconductor (SOX) & Volatility (VIX) Sparkline Strip -->
+        <section id="macroIndexSection" class="commodity-strip-section index-strip-section" aria-label="주요 주가지수·반도체·변동성(VIX) 최근 6개월 추이">
           <div class="commodity-strip-header">
             <div class="commodity-strip-title">
-              <strong>한·미 4대 주가지수 최근 6개월 추이</strong>
-              <span>S&amp;P 500 · NASDAQ · KOSPI · KOSDAQ — 클릭 시 지수 상세 지표 및 거시 해설 보기</span>
+              <strong>주요 주가지수 · 시장변동성 최근 6개월 추이</strong>
+              <span>S&amp;P 500 · NASDAQ · 필라델피아 반도체(SOX) · KOSPI · KOSDAQ · 공포지수(VIX) — 클릭 시 상세 지표 및 해설 보기</span>
             </div>
-            <button id="btnHideIndicesInline" type="button" class="btn-ghost commodity-hide-btn" title="주가지수 그래프 영역 숨기기">
+            <button id="btnHideIndicesInline" type="button" class="btn-ghost commodity-hide-btn" title="지수·VIX 그래프 영역 숨기기">
               그래프 숨기기 &times;
             </button>
           </div>
           <div id="macroIndexGrid" class="index-spark-grid"></div>
         </section>
 
-        <!-- 6-Month Key Commodities Sparkline Strip (Placed right above Policy Rate) -->
-        <section id="macroCommoditySection" class="commodity-strip-section" aria-label="주요 원자재 최근 6개월 시세 추이">
+        <!-- 6-Month Key Commodities & Bitcoin Sparkline Strip (Placed right above Policy Rate) -->
+        <section id="macroCommoditySection" class="commodity-strip-section" aria-label="핵심 원자재 및 비트코인 최근 6개월 시세 추이">
           <div class="commodity-strip-header">
             <div class="commodity-strip-title">
-              <strong>핵심 원자재 최근 6개월 추이</strong>
-              <span>금($/oz) · 구리($/lb) · WTI 원유($/bbl) — 클릭 시 표준 미터법(SI) 환산 및 해설 보기</span>
+              <strong>핵심 원자재 · 디지털자산 최근 6개월 추이</strong>
+              <span>금($/oz) · 구리($/lb) · WTI 원유($/bbl) · 비트코인($/BTC) — 클릭 시 단위·원화 환산 및 거시 해설 보기</span>
             </div>
-            <button id="btnHideCommoditiesInline" type="button" class="btn-ghost commodity-hide-btn" title="원자재 그래프 영역 숨기기">
+            <button id="btnHideCommoditiesInline" type="button" class="btn-ghost commodity-hide-btn" title="원자재·비트코인 그래프 영역 숨기기">
               그래프 숨기기 &times;
             </button>
           </div>
@@ -372,6 +372,6 @@
 
 
   <!-- Shared Application Script -->
-  <script src="./app.js?v=19" defer></script>
+  <script src="./app.js?v=20" defer></script>
 </body>
 </html>

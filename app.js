@@ -512,27 +512,29 @@
       enName: "S&P 500 Index",
       ticker: "^GSPC",
       country: "US",
+      tagLabel: "미국 대형주",
+      showInTopBar: true,
       color: "#3B6FD8",
       decimals: 2,
       targetPage: "sp500",
       exchange: "미국 NYSE · NASDAQ 대형주 500종목",
-      price: 6012.45,
-      changePts: 22.84,
-      changePct: 0.38,
+      price: 6935.00,
+      changePts: -240.83,
+      changePct: -3.36,
       history: [
-        { label: "26.06 초", val: 5492.4 },
-        { label: "26.06 말", val: 5560.8 },
-        { label: "26.07 초", val: 5634.2 },
-        { label: "26.07 말", val: 5588.5 },
-        { label: "26.08 초", val: 5512.9 },
-        { label: "26.08 말", val: 5695.3 },
-        { label: "26.09 초", val: 5718.6 },
-        { label: "26.09 말", val: 5814.0 },
-        { label: "26.10 초", val: 5865.7 },
-        { label: "26.10 중", val: 5932.1 },
-        { label: "26.10 말", val: 5905.4 },
-        { label: "26.11 초", val: 5978.2 },
-        { label: "26.11 현재", val: 6012.45 }
+        { label: "26.06 초", val: 5980.4 },
+        { label: "26.06 말", val: 6125.8 },
+        { label: "26.07 초", val: 6290.2 },
+        { label: "26.07 말", val: 6385.5 },
+        { label: "26.08 초", val: 6240.9 },
+        { label: "26.08 말", val: 6520.3 },
+        { label: "26.09 초", val: 6618.6 },
+        { label: "26.09 말", val: 6794.0 },
+        { label: "26.10 초", val: 6915.7 },
+        { label: "26.10 중", val: 7082.1 },
+        { label: "26.10 말", val: 7145.4 },
+        { label: "26.11 초", val: 7175.8 },
+        { label: "26.11 현재", val: 6935.00 }
       ],
       summary: "미국 증시에 상장된 시가총액 상위 500개 우량 대기업을 포괄하는 글로벌 대표 벤치마크 지수입니다. 정보기술(AI·클라우드)·금융·헬스케어 비중이 높으며 글로벌 기관 자금의 핵심 기준점 역할을 합니다."
     },
@@ -543,29 +545,64 @@
       enName: "NASDAQ Composite",
       ticker: "^IXIC",
       country: "US",
+      tagLabel: "미국 기술주",
+      showInTopBar: true,
       color: "#7C58C9",
       decimals: 2,
       targetPage: "macro",
       exchange: "미국 NASDAQ 기술·성장주 중심 종합지수",
-      price: 19348.60,
-      changePts: 118.40,
-      changePct: 0.62,
+      price: 22480.60,
+      changePts: -985.40,
+      changePct: -4.20,
       history: [
-        { label: "26.06 초", val: 17320.5 },
-        { label: "26.06 말", val: 17785.2 },
-        { label: "26.07 초", val: 18140.8 },
-        { label: "26.07 말", val: 17860.4 },
-        { label: "26.08 초", val: 17495.0 },
-        { label: "26.08 말", val: 18190.6 },
-        { label: "26.09 초", val: 18310.2 },
-        { label: "26.09 말", val: 18680.9 },
-        { label: "26.10 초", val: 18895.4 },
-        { label: "26.10 중", val: 19180.7 },
-        { label: "26.10 말", val: 19042.3 },
-        { label: "26.11 초", val: 19230.2 },
-        { label: "26.11 현재", val: 19348.60 }
+        { label: "26.06 초", val: 19320.5 },
+        { label: "26.06 말", val: 19885.2 },
+        { label: "26.07 초", val: 20440.8 },
+        { label: "26.07 말", val: 20760.4 },
+        { label: "26.08 초", val: 20195.0 },
+        { label: "26.08 말", val: 21290.6 },
+        { label: "26.09 초", val: 21710.2 },
+        { label: "26.09 말", val: 22380.9 },
+        { label: "26.10 초", val: 22895.4 },
+        { label: "26.10 중", val: 23480.7 },
+        { label: "26.10 말", val: 23642.3 },
+        { label: "26.11 초", val: 23466.0 },
+        { label: "26.11 현재", val: 22480.60 }
       ],
       summary: "애플·엔비디아·마이크로소프트·알파벳·앤트로픽·스페이스X 등 글로벌 빅테크와 AI 반도체·소프트웨어 혁신 기업들이 집중된 기술주 대표 지수입니다. 미국 국채 금리(할인율) 변화와 AI 설비투자 사이클에 민감하게 반응합니다."
+    },
+    {
+      id: "idx_sox",
+      shortName: "필라델피아 반도체",
+      koName: "필라델피아 반도체지수",
+      enName: "PHLX Semiconductor (SOX)",
+      ticker: "^SOX",
+      country: "US",
+      tagLabel: "SOX · 반도체 30",
+      showInTopBar: false,
+      color: "#0EA5E9",
+      decimals: 2,
+      targetPage: "macro",
+      exchange: "미국 NASDAQ PHLX 글로벌 핵심 반도체 30종목",
+      price: 8408.59,
+      changePts: -1007.79,
+      changePct: -10.70,
+      history: [
+        { label: "26.06 초", val: 6840.2 },
+        { label: "26.06 말", val: 7215.6 },
+        { label: "26.07 초", val: 7690.4 },
+        { label: "26.07 말", val: 7920.8 },
+        { label: "26.08 초", val: 7580.5 },
+        { label: "26.08 말", val: 8295.0 },
+        { label: "26.09 초", val: 8640.3 },
+        { label: "26.09 말", val: 9120.7 },
+        { label: "26.10 초", val: 9485.2 },
+        { label: "26.10 중", val: 9890.4 },
+        { label: "26.10 말", val: 9745.1 },
+        { label: "26.11 초", val: 9653.8 },
+        { label: "26.11 현재", val: 8408.59 }
+      ],
+      summary: "엔비디아·TSMC·브로드컴·AMD·마이크론·ASML 등 글로벌 반도체 설계·장비·메모리 대표 30개 기업으로 산출되는 반도체 업황 핵심 선행지수(SOX)입니다. 글로벌 AI 서버 투자 사이클은 물론 한국 증시(삼성전자·SK하이닉스) 외국인 수급과 가장 밀접하게 연동됩니다."
     },
     {
       id: "idx_kospi",
@@ -574,27 +611,29 @@
       enName: "KOSPI Composite",
       ticker: "KOSPI",
       country: "KR",
+      tagLabel: "한국 대형주",
+      showInTopBar: true,
       color: "#259B8E",
       decimals: 2,
       targetPage: "kospi200",
       exchange: "한국거래소(KRX) 유가증권시장 종합주가지수",
-      price: 2684.50,
-      changePts: 16.25,
-      changePct: 0.61,
+      price: 4869.96,
+      changePts: -267.67,
+      changePct: -5.21,
       history: [
-        { label: "26.06 초", val: 2662.0 },
-        { label: "26.06 말", val: 2748.5 },
-        { label: "26.07 초", val: 2795.2 },
-        { label: "26.07 말", val: 2732.8 },
-        { label: "26.08 초", val: 2618.4 },
-        { label: "26.08 말", val: 2674.1 },
-        { label: "26.09 초", val: 2635.9 },
-        { label: "26.09 말", val: 2658.4 },
-        { label: "26.10 초", val: 2642.0 },
-        { label: "26.10 중", val: 2669.7 },
-        { label: "26.10 말", val: 2651.3 },
-        { label: "26.11 초", val: 2668.2 },
-        { label: "26.11 현재", val: 2684.50 }
+        { label: "26.06 초", val: 3890.0 },
+        { label: "26.06 말", val: 4085.5 },
+        { label: "26.07 초", val: 4240.2 },
+        { label: "26.07 말", val: 4380.8 },
+        { label: "26.08 초", val: 4215.4 },
+        { label: "26.08 말", val: 4560.1 },
+        { label: "26.09 초", val: 4725.9 },
+        { label: "26.09 말", val: 4910.4 },
+        { label: "26.10 초", val: 5042.0 },
+        { label: "26.10 중", val: 5185.7 },
+        { label: "26.10 말", val: 5148.3 },
+        { label: "26.11 초", val: 5137.6 },
+        { label: "26.11 현재", val: 4869.96 }
       ],
       summary: "대한민국 유가증권시장 상장 보통주 전체의 시가총액을 기준시점(1980.01.04=100)과 비교한 대표 지수입니다. AI 메모리 반도체·조선·방산·자동차 수출 실적 및 원/달러 환율·외국인 수급 흐름과 높은 동조성을 보입니다."
     },
@@ -605,33 +644,68 @@
       enName: "KOSDAQ Composite",
       ticker: "KOSDAQ",
       country: "KR",
+      tagLabel: "한국 성장주",
+      showInTopBar: true,
       color: "#E07A38",
       decimals: 2,
       targetPage: "macro",
       exchange: "한국거래소(KRX) 코스닥 기술·성장주 시장",
-      price: 768.40,
-      changePts: -2.35,
-      changePct: -0.30,
+      price: 645.68,
+      changePts: -28.42,
+      changePct: -4.22,
       history: [
-        { label: "26.06 초", val: 832.5 },
-        { label: "26.06 말", val: 841.0 },
-        { label: "26.07 초", val: 828.4 },
-        { label: "26.07 말", val: 804.2 },
-        { label: "26.08 초", val: 764.8 },
-        { label: "26.08 말", val: 778.5 },
-        { label: "26.09 초", val: 759.2 },
-        { label: "26.09 말", val: 772.6 },
-        { label: "26.10 초", val: 776.1 },
-        { label: "26.10 중", val: 781.4 },
-        { label: "26.10 말", val: 765.9 },
-        { label: "26.11 초", val: 770.8 },
-        { label: "26.11 현재", val: 768.40 }
+        { label: "26.06 초", val: 742.5 },
+        { label: "26.06 말", val: 756.0 },
+        { label: "26.07 초", val: 748.4 },
+        { label: "26.07 말", val: 734.2 },
+        { label: "26.08 초", val: 704.8 },
+        { label: "26.08 말", val: 718.5 },
+        { label: "26.09 초", val: 709.2 },
+        { label: "26.09 말", val: 702.6 },
+        { label: "26.10 초", val: 696.1 },
+        { label: "26.10 중", val: 688.4 },
+        { label: "26.10 말", val: 679.9 },
+        { label: "26.11 초", val: 674.1 },
+        { label: "26.11 현재", val: 645.68 }
       ],
       summary: "바이오·2차전지 소재·반도체 소부장·로보틱스·엔터테인먼트 등 국내 중소·벤처 혁신 성장주가 포진한 시장 지수입니다. 개인 투자자 수급 비중이 높고 국내외 금리 인하 속도 및 성장주 투자심리를 민감하게 반영합니다."
+    },
+    {
+      id: "idx_vix",
+      shortName: "VIX 변동성지수",
+      koName: "CBOE 변동성지수 (공포지수)",
+      enName: "CBOE Volatility Index (VIX)",
+      ticker: "^VIX",
+      country: "US",
+      isVolatility: true,
+      showInTopBar: false,
+      color: "#E11D48",
+      decimals: 2,
+      targetPage: "macro",
+      exchange: "미국 시카고옵션거래소(CBOE) S&P 500 30일 내재변동성",
+      price: 35.89,
+      changePts: 7.45,
+      changePct: 26.20,
+      history: [
+        { label: "26.06 초", val: 15.80 },
+        { label: "26.06 말", val: 14.95 },
+        { label: "26.07 초", val: 16.20 },
+        { label: "26.07 말", val: 18.40 },
+        { label: "26.08 초", val: 23.10 },
+        { label: "26.08 말", val: 17.65 },
+        { label: "26.09 초", val: 18.90 },
+        { label: "26.09 말", val: 17.40 },
+        { label: "26.10 초", val: 19.24 },
+        { label: "26.10 중", val: 18.15 },
+        { label: "26.10 말", val: 21.15 },
+        { label: "26.11 초", val: 24.56 },
+        { label: "26.11 현재", val: 35.89 }
+      ],
+      summary: "S&P 500 지수 옵션 가격에 반영된 향후 30일간의 시장 기대 변동성을 수치화한 대표 위험심리 지표('공포지수')입니다. 통상 20 미만은 안정·낙관 구간, 20~30은 경계 구간, 30 이상은 투매·패닉에 따른 고변동성 구간으로 해석하며 증시 급락 시 급등하는 역상관 특징을 보입니다."
     }
   ];
 
-  // 6-Month Key Commodities Dataset (Market Units on Cards: $/oz, $/lb, $/bbl | SI Metric in Detail Modal Only)
+  // 6-Month Key Commodities & Digital Asset Dataset (Gold $/oz, Copper $/lb, WTI $/bbl, Bitcoin $/BTC)
   const INITIAL_MACRO_COMMODITIES = [
     {
       id: "cmd_gold",
@@ -663,10 +737,10 @@
         { label: "26.10 초", val: 3788 },
         { label: "26.10 중", val: 3838 },
         { label: "26.10 말", val: 3798 },
-        { label: "26.11 초", val: 3765 },
-        { label: "26.11 현재", val: 3742 }
+        { label: "26.11 초", val: 3680 },
+        { label: "26.11 현재", val: 3515 }
       ],
-      summary: "금은 실질금리(명목금리-기대인플레이션)와 역의 관계를 갖는 대표 안전자산이자 인플레이션 헤지 수단입니다. 글로벌 중앙은행들의 외환보유고 다변화 매수세와 금리 인하 사이클이 맞물리며 최근 6개월간 온스당 3,700달러 선 위에서 견조한 흐름을 이어가고 있습니다."
+      summary: "금은 실질금리(명목금리-기대인플레이션)와 역의 관계를 갖는 대표 안전자산이자 인플레이션 헤지 수단입니다. 글로벌 중앙은행들의 외환보유고 다변화 매수세와 통화정책 경로에 따라 온스당 3,500~3,800달러 구간에서 움직이고 있습니다."
     },
     {
       id: "cmd_copper",
@@ -700,7 +774,7 @@
         { label: "26.10 중", val: 6.44 },
         { label: "26.10 말", val: 6.25 },
         { label: "26.11 초", val: 6.10 },
-        { label: "26.11 현재", val: 6.01 }
+        { label: "26.11 현재", val: 5.88 }
       ],
       summary: "실물 제조업·건설·전력망 투자를 가장 민감하게 선행 반영해 '닥터 코퍼(Dr. Copper)'로 불리는 핵심 산업금속입니다. AI 데이터센터 전력망 확충과 전기차 수요가 구조적 하단을 지지하는 가운데 글로벌 제조업 경기 기대에 따라 등락하고 있습니다."
     },
@@ -733,11 +807,54 @@
         { label: "26.09 말", val: 97.14 },
         { label: "26.10 초", val: 98.73 },
         { label: "26.10 중", val: 104.78 },
-        { label: "26.10 말", val: 107.64 },
-        { label: "26.11 초", val: 90.78 },
-        { label: "26.11 현재", val: 85.69 }
+        { label: "26.10 말", val: 95.40 },
+        { label: "26.11 초", val: 88.20 },
+        { label: "26.11 현재", val: 84.50 }
       ],
       summary: "에너지 비용과 운송비·석유화학 원가를 결정하여 헤드라인 소비자물가(CPI) 및 생산자물가(PPI)에 즉각적인 영향을 미치는 핵심 원자재입니다. 지정학적 공급 변수 이후 최근 배럴당 80달러 중반대로 안정화되며 인플레이션 재반등 우려를 완화하고 있습니다."
+    },
+    {
+      id: "cmd_btc",
+      koName: "비트코인",
+      enName: "Bitcoin (BTC-USD)",
+      unit: "$/BTC",
+      unitDesc: "1 비트코인당 달러 (24시간 글로벌 현물 시세)",
+      color: "#F7931A",
+      decimals: 0,
+      isCrypto: true,
+      exchange: "글로벌 디지털자산 현물 (현물 ETF·거래소 종합)",
+      cardSubNote: (val, usdKrw) => {
+        const totalMan = Math.round((val * usdKrw) / 10000);
+        if (totalMan >= 10000) {
+          const eok = Math.floor(totalMan / 10000);
+          const remMan = totalMan % 10000;
+          return remMan > 0
+            ? `약 ${eok}억 ${remMan.toLocaleString("ko-KR")}만 원`
+            : `약 ${eok}억 원`;
+        }
+        return `약 ${totalMan.toLocaleString("ko-KR")}만 원`;
+      },
+      modalSiNote: (val, usdKrw) => {
+        const unit001Usd = val * 0.01;
+        const unit001Man = ((unit001Usd * usdKrw) / 10000).toFixed(1);
+        return `0.01 BTC ≈ $${unit001Usd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (약 ${unit001Man}만 원)`;
+      },
+      history: [
+        { label: "26.06 초", val: 84200 },
+        { label: "26.06 말", val: 86900 },
+        { label: "26.07 초", val: 89400 },
+        { label: "26.07 말", val: 85100 },
+        { label: "26.08 초", val: 79800 },
+        { label: "26.08 말", val: 82600 },
+        { label: "26.09 초", val: 81400 },
+        { label: "26.09 말", val: 83900 },
+        { label: "26.10 초", val: 80500 },
+        { label: "26.10 중", val: 78900 },
+        { label: "26.10 말", val: 77648 },
+        { label: "26.11 초", val: 74725 },
+        { label: "26.11 현재", val: 59879 }
+      ],
+      summary: "발행량 상한(2,100만 개)을 지닌 대표 디지털 대체자산으로, 거시경제에서는 글로벌 통화유동성(M2)·실질금리 기대 및 위험자산 투자심리(Risk-On/Off)를 가장 빠르게 선반영하는 유동성 풍향계 역할을 합니다. 미국 현물 ETF 도입 이후 나스닥 기술주 및 달러 유동성과 높은 상관관계를 보이고 있습니다."
     }
   ];
 
@@ -2316,7 +2433,15 @@
 
     const filtered = allItems.filter(matchesMacroFilter);
     if (filtered.length === 0) {
-      listEl.innerHTML = `<div class="kpi-card" style="text-align:center;padding:28px;color:var(--ink-muted)">검색 조건에 일치하는 거시지표가 없습니다.</div>`;
+      const qLower = state.macroSearchQuery.trim().toLowerCase();
+      const matchedUpper =
+        qLower !== "" &&
+        (state.marketIndices.some((x) => matchesIndexSearchQuery(x, qLower)) ||
+          state.macroCommodities.some((c) => matchesCommoditySearchQuery(c, qLower)));
+      const emptyMsg = matchedUpper
+        ? "검색하신 지수·자산은 바로 위 6개월 추이 그래프 카드에 하이라이트되어 표시 중입니다."
+        : "검색 조건에 일치하는 거시지표가 없습니다.";
+      listEl.innerHTML = `<div class="kpi-card" style="text-align:center;padding:24px;color:var(--ink-muted)">${emptyMsg}</div>`;
       return;
     }
 
@@ -2458,13 +2583,40 @@
   }
 
   // =========================================================
-  // HYBRID OPTION 1 + OPTION 2: LIVE 4 MAJOR INDICES ENGINE
+  // HYBRID OPTION 1 + OPTION 2: INDICES, SOX, VIX & BITCOIN ENGINE
   // =========================================================
   function formatIndexNumber(val, decimals = 2) {
     return Number(val).toLocaleString("en-US", {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals
     });
+  }
+
+  function getVixRegimeMeta(vixVal) {
+    const v = Number(vixVal) || 0;
+    if (v >= 30) {
+      return { label: "공포·고변동", desc: "극단적 변동성 · 투매 경계 (30pt 이상)", bg: "#C92A2A" };
+    }
+    if (v >= 20) {
+      return { label: "경계 구간", desc: "변동성 확대 · 위험관리 구간 (20~30pt)", bg: "#D96B27" };
+    }
+    if (v >= 15) {
+      return { label: "안정 구간", desc: "평시 정상 변동성 구간 (15~20pt)", bg: "#259B8E" };
+    }
+    return { label: "낙관·저변동", desc: "낮은 변동성 · 강세 심리 (15pt 미만)", bg: "#2E7D6B" };
+  }
+
+  function matchesIndexSearchQuery(item, qLower) {
+    if (!qLower) return false;
+    const hay = `${item.shortName} ${item.koName} ${item.enName} ${item.ticker} ${item.tagLabel || ""} ${item.isVolatility ? "공포지수 변동성 vix" : ""}`.toLowerCase();
+    return hay.includes(qLower);
+  }
+
+  function matchesCommoditySearchQuery(item, qLower) {
+    if (!qLower) return false;
+    const extra = item.isCrypto ? "btc 비트코인 크립토 암호화폐 가상자산 디지털자산" : "원자재 선물";
+    const hay = `${item.koName} ${item.enName} ${item.unit} ${extra}`.toLowerCase();
+    return hay.includes(qLower);
   }
 
   function buildMiniSparkSVG(historyPts, strokeColor) {
@@ -2487,12 +2639,13 @@
     </svg>`;
   }
 
-  // Option 1: Top Slim Live Ticker Bar (Rendered across all 4 pages)
+  // Option 1: Top Slim Live Ticker Bar (Keep compact 4 core indices + USD/KRW so FX is never clipped)
   function renderTopMarketIndexBar() {
     const stripEl = document.getElementById("marketIndexStrip");
     if (!stripEl) return;
 
-    const indexPillsHTML = state.marketIndices
+    const topBarIndices = state.marketIndices.filter((item) => item.showInTopBar !== false);
+    const indexPillsHTML = topBarIndices
       .map((item) => {
         const chgCls = item.changePct > 0 ? "chg-up" : item.changePct < 0 ? "chg-down" : "";
         const arrow = item.changePct > 0 ? "▲" : item.changePct < 0 ? "▼" : "";
@@ -2509,7 +2662,6 @@
       })
       .join("");
 
-    // Also append compact live USD/KRW FX pill at the end of the top ticker strip
     const fxItem = state.macroIndicators.find((m) => m.id === "fx_rate");
     const rawFxChg = fxItem ? fxItem.krChange : "";
     const fxChgCompact = rawFxChg.startsWith("보합") ? "0.0원" : rawFxChg.replace(/\s+/g, "");
@@ -2553,7 +2705,7 @@
         const actionHint =
           state.currentPage === item.targetPage || state.currentPage === "macro"
             ? "클릭 시 6개월 추이 및 상세 해설 모달 열기"
-            : `클릭 시 ${item.targetPage === "sp500" ? "S&P 500 섹터" : item.targetPage === "kospi200" ? "KOSPI 200 섹터" : "거시 지표 (4대 지수 차트)"} 탭으로 이동`;
+            : `클릭 시 ${item.targetPage === "sp500" ? "S&P 500 섹터" : item.targetPage === "kospi200" ? "KOSPI 200 섹터" : "거시 지표"} 탭으로 이동`;
 
         tip.innerHTML = `
           <div style="font-weight:800;font-size:13px">${item.shortName} · ${item.koName}</div>
@@ -2596,26 +2748,36 @@
     });
   }
 
-  // Option 2: 6-Month 4 Major Stock Indices Sparkline Section on macro.html
+  // Option 2: 6-Month Stock Indices + SOX + VIX Sparkline Section on macro.html (3x2 Grid)
   function syncIndexToggleUI() {
     const secEl = document.getElementById("macroIndexSection");
     const btnEl = document.getElementById("btnToggleIndices");
     const lblEl = document.getElementById("toggleIndicesLabel");
 
-    const visible = Boolean(state.macroIndicesVisible);
+    const qLower = state.macroSearchQuery.trim().toLowerCase();
+    const forceShowForSearch = qLower !== "" && state.marketIndices.some((item) => matchesIndexSearchQuery(item, qLower));
+    const visible = Boolean(state.macroIndicesVisible) || forceShowForSearch;
+
     if (secEl) secEl.classList.toggle("hidden", !visible);
-    if (btnEl) btnEl.setAttribute("aria-pressed", String(visible));
+    if (btnEl) btnEl.setAttribute("aria-pressed", String(Boolean(state.macroIndicesVisible)));
     if (lblEl) {
-      lblEl.textContent = visible ? "주가지수 그래프 숨기기" : "주가지수 그래프 보기";
+      lblEl.textContent = state.macroIndicesVisible ? "지수·VIX 그래프 숨기기" : "지수·VIX 그래프 보기";
     }
   }
 
   function renderMacroIndices() {
     syncIndexToggleUI();
-    if (!state.macroIndicesVisible) return;
+    const secEl = document.getElementById("macroIndexSection");
+    if (secEl?.classList.contains("hidden")) return;
 
     const gridEl = document.getElementById("macroIndexGrid");
     if (!gridEl) return;
+
+    const qLower = state.macroSearchQuery.trim().toLowerCase();
+    const anyUpperMatched =
+      qLower !== "" &&
+      (state.marketIndices.some((x) => matchesIndexSearchQuery(x, qLower)) ||
+        state.macroCommodities.some((c) => matchesCommoditySearchQuery(c, qLower)));
 
     const svgW = 260;
     const svgH = 70;
@@ -2627,7 +2789,7 @@
         const pts = item.history;
         const firstVal = pts[0].val;
         const lastVal = item.price;
-        const sixMoPct = ((lastVal - firstVal) / Math.max(1, firstVal)) * 100;
+        const sixMoPct = ((lastVal - firstVal) / Math.max(0.1, firstVal)) * 100;
         const sixSign = sixMoPct > 0 ? "+" : "";
         const sixCls = sixMoPct > 0 ? "chg-up" : sixMoPct < 0 ? "chg-down" : "";
 
@@ -2653,13 +2815,26 @@
         const lastCoord = coords[coords.length - 1];
         const gradId = `grad_${item.id}`;
 
+        let leadingIconHTML = `<span class="idx-flag" style="display:inline-flex">${getFlagSVG(item.country, 18)}</span>`;
+        let tagBadgeHTML = `<span class="commodity-unit-tag">${item.tagLabel || (item.country === "US" ? "미국" : "한국")}</span>`;
+
+        if (item.isVolatility) {
+          const vixMeta = getVixRegimeMeta(lastVal);
+          leadingIconHTML = `<span class="vix-gauge-icon" style="background:${vixMeta.bg}" aria-hidden="true">!</span>`;
+          tagBadgeHTML = `<span class="vix-regime-tag" style="background:${vixMeta.bg}">${vixMeta.label}</span>`;
+        }
+
+        const isMatched = matchesIndexSearchQuery(item, qLower);
+        const searchCls = anyUpperMatched ? (isMatched ? "search-matched" : "search-dimmed") : "";
+        const rangeDecimals = item.isVolatility ? 1 : 0;
+
         return `
-          <div class="commodity-card index-spark-card" data-idx-card="${item.id}" role="button" tabindex="0" aria-label="${item.shortName} 최근 6개월 추이 및 해설 보기">
+          <div class="commodity-card index-spark-card ${searchCls}" data-idx-card="${item.id}" role="button" tabindex="0" aria-label="${item.shortName} 최근 6개월 추이 및 해설 보기">
             <div class="commodity-card-top">
               <div class="commodity-name-group">
-                <span class="idx-flag" style="display:inline-flex">${getFlagSVG(item.country, 18)}</span>
+                ${leadingIconHTML}
                 <span class="commodity-ko-name">${item.shortName}</span>
-                <span class="commodity-unit-tag">${item.country === "US" ? "미국" : "한국"}</span>
+                ${tagBadgeHTML}
               </div>
               <span class="commodity-chg-badge ${sixCls}">6개월 ${sixSign}${sixMoPct.toFixed(1)}%</span>
             </div>
@@ -2686,8 +2861,8 @@
             </div>
 
             <div class="commodity-range-row">
-              <span>6개월 최저 <strong>${formatIndexNumber(minVal, 0)}</strong></span>
-              <span>최고 <strong>${formatIndexNumber(maxVal, 0)}</strong></span>
+              <span>6개월 최저 <strong>${formatIndexNumber(minVal, rangeDecimals)}</strong></span>
+              <span>최고 <strong>${formatIndexNumber(maxVal, rangeDecimals)}</strong></span>
             </div>
           </div>
         `;
@@ -2731,9 +2906,13 @@
 
         const tip = document.getElementById("tileTooltip");
         if (tip) {
+          const extraSub = item.isVolatility
+            ? `<div style="opacity:0.86;font-size:11.5px">심리 구간: ${getVixRegimeMeta(pt.val).label}</div>`
+            : "";
           tip.innerHTML = `
-            <div style="font-weight:800;font-size:13px">${item.shortName} (${item.koName}) · ${pt.label}</div>
+            <div style="font-weight:800;font-size:13px">${item.shortName} (${item.enName}) · ${pt.label}</div>
             <div style="margin-top:3px">지수: <strong>${formatIndexNumber(pt.val, item.decimals)}pt</strong></div>
+            ${extraSub}
           `;
           tip.classList.remove("hidden");
           moveTooltip(ev);
@@ -2767,7 +2946,7 @@
     const pts = item.history;
     const firstVal = pts[0].val;
     const lastVal = item.price;
-    const sixMoPct = ((lastVal - firstVal) / Math.max(1, firstVal)) * 100;
+    const sixMoPct = ((lastVal - firstVal) / Math.max(0.1, firstVal)) * 100;
     const sixSign = sixMoPct > 0 ? "+" : "";
     const vals = pts.map((p) => p.val);
     const minVal = Math.min(...vals);
@@ -2777,16 +2956,29 @@
     const ptSign = item.changePts > 0 ? "+" : "";
     const pctSign = item.changePct > 0 ? "+" : "";
 
-    document.getElementById("modalHeaderBadge").innerHTML = `
-      <span class="country-pill" style="background:${item.color}">${getCountryMeta(item.country).ko} 대표 주가지수</span>
-      <span class="chip" style="cursor:default">티커: ${item.ticker} · 최근 6개월 추이</span>
-    `;
-    document.getElementById("modalCompanyTitle").textContent = `${item.shortName} · ${item.koName} (${item.enName})`;
+    if (item.isVolatility) {
+      const vixMeta = getVixRegimeMeta(lastVal);
+      document.getElementById("modalHeaderBadge").innerHTML = `
+        <span class="country-pill" style="background:${vixMeta.bg}">시장 심리 · ${vixMeta.label}</span>
+        <span class="chip" style="cursor:default">티커: ${item.ticker} · ${vixMeta.desc}</span>
+      `;
+    } else {
+      const pillLabel = item.id === "idx_sox" ? "글로벌 반도체 벤치마크" : `${getCountryMeta(item.country).ko} 대표 주가지수`;
+      document.getElementById("modalHeaderBadge").innerHTML = `
+        <span class="country-pill" style="background:${item.color}">${pillLabel}</span>
+        <span class="chip" style="cursor:default">티커: ${item.ticker} · 최근 6개월 추이</span>
+      `;
+    }
+
+    document.getElementById("modalCompanyTitle").textContent = `${item.shortName} · ${item.koName}`;
     document.getElementById("modalCompanySub").textContent = `산출 대상: ${item.exchange} | 기준일: ${formatKoreanDate(state.baseDateObj)}`;
+
+    const sixMetricTitle = item.isVolatility ? "최근 6개월 변동폭" : "최근 6개월 수익률";
+    const rangeDec = item.isVolatility ? 2 : 0;
 
     document.getElementById("modalMetricsGrid").innerHTML = `
       <div class="metric-box">
-        <span>현재 지수</span>
+        <span>${item.isVolatility ? "현재 변동성 지수" : "현재 지수"}</span>
         <strong>${formatIndexNumber(lastVal, item.decimals)}pt</strong>
       </div>
       <div class="metric-box">
@@ -2794,17 +2986,17 @@
         <strong>${ptSign}${item.changePts.toFixed(2)}pt <span style="font-size:12.5px;font-weight:700;color:var(--ink-muted)">(${pctSign}${item.changePct.toFixed(2)}%)</span></strong>
       </div>
       <div class="metric-box">
-        <span>최근 6개월 수익률</span>
+        <span>${sixMetricTitle}</span>
         <strong>${sixSign}${sixMoPct.toFixed(2)}% <span style="font-size:12px;font-weight:600;color:var(--ink-muted)">(${pts[0].label} 대비)</span></strong>
       </div>
       <div class="metric-box">
         <span>6개월 최저 ~ 최고 (밴드 위치)</span>
-        <strong style="font-size:14px">${formatIndexNumber(minVal, 0)} ~ ${formatIndexNumber(maxVal, 0)} (${bandPos}%)</strong>
+        <strong style="font-size:14px">${formatIndexNumber(minVal, rangeDec)} ~ ${formatIndexNumber(maxVal, rangeDec)} (${bandPos}%)</strong>
       </div>
     `;
 
     const headingEl = document.getElementById("modalBriefingHeading");
-    if (headingEl) headingEl.textContent = "지수 특징 및 거시경제 핵심 해설";
+    if (headingEl) headingEl.textContent = item.isVolatility ? "변동성(VIX) 구간 해석 및 거시경제 해설" : "지수 특징 및 거시경제 핵심 해설";
 
     document.getElementById("modalBriefingContent").textContent = item.summary;
     document.getElementById("companyModal").classList.remove("hidden");
@@ -2815,22 +3007,32 @@
     const btnEl = document.getElementById("btnToggleCommodities");
     const lblEl = document.getElementById("toggleCommoditiesLabel");
 
-    const visible = Boolean(state.macroCommoditiesVisible);
+    const qLower = state.macroSearchQuery.trim().toLowerCase();
+    const forceShowForSearch = qLower !== "" && state.macroCommodities.some((c) => matchesCommoditySearchQuery(c, qLower));
+    const visible = Boolean(state.macroCommoditiesVisible) || forceShowForSearch;
+
     if (secEl) secEl.classList.toggle("hidden", !visible);
     if (btnEl) {
-      btnEl.setAttribute("aria-pressed", String(visible));
+      btnEl.setAttribute("aria-pressed", String(Boolean(state.macroCommoditiesVisible)));
     }
     if (lblEl) {
-      lblEl.textContent = visible ? "원자재 그래프 숨기기" : "원자재 그래프 보기";
+      lblEl.textContent = state.macroCommoditiesVisible ? "원자재·BTC 그래프 숨기기" : "원자재·BTC 그래프 보기";
     }
   }
 
   function renderMacroCommodities() {
     syncCommodityToggleUI();
-    if (!state.macroCommoditiesVisible) return;
+    const secEl = document.getElementById("macroCommoditySection");
+    if (secEl?.classList.contains("hidden")) return;
 
     const gridEl = document.getElementById("macroCommodityGrid");
     if (!gridEl) return;
+
+    const qLower = state.macroSearchQuery.trim().toLowerCase();
+    const anyUpperMatched =
+      qLower !== "" &&
+      (state.marketIndices.some((x) => matchesIndexSearchQuery(x, qLower)) ||
+        state.macroCommodities.some((c) => matchesCommoditySearchQuery(c, qLower)));
 
     const svgW = 280;
     const svgH = 72;
@@ -2842,7 +3044,7 @@
         const pts = item.history;
         const firstVal = pts[0].val;
         const lastVal = pts[pts.length - 1].val;
-        const chgPct = ((lastVal - firstVal) / firstVal) * 100;
+        const chgPct = ((lastVal - firstVal) / Math.max(0.01, firstVal)) * 100;
         const chgSign = chgPct > 0 ? "+" : "";
         const chgCls = chgPct > 0 ? "chg-up" : chgPct < 0 ? "chg-down" : "";
 
@@ -2864,11 +3066,18 @@
         const lastCoord = coords[coords.length - 1];
         const gradId = `grad_${item.id}`;
 
+        const iconHTML = item.isCrypto
+          ? `<span class="btc-coin-icon" aria-hidden="true">&#8383;</span>`
+          : `<span class="commodity-dot" style="background:${item.color}"></span>`;
+
+        const isMatched = matchesCommoditySearchQuery(item, qLower);
+        const searchCls = anyUpperMatched ? (isMatched ? "search-matched" : "search-dimmed") : "";
+
         return `
-          <div class="commodity-card" data-cmd-id="${item.id}" role="button" tabindex="0" aria-label="${item.koName} 최근 6개월 추이 및 표준 미터법 환산 보기">
+          <div class="commodity-card ${searchCls}" data-cmd-id="${item.id}" role="button" tabindex="0" aria-label="${item.koName} 최근 6개월 추이 및 환산 보기">
             <div class="commodity-card-top">
               <div class="commodity-name-group">
-                <span class="commodity-dot" style="background:${item.color}"></span>
+                ${iconHTML}
                 <span class="commodity-ko-name">${item.koName}</span>
                 <span class="commodity-unit-tag">${item.unit}</span>
               </div>
@@ -2905,7 +3114,6 @@
       })
       .join("");
 
-    // Bind Interactive Sparkline Tooltip (Market Units only) & Modal Click (Includes SI Metric)
     gridEl.querySelectorAll(".commodity-card").forEach((card) => {
       const cmdId = card.getAttribute("data-cmd-id");
       const item = state.macroCommodities.find((c) => c.id === cmdId);
@@ -2981,15 +3189,21 @@
     const firstVal = pts[0].val;
     const lastVal = pts[pts.length - 1].val;
     const diff = lastVal - firstVal;
-    const chgPct = (diff / firstVal) * 100;
+    const chgPct = (diff / Math.max(0.01, firstVal)) * 100;
     const chgSign = chgPct > 0 ? "+" : "";
     const vals = pts.map((p) => p.val);
     const minVal = Math.min(...vals);
     const maxVal = Math.max(...vals);
 
+    const badgeTitle = item.isCrypto ? "디지털 대체자산 · 6개월 추이" : "핵심 원자재 · 6개월 추이";
+    const badgeSub = item.isCrypto
+      ? `기준 단위 (${item.unit}) + 소수 단위(0.01 BTC)·원화 환산`
+      : `기준 단위 (${item.unit}) + 표준 미터법(SI) 환산`;
+    const secondMetricLabel = item.isCrypto ? "소수 단위(0.01 BTC) 환산 시세" : "표준 미터법(SI) 환산 시세";
+
     document.getElementById("modalHeaderBadge").innerHTML = `
-      <span class="country-pill" style="background:${item.color}">핵심 원자재 · 6개월 추이</span>
-      <span class="chip" style="cursor:default">기준 단위 (${item.unit}) + 표준 미터법(SI) 환산</span>
+      <span class="country-pill" style="background:${item.color}">${badgeTitle}</span>
+      <span class="chip" style="cursor:default">${badgeSub}</span>
     `;
     document.getElementById("modalCompanyTitle").textContent = `${item.koName} (${item.enName})`;
     document.getElementById("modalCompanySub").textContent = `기준 시장: ${item.exchange} | 기준 단위: ${item.unitDesc}`;
@@ -3000,7 +3214,7 @@
         <strong>${formatCommodityPrice(lastVal, item.decimals, item.unit)} <span style="font-size:12px;font-weight:600;color:var(--ink-muted)">(${item.cardSubNote(lastVal, state.usdKrw)})</span></strong>
       </div>
       <div class="metric-box">
-        <span>표준 미터법(SI) 환산 시세</span>
+        <span>${secondMetricLabel}</span>
         <strong style="font-size:14.5px">${item.modalSiNote(lastVal, state.usdKrw)}</strong>
       </div>
       <div class="metric-box">
@@ -3014,7 +3228,11 @@
     `;
 
     const headingEl = document.getElementById("modalBriefingHeading");
-    if (headingEl) headingEl.textContent = "원자재 거시경제 영향 및 핵심 해설";
+    if (headingEl) {
+      headingEl.textContent = item.isCrypto
+        ? "디지털 자산 유동성 및 거시경제 해설"
+        : "원자재 거시경제 영향 및 핵심 해설";
+    }
 
     document.getElementById("modalBriefingContent").textContent = item.summary;
     document.getElementById("companyModal").classList.remove("hidden");
@@ -3276,7 +3494,7 @@
       state.marketIndices = state.marketIndices.map((idxObj) => {
         const hit = idxMap.get(idxObj.id);
         if (!hit) return idxObj;
-        const nextPrice = typeof hit.price === "number" && hit.price > 50 ? hit.price : idxObj.price;
+        const nextPrice = typeof hit.price === "number" && hit.price > 0 ? hit.price : idxObj.price;
         const nextHistory =
           Array.isArray(hit.history) && hit.history.length >= 4
             ? hit.history.map((h, i, arr) => (i === arr.length - 1 ? { ...h, val: nextPrice } : h))
