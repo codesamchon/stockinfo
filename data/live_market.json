@@ -1,8 +1,8 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-22T01:22:01.588980+09:00",
-  "updatedLabel": "2026년 11월 22일 1:22 기준",
+  "updatedAt": "2026-11-22T02:57:31.265181+09:00",
+  "updatedLabel": "2026년 11월 22일 2:57 기준",
   "usdKrw": 1334.79,
   "marketIndices": [
     {
@@ -126,6 +126,66 @@
       ]
     },
     {
+      "id": "idx_sox",
+      "price": 8408.59,
+      "changePts": -1010.91,
+      "changePct": -10.73,
+      "history": [
+        {
+          "label": "26.05 말",
+          "val": 11964.08
+        },
+        {
+          "label": "26.06 초",
+          "val": 12906.69
+        },
+        {
+          "label": "26.06 말",
+          "val": 13482.51
+        },
+        {
+          "label": "26.07 초",
+          "val": 12960.0
+        },
+        {
+          "label": "26.07 말",
+          "val": 12343.84
+        },
+        {
+          "label": "26.08 초",
+          "val": 12356.79
+        },
+        {
+          "label": "26.08 말",
+          "val": 11423.17
+        },
+        {
+          "label": "26.09 초",
+          "val": 11887.87
+        },
+        {
+          "label": "26.09 말",
+          "val": 12534.28
+        },
+        {
+          "label": "26.10 초",
+          "val": 13066.15
+        },
+        {
+          "label": "26.10 말",
+          "val": 10731.98
+        },
+        {
+          "label": "26.11 초",
+          "val": 9011.14
+        },
+        {
+          "label": "26.11 현재",
+          "val": 8408.59
+        }
+      ]
+    },
+    {
       "id": "idx_kospi",
       "price": 4869.96,
       "changePts": -267.93,
@@ -242,6 +302,66 @@
         {
           "label": "26.11 현재",
           "val": 645.68
+        }
+      ]
+    },
+    {
+      "id": "idx_vix",
+      "price": 35.89,
+      "changePts": 7.42,
+      "changePct": 26.06,
+      "history": [
+        {
+          "label": "26.05 중",
+          "val": 17.44
+        },
+        {
+          "label": "26.06 초",
+          "val": 15.4
+        },
+        {
+          "label": "26.06 말",
+          "val": 17.28
+        },
+        {
+          "label": "26.07 초",
+          "val": 16.13
+        },
+        {
+          "label": "26.07 말",
+          "val": 16.64
+        },
+        {
+          "label": "26.08 초",
+          "val": 15.15
+        },
+        {
+          "label": "26.08 말",
+          "val": 15.13
+        },
+        {
+          "label": "26.09 초",
+          "val": 15.3
+        },
+        {
+          "label": "26.09 말",
+          "val": 14.21
+        },
+        {
+          "label": "26.10 초",
+          "val": 15.08
+        },
+        {
+          "label": "26.10 말",
+          "val": 16.68
+        },
+        {
+          "label": "26.11 초",
+          "val": 28.18
+        },
+        {
+          "label": "26.11 현재",
+          "val": 35.89
         }
       ]
     }
@@ -772,7 +892,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 15347.6
+      "marketCapB": 14277.9
     },
     {
       "id": "financials",
@@ -797,7 +917,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7731.4
+      "marketCapB": 7603.1
     },
     {
       "id": "consumer_disc",
@@ -822,7 +942,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 6065.0
+      "marketCapB": 5916.4
     },
     {
       "id": "comm_services",
@@ -847,7 +967,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 5961.4
+      "marketCapB": 5830.2
     },
     {
       "id": "healthcare",
@@ -872,7 +992,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6205.5
+      "marketCapB": 6214.2
     },
     {
       "id": "industrials",
@@ -897,7 +1017,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 4393.9
+      "marketCapB": 4254.2
     },
     {
       "id": "consumer_staples",
@@ -922,7 +1042,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3815.6
+      "marketCapB": 3844.6
     },
     {
       "id": "energy",
@@ -947,7 +1067,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2102.1
+      "marketCapB": 2087.0
     },
     {
       "id": "utilities",
@@ -972,7 +1092,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1507.9
+      "marketCapB": 1499.8
     },
     {
       "id": "real_estate",
@@ -997,7 +1117,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1309.9
+      "marketCapB": 1298.2
     },
     {
       "id": "materials",
@@ -1022,7 +1142,7 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 1097.7
+      "marketCapB": 1077.4
     }
   ],
   "kospi200Sectors": [
@@ -1448,6 +1568,63 @@
           "val": 83.98
         }
       ]
+    },
+    {
+      "id": "cmd_btc",
+      "history": [
+        {
+          "label": "26.05 말",
+          "val": 77539
+        },
+        {
+          "label": "26.06 초",
+          "val": 60923
+        },
+        {
+          "label": "26.06 말",
+          "val": 63238
+        },
+        {
+          "label": "26.07 초",
+          "val": 63995
+        },
+        {
+          "label": "26.07 말",
+          "val": 66505
+        },
+        {
+          "label": "26.08 초",
+          "val": 64262
+        },
+        {
+          "label": "26.08 말",
+          "val": 78335
+        },
+        {
+          "label": "26.09 초",
+          "val": 79824
+        },
+        {
+          "label": "26.09 말",
+          "val": 86603
+        },
+        {
+          "label": "26.10 초",
+          "val": 85558
+        },
+        {
+          "label": "26.10 말",
+          "val": 84012
+        },
+        {
+          "label": "26.11 초",
+          "val": 75747
+        },
+        {
+          "label": "26.11 현재",
+          "val": 59975
+        }
+      ]
     }
   ],
   "macroIndicators": [
@@ -1462,86 +1639,6 @@
       "krChange": "▲ 4.4원",
       "krDir": "up",
       "gapText": "원/달러 1,334.8원 · DXY 103.8pt"
-    },
-    {
-      "id": "policy_rate",
-      "krDisplay": "3.00%",
-      "krNum": 3.0,
-      "krPeriod": "금통위 기준금리",
-      "krChange": "▲ 0.25%p",
-      "krDir": "up"
-    },
-    {
-      "id": "bond_2y",
-      "krDisplay": "3.65%",
-      "krNum": 3.65,
-      "krChange": "▼ 7bp",
-      "krDir": "down",
-      "krPeriod": "국고채 2년 (11.20)"
-    },
-    {
-      "id": "bond_10y",
-      "krDisplay": "3.86%",
-      "krNum": 3.86,
-      "krChange": "▼ 8bp",
-      "krDir": "down",
-      "krPeriod": "국고채 10년 (11.20)"
-    },
-    {
-      "id": "yield_spread",
-      "krDisplay": "+21bp",
-      "krNum": 0.21,
-      "krPeriod": "정상 우상향 구간",
-      "krChange": "▼ 1bp",
-      "krDir": "down"
-    },
-    {
-      "id": "cpi",
-      "krDisplay": "2.8%",
-      "krNum": 2.8,
-      "krChange": "▼ 0.1%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 전년동월비"
-    },
-    {
-      "id": "core_cpi",
-      "krDisplay": "2.8%",
-      "krNum": 2.8,
-      "krChange": "보합 (0.0%p)",
-      "krDir": "flat",
-      "krPeriod": "2026.10월 농산물·석유류 제외"
-    },
-    {
-      "id": "ppi",
-      "krDisplay": "7.2%",
-      "krNum": 7.2,
-      "krChange": "▼ 0.4%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 전년동월비"
-    },
-    {
-      "id": "unemployment",
-      "krDisplay": "2.5%",
-      "krNum": 2.5,
-      "krChange": "▼ 0.1%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 계절조정"
-    },
-    {
-      "id": "employment_rate",
-      "krDisplay": "62.8%",
-      "krNum": 62.8,
-      "krChange": "▼ 0.1%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 15세 이상 (계절조정)"
-    },
-    {
-      "id": "real_gdp",
-      "krDisplay": "1.0%",
-      "krNum": 1.0,
-      "krChange": "▲ 0.4%p",
-      "krDir": "up",
-      "krPeriod": "2026년 3분기 전기비 (연율환산 4.1%)"
     }
   ]
 }
