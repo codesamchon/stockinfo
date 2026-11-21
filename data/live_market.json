@@ -1,8 +1,8 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-21T17:12:57.549598+09:00",
-  "updatedLabel": "2026년 11월 21일 17:12 기준",
+  "updatedAt": "2026-11-22T01:22:01.588980+09:00",
+  "updatedLabel": "2026년 11월 22일 1:22 기준",
   "usdKrw": 1334.79,
   "marketIndices": [
     {
@@ -383,7 +383,7 @@
       "koName": "앤트로픽",
       "ticker": "ANT",
       "country": "US",
-      "marketCapB": 1163.54,
+      "marketCapB": 1188.43,
       "changePct": -5.4,
       "sector": "생성형 AI 모델·클라우드"
     },
@@ -743,7 +743,7 @@
       "koName": "HSBC 홀딩스",
       "ticker": "HSBC",
       "country": "GB",
-      "marketCapB": 273.44,
+      "marketCapB": 273.42,
       "changePct": -4.0,
       "sector": "글로벌 은행·자산관리"
     }
@@ -772,7 +772,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 16497.5
+      "marketCapB": 15347.6
     },
     {
       "id": "financials",
@@ -797,7 +797,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7861.9
+      "marketCapB": 7731.4
     },
     {
       "id": "consumer_disc",
@@ -822,7 +822,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 6217.3
+      "marketCapB": 6065.0
     },
     {
       "id": "comm_services",
@@ -847,7 +847,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 6095.5
+      "marketCapB": 5961.4
     },
     {
       "id": "healthcare",
@@ -872,7 +872,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6196.8
+      "marketCapB": 6205.5
     },
     {
       "id": "industrials",
@@ -897,7 +897,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 4538.2
+      "marketCapB": 4393.9
     },
     {
       "id": "consumer_staples",
@@ -922,7 +922,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3786.8
+      "marketCapB": 3815.6
     },
     {
       "id": "energy",
@@ -947,7 +947,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2117.3
+      "marketCapB": 2102.1
     },
     {
       "id": "utilities",
@@ -972,7 +972,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1516.1
+      "marketCapB": 1507.9
     },
     {
       "id": "real_estate",
@@ -997,7 +997,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1321.7
+      "marketCapB": 1309.9
     },
     {
       "id": "materials",
@@ -1022,7 +1022,7 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 1118.4
+      "marketCapB": 1097.7
     }
   ],
   "kospi200Sectors": [
