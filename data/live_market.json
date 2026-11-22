@@ -1,9 +1,9 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-22T11:06:40.652336+09:00",
-  "updatedLabel": "2026년 11월 22일 11:06 기준",
-  "usdKrw": 1334.79,
+  "updatedAt": "2026-11-22T18:42:40.491619+09:00",
+  "updatedLabel": "2026년 11월 22일 18:42 기준",
+  "usdKrw": 1337.8,
   "marketIndices": [
     {
       "id": "idx_sp500",
@@ -433,8 +433,8 @@
       "koName": "사우디 아람코",
       "ticker": "2222.SR",
       "country": "SA",
-      "marketCapB": 1708.19,
-      "changePct": 0.38,
+      "marketCapB": 1700.45,
+      "changePct": 0.08,
       "sector": "에너지·석유화학"
     },
     {
@@ -533,7 +533,7 @@
       "koName": "삼성전자",
       "ticker": "005930.KS",
       "country": "KR",
-      "marketCapB": 792.33,
+      "marketCapB": 790.55,
       "changePct": -8.13,
       "sector": "메모리·종합반도체·모바일"
     },
@@ -593,7 +593,7 @@
       "koName": "SK하이닉스",
       "ticker": "000660.KS",
       "country": "KR",
-      "marketCapB": 582.47,
+      "marketCapB": 581.16,
       "changePct": -7.02,
       "sector": "AI HBM 메모리 반도체"
     },
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 12356.9
+      "marketCapB": 11495.6
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7352.8
+      "marketCapB": 7230.7
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 5630.0
+      "marketCapB": 5492.1
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 5576.5
+      "marketCapB": 5453.8
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6231.6
+      "marketCapB": 6240.3
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 3987.9
+      "marketCapB": 3861.1
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3903.2
+      "marketCapB": 3932.9
     },
     {
       "id": "energy",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2057.1
+      "marketCapB": 2042.3
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1483.6
+      "marketCapB": 1475.6
     },
     {
       "id": "real_estate",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1275.1
+      "marketCapB": 1263.8
     },
     {
       "id": "materials",
@@ -1142,7 +1142,7 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 1037.9
+      "marketCapB": 1018.7
     }
   ],
   "kospi200Sectors": [
@@ -1403,7 +1403,7 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 4542
+          "val": 4523
         },
         {
           "label": "26.06 초",
@@ -1411,15 +1411,15 @@
         },
         {
           "label": "26.06 말",
-          "val": 4149
+          "val": 4009
         },
         {
           "label": "26.07 초",
-          "val": 4141
+          "val": 4114
         },
         {
           "label": "26.07 말",
-          "val": 4050
+          "val": 4071
         },
         {
           "label": "26.08 초",
@@ -1431,7 +1431,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 4439
+          "val": 4461
         },
         {
           "label": "26.09 말",
@@ -1447,7 +1447,7 @@
         },
         {
           "label": "26.11 초",
-          "val": 4114
+          "val": 4075
         },
         {
           "label": "26.11 현재",
@@ -1460,7 +1460,7 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 6.26
+          "val": 6.34
         },
         {
           "label": "26.06 초",
@@ -1468,15 +1468,15 @@
         },
         {
           "label": "26.06 말",
-          "val": 6.14
+          "val": 5.94
         },
         {
           "label": "26.07 초",
-          "val": 6.22
+          "val": 6.23
         },
         {
           "label": "26.07 말",
-          "val": 6.3
+          "val": 6.32
         },
         {
           "label": "26.08 초",
@@ -1488,7 +1488,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 6.74
+          "val": 6.8
         },
         {
           "label": "26.09 말",
@@ -1504,11 +1504,11 @@
         },
         {
           "label": "26.11 초",
-          "val": 6.25
+          "val": 6.22
         },
         {
           "label": "26.11 현재",
-          "val": 5.48
+          "val": 5.49
         }
       ]
     },
@@ -1517,7 +1517,7 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 96.35
+          "val": 96.6
         },
         {
           "label": "26.06 초",
@@ -1525,15 +1525,15 @@
         },
         {
           "label": "26.06 말",
-          "val": 73.21
+          "val": 70.34
         },
         {
           "label": "26.07 초",
-          "val": 72.08
+          "val": 71.41
         },
         {
           "label": "26.07 말",
-          "val": 92.19
+          "val": 89.31
         },
         {
           "label": "26.08 초",
@@ -1545,7 +1545,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 93.03
+          "val": 96.05
         },
         {
           "label": "26.09 말",
@@ -1561,11 +1561,11 @@
         },
         {
           "label": "26.11 초",
-          "val": 90.52
+          "val": 90.83
         },
         {
           "label": "26.11 현재",
-          "val": 83.98
+          "val": 83.41
         }
       ]
     },
@@ -1582,7 +1582,7 @@
         },
         {
           "label": "26.06 말",
-          "val": 63238
+          "val": 63952
         },
         {
           "label": "26.07 초",
@@ -1594,7 +1594,7 @@
         },
         {
           "label": "26.08 초",
-          "val": 64262
+          "val": 64880
         },
         {
           "label": "26.08 말",
@@ -1606,23 +1606,23 @@
         },
         {
           "label": "26.09 말",
-          "val": 86603
+          "val": 86172
         },
         {
           "label": "26.10 초",
-          "val": 85558
+          "val": 83276
         },
         {
           "label": "26.10 말",
-          "val": 84012
+          "val": 81312
         },
         {
           "label": "26.11 초",
-          "val": 75747
+          "val": 75748
         },
         {
           "label": "26.11 현재",
-          "val": 59972
+          "val": 60147
         }
       ]
     }
@@ -1631,14 +1631,14 @@
     {
       "id": "fx_rate",
       "usDisplay": "103.8pt",
-      "usNum": 103.81,
-      "usChange": "▲ 0.02%",
+      "usNum": 103.84,
+      "usChange": "▲ 0.05%",
       "usDir": "up",
-      "krDisplay": "1,334.8원",
-      "krNum": 1334.79,
-      "krChange": "▲ 4.4원",
+      "krDisplay": "1,337.8원",
+      "krNum": 1337.8,
+      "krChange": "▲ 3.0원",
       "krDir": "up",
-      "gapText": "원/달러 1,334.8원 · DXY 103.8pt"
+      "gapText": "원/달러 1,337.8원 · DXY 103.8pt"
     },
     {
       "id": "policy_rate",
