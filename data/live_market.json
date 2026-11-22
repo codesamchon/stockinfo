@@ -1,9 +1,9 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-23T02:46:32.316621+09:00",
-  "updatedLabel": "2026년 11월 23일 2:46 기준",
-  "usdKrw": 1346.04,
+  "updatedAt": "2026-11-23T08:33:30.411240+09:00",
+  "updatedLabel": "2026년 11월 23일 8:33 기준",
+  "usdKrw": 1345.68,
   "marketIndices": [
     {
       "id": "idx_sp500",
@@ -188,8 +188,8 @@
     {
       "id": "idx_kospi",
       "price": 4869.96,
-      "changePts": -267.93,
-      "changePct": -5.21,
+      "changePts": 0.0,
+      "changePct": 0.0,
       "history": [
         {
           "label": "26.05 중",
@@ -248,8 +248,8 @@
     {
       "id": "idx_kosdaq",
       "price": 645.68,
-      "changePts": -39.13,
-      "changePct": -5.71,
+      "changePts": 0.0,
+      "changePct": 0.0,
       "history": [
         {
           "label": "26.05 중",
@@ -533,8 +533,8 @@
       "koName": "삼성전자",
       "ticker": "005930.KS",
       "country": "KR",
-      "marketCapB": 785.71,
-      "changePct": -8.13,
+      "marketCapB": 795.47,
+      "changePct": 0.0,
       "sector": "메모리·종합반도체·모바일"
     },
     {
@@ -593,8 +593,8 @@
       "koName": "SK하이닉스",
       "ticker": "000660.KS",
       "country": "KR",
-      "marketCapB": 577.6,
-      "changePct": -7.02,
+      "marketCapB": 584.59,
+      "changePct": 0.0,
       "sector": "AI HBM 메모리 반도체"
     },
     {
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 10694.4
+      "marketCapB": 9949.0
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7110.7
+      "marketCapB": 6992.7
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 5357.5
+      "marketCapB": 5226.2
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 5333.8
+      "marketCapB": 5216.5
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6249.0
+      "marketCapB": 6257.7
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 3738.3
+      "marketCapB": 3619.4
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3962.8
+      "marketCapB": 3992.9
     },
     {
       "id": "energy",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2027.6
+      "marketCapB": 2013.0
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1467.6
+      "marketCapB": 1459.7
     },
     {
       "id": "real_estate",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1252.6
+      "marketCapB": 1241.5
     },
     {
       "id": "materials",
@@ -1142,257 +1142,257 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 999.9
+      "marketCapB": 981.4
     }
   ],
   "kospi200Sectors": [
     {
       "id": "kr_it",
-      "marketCapJo": 1958.6,
-      "changePct": -7.83,
+      "marketCapJo": 1982.0,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_samsung",
           "ticker": "005930.KS",
-          "marketCapJo": 1057.59,
-          "changePct": -8.13
+          "marketCapJo": 1070.45,
+          "changePct": 0.0
         },
         {
           "id": "kr_skhynix",
           "ticker": "000660.KS",
-          "marketCapJo": 777.48,
-          "changePct": -7.02
+          "marketCapJo": 786.67,
+          "changePct": 0.0
         },
         {
           "id": "kr_semco",
           "ticker": "009150.KS",
-          "marketCapJo": 57.29,
-          "changePct": -13.33
+          "marketCapJo": 57.81,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_industrials",
-      "marketCapJo": 258.3,
-      "changePct": -5.93,
+      "marketCapJo": 259.7,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_hanwhaaero",
           "ticker": "012450.KS",
-          "marketCapJo": 31.09,
-          "changePct": -4.44
+          "marketCapJo": 31.2,
+          "changePct": 0.0
         },
         {
           "id": "kr_hdhhi",
           "ticker": "329180.KS",
           "marketCapJo": 25.93,
-          "changePct": -5.54
+          "changePct": 0.0
         },
         {
           "id": "kr_doosanenerbility",
           "ticker": "034020.KS",
-          "marketCapJo": 25.78,
-          "changePct": -8.11
+          "marketCapJo": 26.1,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_financials",
-      "marketCapJo": 305.6,
-      "changePct": 0.45,
+      "marketCapJo": 304.8,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_kbfg",
           "ticker": "105560.KS",
-          "marketCapJo": 54.3,
-          "changePct": 0.13
+          "marketCapJo": 54.05,
+          "changePct": 0.0
         },
         {
           "id": "kr_shinhan",
           "ticker": "055550.KS",
-          "marketCapJo": 39.95,
-          "changePct": 0.82
+          "marketCapJo": 39.9,
+          "changePct": 0.0
         },
         {
           "id": "kr_meritz",
           "ticker": "138040.KS",
           "marketCapJo": 21.07,
-          "changePct": 0.56
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_energy_chem",
-      "marketCapJo": 195.3,
-      "changePct": -3.36,
+      "marketCapJo": 196.7,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_lges",
           "ticker": "373220.KS",
-          "marketCapJo": 69.61,
-          "changePct": -1.49
+          "marketCapJo": 70.08,
+          "changePct": 0.0
         },
         {
           "id": "kr_samsungsdi",
           "ticker": "006400.KS",
-          "marketCapJo": 32.11,
-          "changePct": -7.0
+          "marketCapJo": 32.44,
+          "changePct": 0.0
         },
         {
           "id": "kr_skinnovation",
           "ticker": "096770.KS",
-          "marketCapJo": 15.92,
-          "changePct": -4.17
+          "marketCapJo": 15.96,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_consumer_disc",
-      "marketCapJo": 193.5,
-      "changePct": -5.21,
+      "marketCapJo": 194.9,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_hyundai",
           "ticker": "005380.KS",
-          "marketCapJo": 51.48,
-          "changePct": -5.42
+          "marketCapJo": 51.88,
+          "changePct": 0.0
         },
         {
           "id": "kr_kia",
           "ticker": "000270.KS",
-          "marketCapJo": 34.12,
-          "changePct": -4.48
+          "marketCapJo": 34.43,
+          "changePct": 0.0
         },
         {
           "id": "kr_mobis",
           "ticker": "012330.KS",
-          "marketCapJo": 28.92,
-          "changePct": -5.71
+          "marketCapJo": 29.01,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_healthcare",
-      "marketCapJo": 153.4,
-      "changePct": -2.04,
+      "marketCapJo": 154.7,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_sambaf",
           "ticker": "207940.KS",
-          "marketCapJo": 61.84,
-          "changePct": -2.84
+          "marketCapJo": 62.72,
+          "changePct": 0.0
         },
         {
           "id": "kr_celltrion",
           "ticker": "068270.KS",
-          "marketCapJo": 49.33,
-          "changePct": -1.16
+          "marketCapJo": 49.44,
+          "changePct": 0.0
         },
         {
           "id": "kr_yuhan",
           "ticker": "000100.KS",
-          "marketCapJo": 5.92,
-          "changePct": -1.11
+          "marketCapJo": 5.93,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_comm",
-      "marketCapJo": 68.5,
-      "changePct": -2.95,
+      "marketCapJo": 68.9,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_naver",
           "ticker": "035420.KS",
-          "marketCapJo": 24.46,
-          "changePct": -4.46
+          "marketCapJo": 24.58,
+          "changePct": 0.0
         },
         {
           "id": "kr_krafton",
           "ticker": "259960.KS",
-          "marketCapJo": 9.19,
-          "changePct": 2.49
+          "marketCapJo": 9.21,
+          "changePct": 0.0
         },
         {
           "id": "kr_kakao",
           "ticker": "035720.KS",
-          "marketCapJo": 13.58,
-          "changePct": -3.92
+          "marketCapJo": 13.73,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_materials",
-      "marketCapJo": 70.1,
-      "changePct": -4.15,
+      "marketCapJo": 70.3,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_posco",
           "ticker": "005490.KS",
           "marketCapJo": 19.97,
-          "changePct": -2.89
+          "changePct": 0.0
         },
         {
           "id": "kr_koreazinc",
           "ticker": "010130.KS",
-          "marketCapJo": 15.49,
-          "changePct": -6.31
+          "marketCapJo": 15.55,
+          "changePct": 0.0
         },
         {
           "id": "kr_lgchem",
           "ticker": "051910.KS",
-          "marketCapJo": 14.26,
-          "changePct": -3.58
+          "marketCapJo": 14.33,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_staples",
-      "marketCapJo": 72.6,
-      "changePct": -1.62,
+      "marketCapJo": 72.8,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_ktng",
           "ticker": "033780.KS",
-          "marketCapJo": 18.8,
-          "changePct": -0.77
+          "marketCapJo": 18.79,
+          "changePct": 0.0
         },
         {
           "id": "kr_samyang",
           "ticker": "003230.KS",
-          "marketCapJo": 9.2,
-          "changePct": -2.32
+          "marketCapJo": 9.29,
+          "changePct": 0.0
         },
         {
           "id": "kr_amore",
           "ticker": "090430.KS",
-          "marketCapJo": 8.1,
-          "changePct": -2.81
+          "marketCapJo": 8.15,
+          "changePct": 0.0
         }
       ]
     },
     {
       "id": "kr_utilities",
-      "marketCapJo": 25.4,
-      "changePct": 0.44,
+      "marketCapJo": 25.5,
+      "changePct": 0.0,
       "top3": [
         {
           "id": "kr_kepco",
           "ticker": "015760.KS",
           "marketCapJo": 16.4,
-          "changePct": 1.19
+          "changePct": 0.0
         },
         {
           "id": "kr_kogas",
           "ticker": "036460.KS",
-          "marketCapJo": 3.45,
-          "changePct": -1.97
+          "marketCapJo": 3.46,
+          "changePct": 0.0
         },
         {
           "id": "kr_kepcokps",
           "ticker": "051600.KS",
           "marketCapJo": 1.53,
-          "changePct": -2.16
+          "changePct": 0.0
         }
       ]
     }
@@ -1407,7 +1407,7 @@
         },
         {
           "label": "26.06 초",
-          "val": 4363
+          "val": 4286
         },
         {
           "label": "26.06 말",
@@ -1423,11 +1423,11 @@
         },
         {
           "label": "26.08 초",
-          "val": 4400
+          "val": 4420
         },
         {
           "label": "26.08 말",
-          "val": 4698
+          "val": 4694
         },
         {
           "label": "26.09 초",
@@ -1435,15 +1435,15 @@
         },
         {
           "label": "26.09 말",
-          "val": 4318
+          "val": 4298
         },
         {
           "label": "26.10 초",
-          "val": 4141
+          "val": 4157
         },
         {
           "label": "26.10 말",
-          "val": 4060
+          "val": 4008
         },
         {
           "label": "26.11 초",
@@ -1451,7 +1451,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 3515
+          "val": 3577
         }
       ]
     },
@@ -1464,7 +1464,7 @@
         },
         {
           "label": "26.06 초",
-          "val": 6.33
+          "val": 6.3
         },
         {
           "label": "26.06 말",
@@ -1480,11 +1480,11 @@
         },
         {
           "label": "26.08 초",
-          "val": 6.57
+          "val": 6.59
         },
         {
           "label": "26.08 말",
-          "val": 6.6
+          "val": 6.71
         },
         {
           "label": "26.09 초",
@@ -1492,15 +1492,15 @@
         },
         {
           "label": "26.09 말",
-          "val": 6.68
+          "val": 6.72
         },
         {
           "label": "26.10 초",
-          "val": 6.6
+          "val": 6.52
         },
         {
           "label": "26.10 말",
-          "val": 6.36
+          "val": 6.48
         },
         {
           "label": "26.11 초",
@@ -1508,7 +1508,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 5.49
+          "val": 5.56
         }
       ]
     },
@@ -1521,7 +1521,7 @@
         },
         {
           "label": "26.06 초",
-          "val": 91.3
+          "val": 88.2
         },
         {
           "label": "26.06 말",
@@ -1537,11 +1537,11 @@
         },
         {
           "label": "26.08 초",
-          "val": 78.18
+          "val": 82.13
         },
         {
           "label": "26.08 말",
-          "val": 85.01
+          "val": 82.36
         },
         {
           "label": "26.09 초",
@@ -1549,15 +1549,15 @@
         },
         {
           "label": "26.09 말",
-          "val": 92.16
+          "val": 94.61
         },
         {
           "label": "26.10 초",
-          "val": 88.28
+          "val": 91.49
         },
         {
           "label": "26.10 말",
-          "val": 99.47
+          "val": 103.27
         },
         {
           "label": "26.11 초",
@@ -1565,7 +1565,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 83.41
+          "val": 82.87
         }
       ]
     },
@@ -1622,7 +1622,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 60754
+          "val": 61081
         }
       ]
     }
@@ -1631,14 +1631,14 @@
     {
       "id": "fx_rate",
       "usDisplay": "103.8pt",
-      "usNum": 103.84,
-      "usChange": "▲ 0.05%",
-      "usDir": "up",
-      "krDisplay": "1,346.0원",
-      "krNum": 1346.04,
-      "krChange": "▲ 11.2원",
+      "usNum": 103.82,
+      "usChange": "▼ 0.02%",
+      "usDir": "down",
+      "krDisplay": "1,345.7원",
+      "krNum": 1345.68,
+      "krChange": "▲ 10.9원",
       "krDir": "up",
-      "gapText": "원/달러 1,346.0원 · DXY 103.8pt"
+      "gapText": "원/달러 1,345.7원 · DXY 103.8pt"
     },
     {
       "id": "policy_rate",
