@@ -1,8 +1,8 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-22T06:50:58.798242+09:00",
-  "updatedLabel": "2026년 11월 22일 6:50 기준",
+  "updatedAt": "2026-11-22T11:06:40.652336+09:00",
+  "updatedLabel": "2026년 11월 22일 11:06 기준",
   "usdKrw": 1334.79,
   "marketIndices": [
     {
@@ -623,7 +623,7 @@
       "koName": "중국공상은행",
       "ticker": "601398.SS",
       "country": "CN",
-      "marketCapB": 500.63,
+      "marketCapB": 500.53,
       "changePct": 3.52,
       "sector": "국유 상업은행"
     },
@@ -633,7 +633,7 @@
       "koName": "중국건설은행",
       "ticker": "601939.SS",
       "country": "CN",
-      "marketCapB": 498.81,
+      "marketCapB": 498.71,
       "changePct": 3.07,
       "sector": "국유 상업은행"
     },
@@ -683,7 +683,7 @@
       "koName": "중국농업은행",
       "ticker": "601288.SS",
       "country": "CN",
-      "marketCapB": 406.36,
+      "marketCapB": 406.28,
       "changePct": 1.57,
       "sector": "국유 상업은행"
     },
@@ -693,7 +693,7 @@
       "koName": "텐센트",
       "ticker": "0700.HK",
       "country": "CN",
-      "marketCapB": 394.88,
+      "marketCapB": 395.16,
       "changePct": -1.26,
       "sector": "게임·메신저·AI 클라우드"
     },
@@ -713,7 +713,7 @@
       "koName": "중국은행",
       "ticker": "601988.SS",
       "country": "CN",
-      "marketCapB": 363.53,
+      "marketCapB": 363.45,
       "changePct": 2.72,
       "sector": "국유 외환·상업은행"
     },
@@ -723,7 +723,7 @@
       "koName": "페트로차이나",
       "ticker": "601857.SS",
       "country": "CN",
-      "marketCapB": 361.56,
+      "marketCapB": 361.48,
       "changePct": 4.92,
       "sector": "천연가스·석유 에너지"
     },
@@ -743,7 +743,7 @@
       "koName": "창신메모리(CXMT)",
       "ticker": "688825.SS",
       "country": "CN",
-      "marketCapB": 356.67,
+      "marketCapB": 356.59,
       "changePct": -6.39,
       "sector": "DRAM 메모리 반도체"
     },
@@ -753,7 +753,7 @@
       "koName": "차이나모바일",
       "ticker": "600941.SS",
       "country": "CN",
-      "marketCapB": 352.25,
+      "marketCapB": 352.18,
       "changePct": 1.54,
       "sector": "통신·클라우드 인프라"
     },
@@ -853,7 +853,7 @@
       "koName": "귀주모태주",
       "ticker": "600519.SS",
       "country": "CN",
-      "marketCapB": 277.54,
+      "marketCapB": 277.49,
       "changePct": 1.75,
       "sector": "프리미엄 주류·필수소비재"
     },
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 13282.7
+      "marketCapB": 12356.9
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7476.9
+      "marketCapB": 7352.8
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 5771.4
+      "marketCapB": 5630.0
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 5701.9
+      "marketCapB": 5576.5
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6222.9
+      "marketCapB": 6231.6
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 4118.9
+      "marketCapB": 3987.9
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3873.8
+      "marketCapB": 3903.2
     },
     {
       "id": "energy",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2072.0
+      "marketCapB": 2057.1
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1491.7
+      "marketCapB": 1483.6
     },
     {
       "id": "real_estate",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1286.6
+      "marketCapB": 1275.1
     },
     {
       "id": "materials",
@@ -1142,7 +1142,7 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 1057.5
+      "marketCapB": 1037.9
     }
   ],
   "kospi200Sectors": [
@@ -1574,11 +1574,11 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 77539
+          "val": 75488
         },
         {
           "label": "26.06 초",
-          "val": 60923
+          "val": 60867
         },
         {
           "label": "26.06 말",
@@ -1586,11 +1586,11 @@
         },
         {
           "label": "26.07 초",
-          "val": 63995
+          "val": 63297
         },
         {
           "label": "26.07 말",
-          "val": 66505
+          "val": 66101
         },
         {
           "label": "26.08 초",
@@ -1598,11 +1598,11 @@
         },
         {
           "label": "26.08 말",
-          "val": 78335
+          "val": 77083
         },
         {
           "label": "26.09 초",
-          "val": 79824
+          "val": 80350
         },
         {
           "label": "26.09 말",
@@ -1622,7 +1622,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 60331
+          "val": 59972
         }
       ]
     }
