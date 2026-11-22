@@ -1,9 +1,9 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-22T18:42:40.491619+09:00",
-  "updatedLabel": "2026년 11월 22일 18:42 기준",
-  "usdKrw": 1337.8,
+  "updatedAt": "2026-11-23T02:46:32.316621+09:00",
+  "updatedLabel": "2026년 11월 23일 2:46 기준",
+  "usdKrw": 1346.04,
   "marketIndices": [
     {
       "id": "idx_sp500",
@@ -433,8 +433,8 @@
       "koName": "사우디 아람코",
       "ticker": "2222.SR",
       "country": "SA",
-      "marketCapB": 1700.45,
-      "changePct": 0.08,
+      "marketCapB": 1694.0,
+      "changePct": -0.3,
       "sector": "에너지·석유화학"
     },
     {
@@ -533,7 +533,7 @@
       "koName": "삼성전자",
       "ticker": "005930.KS",
       "country": "KR",
-      "marketCapB": 790.55,
+      "marketCapB": 785.71,
       "changePct": -8.13,
       "sector": "메모리·종합반도체·모바일"
     },
@@ -593,7 +593,7 @@
       "koName": "SK하이닉스",
       "ticker": "000660.KS",
       "country": "KR",
-      "marketCapB": 581.16,
+      "marketCapB": 577.6,
       "changePct": -7.02,
       "sector": "AI HBM 메모리 반도체"
     },
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": -6.97,
-      "marketCapB": 11495.6
+      "marketCapB": 10694.4
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": -1.66,
-      "marketCapB": 7230.7
+      "marketCapB": 7110.7
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": -2.45,
-      "marketCapB": 5492.1
+      "marketCapB": 5357.5
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": -2.2,
-      "marketCapB": 5453.8
+      "marketCapB": 5333.8
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.14,
-      "marketCapB": 6240.3
+      "marketCapB": 6249.0
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": -3.18,
-      "marketCapB": 3861.1
+      "marketCapB": 3738.3
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.76,
-      "marketCapB": 3932.9
+      "marketCapB": 3962.8
     },
     {
       "id": "energy",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": -0.72,
-      "marketCapB": 2042.3
+      "marketCapB": 2027.6
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": -0.54,
-      "marketCapB": 1475.6
+      "marketCapB": 1467.6
     },
     {
       "id": "real_estate",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": -0.89,
-      "marketCapB": 1263.8
+      "marketCapB": 1252.6
     },
     {
       "id": "materials",
@@ -1142,7 +1142,7 @@
         }
       ],
       "changePct": -1.85,
-      "marketCapB": 1018.7
+      "marketCapB": 999.9
     }
   ],
   "kospi200Sectors": [
@@ -1622,7 +1622,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 60147
+          "val": 60754
         }
       ]
     }
@@ -1634,11 +1634,11 @@
       "usNum": 103.84,
       "usChange": "▲ 0.05%",
       "usDir": "up",
-      "krDisplay": "1,337.8원",
-      "krNum": 1337.8,
-      "krChange": "▲ 3.0원",
+      "krDisplay": "1,346.0원",
+      "krNum": 1346.04,
+      "krChange": "▲ 11.2원",
       "krDir": "up",
-      "gapText": "원/달러 1,337.8원 · DXY 103.8pt"
+      "gapText": "원/달러 1,346.0원 · DXY 103.8pt"
     },
     {
       "id": "policy_rate",
