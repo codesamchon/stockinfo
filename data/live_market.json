@@ -1,187 +1,187 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-27T20:21:38.471733+09:00",
-  "updatedLabel": "2026년 11월 27일 20:21 기준",
-  "usdKrw": 1333.28,
+  "updatedAt": "2026-11-28T05:16:02.612762+09:00",
+  "updatedLabel": "2026년 11월 28일 5:16 기준",
+  "usdKrw": 1332.43,
   "marketIndices": [
     {
       "id": "idx_sp500",
-      "price": 7182.78,
-      "changePts": -19.67,
-      "changePct": -0.27,
+      "price": 7297.49,
+      "changePts": 114.76,
+      "changePct": 1.6,
       "history": [
         {
           "label": "26.05 말",
-          "val": 7519.12
+          "val": 7563.63
         },
         {
-          "label": "26.06 초",
-          "val": 7266.99
+          "label": "26.06 중",
+          "val": 7431.46
         },
         {
           "label": "26.06 말",
-          "val": 7357.49
+          "val": 7440.43
         },
         {
           "label": "26.07 중",
-          "val": 7515.34
+          "val": 7572.4
         },
         {
           "label": "26.07 말",
-          "val": 7428.78
+          "val": 7316.15
         },
         {
           "label": "26.08 중",
-          "val": 7728.2
+          "val": 7798.99
         },
         {
           "label": "26.08 말",
-          "val": 7675.7
+          "val": 7711.76
         },
         {
           "label": "26.09 중",
-          "val": 7656.98
+          "val": 7619.98
         },
         {
           "label": "26.09 말",
-          "val": 7743.41
+          "val": 7670.84
         },
         {
           "label": "26.10 중",
-          "val": 7807.24
+          "val": 7805.45
         },
         {
           "label": "26.10 말",
-          "val": 7722.6
+          "val": 7743.98
         },
         {
-          "label": "26.11 초",
-          "val": 7520.93
+          "label": "26.11 중",
+          "val": 7619.38
         },
         {
           "label": "26.11 현재",
-          "val": 7182.78
+          "val": 7297.49
         }
       ]
     },
     {
       "id": "idx_nasdaq",
-      "price": 23585.8,
-      "changePts": -149.88,
-      "changePct": -0.63,
+      "price": 24129.5,
+      "changePts": 548.88,
+      "changePct": 2.33,
       "history": [
         {
           "label": "26.05 말",
-          "val": 26656.18
+          "val": 26917.47
         },
         {
-          "label": "26.06 초",
-          "val": 25169.5
+          "label": "26.06 중",
+          "val": 25888.84
         },
         {
           "label": "26.06 말",
-          "val": 25358.6
+          "val": 25820.14
         },
         {
           "label": "26.07 중",
-          "val": 25873.18
+          "val": 26269.23
         },
         {
           "label": "26.07 말",
-          "val": 24876.91
+          "val": 24442.94
         },
         {
           "label": "26.08 중",
-          "val": 26445.45
+          "val": 26803.03
         },
         {
           "label": "26.08 말",
-          "val": 26130.2
+          "val": 26402.42
         },
         {
           "label": "26.09 중",
-          "val": 26333.04
+          "val": 26186.41
         },
         {
           "label": "26.09 말",
-          "val": 27068.72
+          "val": 26797.54
         },
         {
           "label": "26.10 중",
-          "val": 27245.9
+          "val": 27204.38
         },
         {
           "label": "26.10 말",
-          "val": 26477.81
+          "val": 26549.85
         },
         {
-          "label": "26.11 초",
-          "val": 25065.87
+          "label": "26.11 중",
+          "val": 25466.19
         },
         {
           "label": "26.11 현재",
-          "val": 23585.8
+          "val": 24129.5
         }
       ]
     },
     {
       "id": "idx_sox",
-      "price": 8774.86,
-      "changePts": -54.42,
-      "changePct": -0.62,
+      "price": 9186.71,
+      "changePts": 410.54,
+      "changePct": 4.68,
       "history": [
         {
           "label": "26.05 말",
-          "val": 12876.91
+          "val": 12829.14
         },
         {
-          "label": "26.06 초",
-          "val": 12206.46
+          "label": "26.06 중",
+          "val": 13371.47
         },
         {
           "label": "26.06 말",
-          "val": 13940.87
+          "val": 13709.66
         },
         {
           "label": "26.07 중",
-          "val": 12347.78
+          "val": 12398.89
         },
         {
           "label": "26.07 말",
-          "val": 11035.68
+          "val": 10447.49
         },
         {
           "label": "26.08 중",
-          "val": 12098.47
+          "val": 12456.0
         },
         {
           "label": "26.08 말",
-          "val": 11611.24
+          "val": 11469.66
         },
         {
           "label": "26.09 중",
-          "val": 11824.0
+          "val": 11131.28
         },
         {
           "label": "26.09 말",
-          "val": 12668.93
+          "val": 12629.16
         },
         {
           "label": "26.10 중",
-          "val": 12236.79
+          "val": 12208.79
         },
         {
           "label": "26.10 말",
-          "val": 11482.5
+          "val": 11684.0
         },
         {
-          "label": "26.11 초",
-          "val": 9998.33
+          "label": "26.11 중",
+          "val": 10564.11
         },
         {
           "label": "26.11 현재",
-          "val": 8774.86
+          "val": 9186.71
         }
       ]
     },
@@ -209,7 +209,7 @@
         },
         {
           "label": "26.07 말",
-          "val": 6023.66
+          "val": 6755.75
         },
         {
           "label": "26.08 중",
@@ -221,7 +221,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 7033.92
+          "val": 7051.64
         },
         {
           "label": "26.09 말",
@@ -229,15 +229,15 @@
         },
         {
           "label": "26.10 중",
-          "val": 5554.22
+          "val": 6008.81
         },
         {
           "label": "26.10 말",
-          "val": 5937.66
+          "val": 6012.44
         },
         {
           "label": "26.11 중",
-          "val": 5290.53
+          "val": 5342.73
         },
         {
           "label": "26.11 현재",
@@ -269,7 +269,7 @@
         },
         {
           "label": "26.07 말",
-          "val": 705.85
+          "val": 764.86
         },
         {
           "label": "26.08 중",
@@ -281,7 +281,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 836.92
+          "val": 830.37
         },
         {
           "label": "26.09 말",
@@ -289,15 +289,15 @@
         },
         {
           "label": "26.10 중",
-          "val": 760.82
+          "val": 823.88
         },
         {
           "label": "26.10 말",
-          "val": 753.23
+          "val": 771.28
         },
         {
           "label": "26.11 중",
-          "val": 699.66
+          "val": 696.53
         },
         {
           "label": "26.11 현재",
@@ -307,9 +307,9 @@
     },
     {
       "id": "idx_vix",
-      "price": 24.9,
-      "changePts": -1.9,
-      "changePct": -7.09,
+      "price": 23.81,
+      "changePts": -2.99,
+      "changePct": -11.16,
       "history": [
         {
           "label": "26.05 말",
@@ -361,7 +361,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 24.9
+          "val": 23.81
         }
       ]
     }
@@ -373,8 +373,8 @@
       "koName": "애플",
       "ticker": "AAPL",
       "country": "US",
-      "marketCapB": 5167.35,
-      "changePct": 0.63,
+      "marketCapB": 5210.37,
+      "changePct": 1.0,
       "sector": "IT·소비자기술"
     },
     {
@@ -383,8 +383,8 @@
       "koName": "마이크로소프트",
       "ticker": "MSFT",
       "country": "US",
-      "marketCapB": 3638.32,
-      "changePct": -0.87,
+      "marketCapB": 3660.0,
+      "changePct": 0.15,
       "sector": "클라우드·AI 소프트웨어"
     },
     {
@@ -393,8 +393,8 @@
       "koName": "엔비디아",
       "ticker": "NVDA",
       "country": "US",
-      "marketCapB": 3605.15,
-      "changePct": -2.22,
+      "marketCapB": 3633.88,
+      "changePct": -0.02,
       "sector": "AI 반도체"
     },
     {
@@ -403,8 +403,8 @@
       "koName": "알파벳(구글)",
       "ticker": "GOOG",
       "country": "US",
-      "marketCapB": 3331.43,
-      "changePct": -2.23,
+      "marketCapB": 3349.38,
+      "changePct": 0.01,
       "sector": "플랫폼·클라우드·AI"
     },
     {
@@ -413,8 +413,8 @@
       "koName": "아마존",
       "ticker": "AMZN",
       "country": "US",
-      "marketCapB": 2643.06,
-      "changePct": -2.9,
+      "marketCapB": 2747.83,
+      "changePct": 3.34,
       "sector": "이커머스·클라우드"
     },
     {
@@ -423,8 +423,8 @@
       "koName": "TSMC",
       "ticker": "TSM",
       "country": "TW",
-      "marketCapB": 1775.54,
-      "changePct": -2.18,
+      "marketCapB": 1832.59,
+      "changePct": 2.25,
       "sector": "파운드리 반도체"
     },
     {
@@ -433,8 +433,8 @@
       "koName": "스페이스X",
       "ticker": "SPCX",
       "country": "US",
-      "marketCapB": 1730.77,
-      "changePct": 0.95,
+      "marketCapB": 1814.29,
+      "changePct": 4.44,
       "sector": "우주항공·위성통신·AI"
     },
     {
@@ -453,8 +453,8 @@
       "koName": "메타 플랫폼스",
       "ticker": "META",
       "country": "US",
-      "marketCapB": 1559.03,
-      "changePct": 3.87,
+      "marketCapB": 1607.77,
+      "changePct": 2.94,
       "sector": "소셜미디어·AI"
     },
     {
@@ -463,8 +463,8 @@
       "koName": "테슬라",
       "ticker": "TSLA",
       "country": "US",
-      "marketCapB": 1502.6,
-      "changePct": -0.97,
+      "marketCapB": 1581.1,
+      "changePct": 5.05,
       "sector": "자율주행·전기차·로보틱스"
     },
     {
@@ -473,8 +473,8 @@
       "koName": "브로드컴",
       "ticker": "AVGO",
       "country": "US",
-      "marketCapB": 1436.19,
-      "changePct": -0.89,
+      "marketCapB": 1491.0,
+      "changePct": 3.55,
       "sector": "맞춤형 AI 반도체·SW"
     },
     {
@@ -483,8 +483,8 @@
       "koName": "일라이 릴리",
       "ticker": "LLY",
       "country": "US",
-      "marketCapB": 1240.11,
-      "changePct": -1.19,
+      "marketCapB": 1240.26,
+      "changePct": -0.18,
       "sector": "제약·바이오"
     },
     {
@@ -493,8 +493,8 @@
       "koName": "버크셔 해서웨이",
       "ticker": "BRK-B",
       "country": "US",
-      "marketCapB": 1230.78,
-      "changePct": 0.45,
+      "marketCapB": 1233.9,
+      "changePct": 0.05,
       "sector": "복합금융·지주"
     },
     {
@@ -503,8 +503,8 @@
       "koName": "앤트로픽",
       "ticker": "ANT",
       "country": "US",
-      "marketCapB": 1106.62,
-      "changePct": 2.73,
+      "marketCapB": 1228.13,
+      "changePct": 8.93,
       "sector": "생성형 AI 모델·클라우드"
     },
     {
@@ -513,8 +513,8 @@
       "koName": "월마트",
       "ticker": "WMT",
       "country": "US",
-      "marketCapB": 1046.78,
-      "changePct": -0.22,
+      "marketCapB": 1056.22,
+      "changePct": 0.87,
       "sector": "필수소비재·유통"
     },
     {
@@ -523,8 +523,8 @@
       "koName": "JP모건 체이스",
       "ticker": "JPM",
       "country": "US",
-      "marketCapB": 841.14,
-      "changePct": 0.12,
+      "marketCapB": 857.66,
+      "changePct": 1.71,
       "sector": "글로벌 은행·투자금융"
     },
     {
@@ -533,8 +533,8 @@
       "koName": "비자",
       "ticker": "V",
       "country": "US",
-      "marketCapB": 791.83,
-      "changePct": 1.98,
+      "marketCapB": 801.47,
+      "changePct": 0.89,
       "sector": "글로벌 결제 네트워크"
     },
     {
@@ -543,7 +543,7 @@
       "koName": "삼성전자",
       "ticker": "005930.KS",
       "country": "KR",
-      "marketCapB": 787.09,
+      "marketCapB": 787.59,
       "changePct": 4.79,
       "sector": "메모리·종합반도체·모바일"
     },
@@ -553,8 +553,8 @@
       "koName": "마이크론 테크놀로지",
       "ticker": "MU",
       "country": "US",
-      "marketCapB": 682.38,
-      "changePct": -4.28,
+      "marketCapB": 734.25,
+      "changePct": 6.87,
       "sector": "AI 메모리 반도체"
     },
     {
@@ -563,8 +563,8 @@
       "koName": "AMD",
       "ticker": "AMD",
       "country": "US",
-      "marketCapB": 672.01,
-      "changePct": -1.33,
+      "marketCapB": 702.64,
+      "changePct": 4.05,
       "sector": "AI GPU·CPU 반도체"
     },
     {
@@ -573,8 +573,8 @@
       "koName": "존슨앤드존슨",
       "ticker": "JNJ",
       "country": "US",
-      "marketCapB": 659.46,
-      "changePct": -1.02,
+      "marketCapB": 663.24,
+      "changePct": 0.32,
       "sector": "제약·의료기기"
     },
     {
@@ -583,8 +583,8 @@
       "koName": "엑슨모빌",
       "ticker": "XOM",
       "country": "US",
-      "marketCapB": 644.84,
-      "changePct": -0.58,
+      "marketCapB": 653.41,
+      "changePct": 1.39,
       "sector": "에너지·석유가스"
     },
     {
@@ -593,7 +593,7 @@
       "koName": "SK하이닉스",
       "ticker": "000660.KS",
       "country": "KR",
-      "marketCapB": 588.96,
+      "marketCapB": 589.34,
       "changePct": 5.51,
       "sector": "AI HBM 메모리 반도체"
     },
@@ -603,8 +603,8 @@
       "koName": "마스터카드",
       "ticker": "MA",
       "country": "US",
-      "marketCapB": 574.95,
-      "changePct": 1.53,
+      "marketCapB": 581.04,
+      "changePct": 0.89,
       "sector": "글로벌 결제·핀테크"
     },
     {
@@ -613,8 +613,8 @@
       "koName": "애브비",
       "ticker": "ABBV",
       "country": "US",
-      "marketCapB": 520.53,
-      "changePct": -1.68,
+      "marketCapB": 515.93,
+      "changePct": -1.46,
       "sector": "바이오·면역항암"
     },
     {
@@ -623,9 +623,19 @@
       "koName": "ASML",
       "ticker": "ASML",
       "country": "NL",
-      "marketCapB": 502.23,
-      "changePct": -2.26,
+      "marketCapB": 510.99,
+      "changePct": 1.21,
       "sector": "반도체 노광장비"
+    },
+    {
+      "id": "costco",
+      "name": "Costco",
+      "koName": "코스트코",
+      "ticker": "COST",
+      "country": "US",
+      "marketCapB": 486.47,
+      "changePct": 0.7,
+      "sector": "회원제 창고형 유통"
     },
     {
       "id": "ccb",
@@ -648,24 +658,34 @@
       "sector": "국유 상업은행"
     },
     {
-      "id": "costco",
-      "name": "Costco",
-      "koName": "코스트코",
-      "ticker": "COST",
-      "country": "US",
-      "marketCapB": 481.6,
-      "changePct": -0.3,
-      "sector": "회원제 창고형 유통"
-    },
-    {
       "id": "cocacola",
       "name": "Coca-Cola",
       "koName": "코카콜라",
       "ticker": "KO",
       "country": "US",
-      "marketCapB": 419.82,
-      "changePct": -0.11,
+      "marketCapB": 419.01,
+      "changePct": -0.32,
       "sector": "음료·필수소비재"
+    },
+    {
+      "id": "palantir",
+      "name": "Palantir",
+      "koName": "팔란티어",
+      "ticker": "PLTR",
+      "country": "US",
+      "marketCapB": 414.84,
+      "changePct": 4.5,
+      "sector": "AI 데이터 의사결정 SW"
+    },
+    {
+      "id": "chevron",
+      "name": "Chevron",
+      "koName": "셰브론",
+      "ticker": "CVX",
+      "country": "US",
+      "marketCapB": 414.54,
+      "changePct": 0.53,
+      "sector": "종합 에너지"
     },
     {
       "id": "abc",
@@ -676,16 +696,6 @@
       "marketCapB": 412.12,
       "changePct": -1.5,
       "sector": "국유 상업은행"
-    },
-    {
-      "id": "chevron",
-      "name": "Chevron",
-      "koName": "셰브론",
-      "ticker": "CVX",
-      "country": "US",
-      "marketCapB": 411.62,
-      "changePct": 0.95,
-      "sector": "종합 에너지"
     },
     {
       "id": "tencent",
@@ -703,19 +713,19 @@
       "koName": "프록터앤드갬블",
       "ticker": "PG",
       "country": "US",
-      "marketCapB": 401.51,
-      "changePct": 0.44,
+      "marketCapB": 400.65,
+      "changePct": -0.4,
       "sector": "생활용품·필수소비재"
     },
     {
-      "id": "palantir",
-      "name": "Palantir",
-      "koName": "팔란티어",
-      "ticker": "PLTR",
+      "id": "cisco",
+      "name": "Cisco",
+      "koName": "시스코 시스템즈",
+      "ticker": "CSCO",
       "country": "US",
-      "marketCapB": 394.17,
-      "changePct": 1.75,
-      "sector": "AI 데이터 의사결정 SW"
+      "marketCapB": 382.58,
+      "changePct": 3.01,
+      "sector": "AI 네트워크·보안"
     },
     {
       "id": "cxmt",
@@ -728,23 +738,13 @@
       "sector": "DRAM 메모리 반도체"
     },
     {
-      "id": "cisco",
-      "name": "Cisco",
-      "koName": "시스코 시스템즈",
-      "ticker": "CSCO",
-      "country": "US",
-      "marketCapB": 371.38,
-      "changePct": 0.48,
-      "sector": "AI 네트워크·보안"
-    },
-    {
       "id": "homedepot",
       "name": "The Home Depot",
       "koName": "홈디포",
       "ticker": "HD",
       "country": "US",
-      "marketCapB": 360.48,
-      "changePct": 2.24,
+      "marketCapB": 361.37,
+      "changePct": 0.13,
       "sector": "주택개보수·건자재 유통"
     },
     {
@@ -763,8 +763,8 @@
       "koName": "머크(MSD)",
       "ticker": "MRK",
       "country": "US",
-      "marketCapB": 345.85,
-      "changePct": -0.9,
+      "marketCapB": 348.39,
+      "changePct": 0.73,
       "sector": "제약·면역항암"
     },
     {
@@ -793,8 +793,8 @@
       "koName": "뱅크오브아메리카",
       "ticker": "BAC",
       "country": "US",
-      "marketCapB": 334.94,
-      "changePct": -0.08,
+      "marketCapB": 338.59,
+      "changePct": 0.97,
       "sector": "종합은행·자산관리"
     },
     {
@@ -803,8 +803,8 @@
       "koName": "GE 에어로스페이스",
       "ticker": "GE",
       "country": "US",
-      "marketCapB": 327.55,
-      "changePct": -0.33,
+      "marketCapB": 334.74,
+      "changePct": 2.51,
       "sector": "항공기 엔진·방산"
     },
     {
@@ -813,8 +813,8 @@
       "koName": "오라클",
       "ticker": "ORCL",
       "country": "US",
-      "marketCapB": 323.87,
-      "changePct": -4.69,
+      "marketCapB": 334.0,
+      "changePct": 1.69,
       "sector": "클라우드 인프라·DB"
     },
     {
@@ -823,19 +823,9 @@
       "koName": "유나이티드헬스",
       "ticker": "UNH",
       "country": "US",
-      "marketCapB": 310.19,
-      "changePct": 1.05,
+      "marketCapB": 314.87,
+      "changePct": 1.59,
       "sector": "헬스케어·의료보험"
-    },
-    {
-      "id": "novartis",
-      "name": "Novartis",
-      "koName": "노바티스",
-      "ticker": "NVS",
-      "country": "CH",
-      "marketCapB": 293.28,
-      "changePct": 0.57,
-      "sector": "전문의약품·바이오"
     },
     {
       "id": "intel",
@@ -843,8 +833,8 @@
       "koName": "인텔",
       "ticker": "INTC",
       "country": "US",
-      "marketCapB": 289.51,
-      "changePct": -0.33,
+      "marketCapB": 305.08,
+      "changePct": 5.63,
       "sector": "CPU·파운드리 반도체"
     },
     {
@@ -853,9 +843,19 @@
       "koName": "필립모리스 인터내셔널",
       "ticker": "PM",
       "country": "US",
-      "marketCapB": 287.29,
-      "changePct": 0.1,
+      "marketCapB": 292.72,
+      "changePct": 1.89,
       "sector": "무연담배·소비재"
+    },
+    {
+      "id": "novartis",
+      "name": "Novartis",
+      "koName": "노바티스",
+      "ticker": "NVS",
+      "country": "CH",
+      "marketCapB": 291.0,
+      "changePct": -0.81,
+      "sector": "전문의약품·바이오"
     },
     {
       "id": "astrazeneca",
@@ -863,8 +863,8 @@
       "koName": "아스트라제네카",
       "ticker": "AZN",
       "country": "GB",
-      "marketCapB": 285.69,
-      "changePct": 1.21,
+      "marketCapB": 284.89,
+      "changePct": -0.7,
       "sector": "항암·희귀질환 신약"
     }
   ],
@@ -875,24 +875,24 @@
         {
           "id": "apple",
           "ticker": "AAPL",
-          "marketCapB": 5167.35,
-          "changePct": 0.63
+          "marketCapB": 5210.37,
+          "changePct": 1.0
         },
         {
           "id": "microsoft",
           "ticker": "MSFT",
-          "marketCapB": 3638.32,
-          "changePct": -0.87
+          "marketCapB": 3660.0,
+          "changePct": 0.15
         },
         {
           "id": "nvidia",
           "ticker": "NVDA",
-          "marketCapB": 3605.15,
-          "changePct": -2.22
+          "marketCapB": 3633.88,
+          "changePct": -0.02
         }
       ],
-      "changePct": -0.36,
-      "marketCapB": 9245.1
+      "changePct": 2.66,
+      "marketCapB": 9491.0
     },
     {
       "id": "financials",
@@ -900,24 +900,24 @@
         {
           "id": "berkshire",
           "ticker": "BRK-B",
-          "marketCapB": 1230.78,
-          "changePct": 0.45
+          "marketCapB": 1233.9,
+          "changePct": 0.05
         },
         {
           "id": "jpmorgan",
           "ticker": "JPM",
-          "marketCapB": 841.14,
-          "changePct": 0.12
+          "marketCapB": 857.66,
+          "changePct": 1.71
         },
         {
           "id": "visa",
           "ticker": "V",
-          "marketCapB": 791.83,
-          "changePct": 1.98
+          "marketCapB": 801.47,
+          "changePct": 0.89
         }
       ],
-      "changePct": 0.71,
-      "marketCapB": 7345.1
+      "changePct": 1.08,
+      "marketCapB": 7424.4
     },
     {
       "id": "consumer_disc",
@@ -925,24 +925,24 @@
         {
           "id": "amazon",
           "ticker": "AMZN",
-          "marketCapB": 2643.06,
-          "changePct": -2.9
+          "marketCapB": 2747.83,
+          "changePct": 3.34
         },
         {
           "id": "tesla",
           "ticker": "TSLA",
-          "marketCapB": 1502.6,
-          "changePct": -0.97
+          "marketCapB": 1581.1,
+          "changePct": 5.05
         },
         {
           "id": "homedepot",
           "ticker": "HD",
-          "marketCapB": 360.48,
-          "changePct": 2.24
+          "marketCapB": 361.37,
+          "changePct": 0.13
         }
       ],
-      "changePct": -0.01,
-      "marketCapB": 5218.1
+      "changePct": 1.99,
+      "marketCapB": 5321.9
     },
     {
       "id": "comm_services",
@@ -950,24 +950,24 @@
         {
           "id": "alphabet",
           "ticker": "GOOG",
-          "marketCapB": 3331.43,
-          "changePct": -2.23
+          "marketCapB": 3349.38,
+          "changePct": 0.01
         },
         {
           "id": "meta",
           "ticker": "META",
-          "marketCapB": 1559.03,
-          "changePct": 3.87
+          "marketCapB": 1607.77,
+          "changePct": 2.94
         },
         {
           "id": "netflix",
           "ticker": "NFLX",
-          "marketCapB": 243.96,
-          "changePct": 1.04
+          "marketCapB": 250.2,
+          "changePct": 2.82
         }
       ],
-      "changePct": 0.93,
-      "marketCapB": 5687.8
+      "changePct": 1.99,
+      "marketCapB": 5801.0
     },
     {
       "id": "healthcare",
@@ -975,24 +975,24 @@
         {
           "id": "lilly",
           "ticker": "LLY",
-          "marketCapB": 1240.11,
-          "changePct": -1.19
+          "marketCapB": 1240.26,
+          "changePct": -0.18
         },
         {
           "id": "jnj",
           "ticker": "JNJ",
-          "marketCapB": 659.46,
-          "changePct": -1.02
+          "marketCapB": 663.24,
+          "changePct": 0.32
         },
         {
           "id": "abbvie",
           "ticker": "ABBV",
-          "marketCapB": 520.53,
-          "changePct": -1.68
+          "marketCapB": 515.93,
+          "changePct": -1.46
         }
       ],
-      "changePct": -0.5,
-      "marketCapB": 6553.3
+      "changePct": 0.24,
+      "marketCapB": 6569.0
     },
     {
       "id": "industrials",
@@ -1000,24 +1000,24 @@
         {
           "id": "ge",
           "ticker": "GE",
-          "marketCapB": 327.55,
-          "changePct": -0.33
+          "marketCapB": 334.74,
+          "changePct": 2.51
         },
         {
           "id": "caterpillar",
           "ticker": "CAT",
-          "marketCapB": 248.79,
-          "changePct": 0.98
+          "marketCapB": 257.05,
+          "changePct": 2.75
         },
         {
           "id": "uber",
           "ticker": "UBER",
-          "marketCapB": 135.48,
-          "changePct": 2.55
+          "marketCapB": 136.05,
+          "changePct": -0.03
         }
       ],
-      "changePct": 0.99,
-      "marketCapB": 3769.2
+      "changePct": 1.32,
+      "marketCapB": 3819.0
     },
     {
       "id": "consumer_staples",
@@ -1025,24 +1025,24 @@
         {
           "id": "walmart",
           "ticker": "WMT",
-          "marketCapB": 1046.78,
-          "changePct": -0.22
+          "marketCapB": 1056.22,
+          "changePct": 0.87
         },
         {
           "id": "costco",
           "ticker": "COST",
-          "marketCapB": 481.6,
-          "changePct": -0.3
+          "marketCapB": 486.47,
+          "changePct": 0.7
         },
         {
           "id": "cocacola",
           "ticker": "KO",
-          "marketCapB": 419.82,
-          "changePct": -0.11
+          "marketCapB": 419.01,
+          "changePct": -0.32
         }
       ],
-      "changePct": 0.49,
-      "marketCapB": 4256.5
+      "changePct": 0.22,
+      "marketCapB": 4265.9
     },
     {
       "id": "energy",
@@ -1050,24 +1050,24 @@
         {
           "id": "exxon",
           "ticker": "XOM",
-          "marketCapB": 644.84,
-          "changePct": -0.58
+          "marketCapB": 653.41,
+          "changePct": 1.39
         },
         {
           "id": "chevron",
           "ticker": "CVX",
-          "marketCapB": 411.62,
-          "changePct": 0.95
+          "marketCapB": 414.54,
+          "changePct": 0.53
         },
         {
           "id": "conocophillips",
           "ticker": "COP",
-          "marketCapB": 159.64,
-          "changePct": 0.28
+          "marketCapB": 161.74,
+          "changePct": 1.27
         }
       ],
-      "changePct": 0.91,
-      "marketCapB": 2074.7
+      "changePct": 1.4,
+      "marketCapB": 2103.7
     },
     {
       "id": "utilities",
@@ -1075,24 +1075,24 @@
         {
           "id": "nextera",
           "ticker": "NEE",
-          "marketCapB": 179.13,
-          "changePct": 0.9
+          "marketCapB": 178.17,
+          "changePct": -0.56
         },
         {
           "id": "constellation",
           "ticker": "CEG",
-          "marketCapB": 82.73,
-          "changePct": -4.32
+          "marketCapB": 83.72,
+          "changePct": 0.55
         },
         {
           "id": "southern",
           "ticker": "SO",
-          "marketCapB": 110.6,
-          "changePct": 0.98
+          "marketCapB": 110.65,
+          "changePct": 0.04
         }
       ],
-      "changePct": 0.48,
-      "marketCapB": 1534.0
+      "changePct": 0.07,
+      "marketCapB": 1535.1
     },
     {
       "id": "real_estate",
@@ -1100,24 +1100,24 @@
         {
           "id": "prologis",
           "ticker": "PLD",
-          "marketCapB": 120.74,
-          "changePct": -0.23
+          "marketCapB": 120.67,
+          "changePct": -0.06
         },
         {
           "id": "americantower",
           "ticker": "AMT",
-          "marketCapB": 85.61,
-          "changePct": 1.15
+          "marketCapB": 85.76,
+          "changePct": 0.15
         },
         {
           "id": "equinix",
           "ticker": "EQIX",
-          "marketCapB": 96.83,
-          "changePct": -0.18
+          "marketCapB": 97.49,
+          "changePct": 0.68
         }
       ],
-      "changePct": 1.19,
-      "marketCapB": 1367.8
+      "changePct": 0.54,
+      "marketCapB": 1375.2
     },
     {
       "id": "materials",
@@ -1125,24 +1125,24 @@
         {
           "id": "linde",
           "ticker": "LIN",
-          "marketCapB": 240.84,
-          "changePct": 1.51
+          "marketCapB": 244.51,
+          "changePct": 1.52
         },
         {
           "id": "sherwin",
           "ticker": "SHW",
-          "marketCapB": 87.22,
-          "changePct": 2.4
+          "marketCapB": 87.75,
+          "changePct": 0.61
         },
         {
           "id": "freeport",
           "ticker": "FCX",
-          "marketCapB": 69.67,
-          "changePct": 2.0
+          "marketCapB": 72.85,
+          "changePct": 3.4
         }
       ],
-      "changePct": 2.3,
-      "marketCapB": 1144.2
+      "changePct": 1.66,
+      "marketCapB": 1163.2
     }
   ],
   "kospi200Sectors": [
@@ -1403,39 +1403,39 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 4502
+          "val": 4499
         },
         {
-          "label": "26.06 초",
-          "val": 4133
+          "label": "26.06 중",
+          "val": 4239
         },
         {
           "label": "26.06 말",
-          "val": 4096
-        },
-        {
-          "label": "26.07 중",
-          "val": 4006
-        },
-        {
-          "label": "26.07 말",
           "val": 4039
         },
         {
+          "label": "26.07 중",
+          "val": 4052
+        },
+        {
+          "label": "26.07 말",
+          "val": 4036
+        },
+        {
           "label": "26.08 중",
-          "val": 4468
+          "val": 4420
         },
         {
           "label": "26.08 말",
-          "val": 4653
+          "val": 4530
         },
         {
           "label": "26.09 중",
-          "val": 4409
+          "val": 4352
         },
         {
           "label": "26.09 말",
-          "val": 4168
+          "val": 4180
         },
         {
           "label": "26.10 중",
@@ -1451,7 +1451,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 3705
+          "val": 3668
         }
       ]
     },
@@ -1460,39 +1460,39 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 6.36
+          "val": 6.4
         },
         {
-          "label": "26.06 초",
-          "val": 6.25
+          "label": "26.06 중",
+          "val": 6.43
         },
         {
           "label": "26.06 말",
-          "val": 6.14
+          "val": 6.1
         },
         {
           "label": "26.07 중",
-          "val": 6.23
+          "val": 6.29
         },
         {
           "label": "26.07 말",
-          "val": 6.32
+          "val": 6.27
         },
         {
           "label": "26.08 중",
-          "val": 6.6
-        },
-        {
-          "label": "26.08 말",
           "val": 6.59
         },
         {
+          "label": "26.08 말",
+          "val": 6.56
+        },
+        {
           "label": "26.09 중",
-          "val": 6.47
+          "val": 6.33
         },
         {
           "label": "26.09 말",
-          "val": 6.57
+          "val": 6.54
         },
         {
           "label": "26.10 중",
@@ -1508,7 +1508,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 5.68
+          "val": 5.6
         }
       ]
     },
@@ -1517,39 +1517,39 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 93.89
+          "val": 88.9
         },
         {
-          "label": "26.06 초",
-          "val": 90.03
+          "label": "26.06 중",
+          "val": 84.88
         },
         {
           "label": "26.06 말",
-          "val": 69.23
+          "val": 70.75
         },
         {
           "label": "26.07 중",
-          "val": 78.14
+          "val": 79.6
         },
         {
           "label": "26.07 말",
-          "val": 79.26
+          "val": 84.46
         },
         {
           "label": "26.08 중",
-          "val": 83.27
+          "val": 81.25
         },
         {
           "label": "26.08 말",
-          "val": 82.23
+          "val": 83.4
         },
         {
           "label": "26.09 중",
-          "val": 100.05
+          "val": 101.39
         },
         {
           "label": "26.09 말",
-          "val": 92.6
+          "val": 89.38
         },
         {
           "label": "26.10 중",
@@ -1565,7 +1565,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 85.28
+          "val": 83.08
         }
       ]
     },
@@ -1622,7 +1622,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 61643
+          "val": 59673
         }
       ]
     }
@@ -1630,15 +1630,15 @@
   "macroIndicators": [
     {
       "id": "fx_rate",
-      "usDisplay": "103.8pt",
-      "usNum": 103.8,
-      "usChange": "▼ 0.18%",
-      "usDir": "down",
-      "krDisplay": "1,333.3원",
-      "krNum": 1333.28,
-      "krChange": "▼ 9.7원",
+      "usDisplay": "104.0pt",
+      "usNum": 104.04,
+      "usChange": "▲ 0.22%",
+      "usDir": "up",
+      "krDisplay": "1,332.4원",
+      "krNum": 1332.43,
+      "krChange": "▼ 10.5원",
       "krDir": "down",
-      "gapText": "원/달러 1,333.3원 · DXY 103.8pt"
+      "gapText": "원/달러 1,332.4원 · DXY 104.0pt"
     },
     {
       "id": "policy_rate",
