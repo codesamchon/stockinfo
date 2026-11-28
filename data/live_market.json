@@ -1,9 +1,9 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-28T11:55:55.061291+09:00",
-  "updatedLabel": "2026년 11월 28일 11:55 기준",
-  "usdKrw": 1343.53,
+  "updatedAt": "2026-11-28T20:37:00.987087+09:00",
+  "updatedLabel": "2026년 11월 28일 20:37 기준",
+  "usdKrw": 1333.9,
   "marketIndices": [
     {
       "id": "idx_sp500",
@@ -543,7 +543,7 @@
       "koName": "삼성전자",
       "ticker": "005930.KS",
       "country": "KR",
-      "marketCapB": 781.08,
+      "marketCapB": 786.72,
       "changePct": 4.79,
       "sector": "메모리·종합반도체·모바일"
     },
@@ -593,7 +593,7 @@
       "koName": "SK하이닉스",
       "ticker": "000660.KS",
       "country": "KR",
-      "marketCapB": 584.47,
+      "marketCapB": 588.69,
       "changePct": 5.51,
       "sector": "AI HBM 메모리 반도체"
     },
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": 2.66,
-      "marketCapB": 9743.5
+      "marketCapB": 10002.7
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": 1.08,
-      "marketCapB": 7504.6
+      "marketCapB": 7585.6
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": 1.99,
-      "marketCapB": 5427.8
+      "marketCapB": 5535.8
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": 1.99,
-      "marketCapB": 5916.4
+      "marketCapB": 6034.1
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.24,
-      "marketCapB": 6584.8
+      "marketCapB": 6600.6
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": 1.32,
-      "marketCapB": 3869.4
+      "marketCapB": 3920.5
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.22,
-      "marketCapB": 4275.3
+      "marketCapB": 4284.7
     },
     {
       "id": "energy",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": 1.4,
-      "marketCapB": 2133.2
+      "marketCapB": 2163.1
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": 0.07,
-      "marketCapB": 1536.2
+      "marketCapB": 1537.3
     },
     {
       "id": "real_estate",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": 0.54,
-      "marketCapB": 1382.6
+      "marketCapB": 1390.1
     },
     {
       "id": "materials",
@@ -1142,7 +1142,7 @@
         }
       ],
       "changePct": 1.66,
-      "marketCapB": 1182.5
+      "marketCapB": 1202.1
     }
   ],
   "kospi200Sectors": [
@@ -1451,7 +1451,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 3668
+          "val": 3640
         }
       ]
     },
@@ -1508,7 +1508,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 5.6
+          "val": 5.52
         }
       ]
     },
@@ -1582,7 +1582,7 @@
         },
         {
           "label": "26.06 말",
-          "val": 59940
+          "val": 59532
         },
         {
           "label": "26.07 중",
@@ -1606,23 +1606,23 @@
         },
         {
           "label": "26.09 말",
-          "val": 84458
+          "val": 83503
         },
         {
           "label": "26.10 중",
-          "val": 81763
+          "val": 83095
         },
         {
           "label": "26.10 말",
-          "val": 80805
+          "val": 81268
         },
         {
           "label": "26.11 중",
-          "val": 71343
+          "val": 68249
         },
         {
           "label": "26.11 현재",
-          "val": 59896
+          "val": 59162
         }
       ]
     }
@@ -1632,93 +1632,13 @@
       "id": "fx_rate",
       "usDisplay": "104.0pt",
       "usNum": 104.01,
-      "usChange": "▲ 0.20%",
+      "usChange": "▲ 0.19%",
       "usDir": "up",
-      "krDisplay": "1,343.5원",
-      "krNum": 1343.53,
-      "krChange": "▲ 0.6원",
-      "krDir": "up",
-      "gapText": "원/달러 1,343.5원 · DXY 104.0pt"
-    },
-    {
-      "id": "policy_rate",
-      "krDisplay": "3.25%",
-      "krNum": 3.25,
-      "krPeriod": "금통위 기준금리",
-      "krChange": "▲ 0.25%p",
-      "krDir": "up"
-    },
-    {
-      "id": "bond_2y",
-      "krDisplay": "3.72%",
-      "krNum": 3.72,
-      "krChange": "▲ 5bp",
-      "krDir": "up",
-      "krPeriod": "국고채 2년 (11.27)"
-    },
-    {
-      "id": "bond_10y",
-      "krDisplay": "3.83%",
-      "krNum": 3.83,
-      "krChange": "▲ 4bp",
-      "krDir": "up",
-      "krPeriod": "국고채 10년 (11.27)"
-    },
-    {
-      "id": "yield_spread",
-      "krDisplay": "+11bp",
-      "krNum": 0.11,
-      "krPeriod": "정상 우상향 구간",
-      "krChange": "▼ 1bp",
-      "krDir": "down"
-    },
-    {
-      "id": "cpi",
-      "krDisplay": "2.8%",
-      "krNum": 2.8,
-      "krChange": "▼ 0.1%p",
+      "krDisplay": "1,333.9원",
+      "krNum": 1333.9,
+      "krChange": "▼ 9.6원",
       "krDir": "down",
-      "krPeriod": "2026.10월 전년동월비"
-    },
-    {
-      "id": "core_cpi",
-      "krDisplay": "2.8%",
-      "krNum": 2.8,
-      "krChange": "보합 (0.0%p)",
-      "krDir": "flat",
-      "krPeriod": "2026.10월 농산물·석유류 제외"
-    },
-    {
-      "id": "ppi",
-      "krDisplay": "7.2%",
-      "krNum": 7.2,
-      "krChange": "▼ 0.4%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 전년동월비"
-    },
-    {
-      "id": "unemployment",
-      "krDisplay": "2.5%",
-      "krNum": 2.5,
-      "krChange": "▼ 0.1%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 계절조정"
-    },
-    {
-      "id": "employment_rate",
-      "krDisplay": "62.8%",
-      "krNum": 62.8,
-      "krChange": "▼ 0.1%p",
-      "krDir": "down",
-      "krPeriod": "2026.10월 15세 이상 (계절조정)"
-    },
-    {
-      "id": "real_gdp",
-      "krDisplay": "1.0%",
-      "krNum": 1.0,
-      "krChange": "▲ 0.4%p",
-      "krDir": "up",
-      "krPeriod": "2026년 3분기 전기비 (연율환산 4.1%)"
+      "gapText": "원/달러 1,333.9원 · DXY 104.0pt"
     }
   ]
 }
