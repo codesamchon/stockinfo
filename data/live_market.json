@@ -1,9 +1,9 @@
 {
   "isBootstrap": false,
   "dynamicTop50": true,
-  "updatedAt": "2026-11-28T05:16:02.612762+09:00",
-  "updatedLabel": "2026년 11월 28일 5:16 기준",
-  "usdKrw": 1332.43,
+  "updatedAt": "2026-11-28T11:55:55.061291+09:00",
+  "updatedLabel": "2026년 11월 28일 11:55 기준",
+  "usdKrw": 1343.53,
   "marketIndices": [
     {
       "id": "idx_sp500",
@@ -209,7 +209,7 @@
         },
         {
           "label": "26.07 말",
-          "val": 6755.75
+          "val": 6023.66
         },
         {
           "label": "26.08 중",
@@ -221,7 +221,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 7051.64
+          "val": 7033.92
         },
         {
           "label": "26.09 말",
@@ -229,15 +229,15 @@
         },
         {
           "label": "26.10 중",
-          "val": 6008.81
+          "val": 5554.22
         },
         {
           "label": "26.10 말",
-          "val": 6012.44
+          "val": 5937.66
         },
         {
           "label": "26.11 중",
-          "val": 5342.73
+          "val": 5290.53
         },
         {
           "label": "26.11 현재",
@@ -269,7 +269,7 @@
         },
         {
           "label": "26.07 말",
-          "val": 764.86
+          "val": 705.85
         },
         {
           "label": "26.08 중",
@@ -281,7 +281,7 @@
         },
         {
           "label": "26.09 초",
-          "val": 830.37
+          "val": 836.92
         },
         {
           "label": "26.09 말",
@@ -289,15 +289,15 @@
         },
         {
           "label": "26.10 중",
-          "val": 823.88
+          "val": 760.82
         },
         {
           "label": "26.10 말",
-          "val": 771.28
+          "val": 753.23
         },
         {
           "label": "26.11 중",
-          "val": 696.53
+          "val": 699.66
         },
         {
           "label": "26.11 현재",
@@ -543,7 +543,7 @@
       "koName": "삼성전자",
       "ticker": "005930.KS",
       "country": "KR",
-      "marketCapB": 787.59,
+      "marketCapB": 781.08,
       "changePct": 4.79,
       "sector": "메모리·종합반도체·모바일"
     },
@@ -584,7 +584,7 @@
       "ticker": "XOM",
       "country": "US",
       "marketCapB": 653.41,
-      "changePct": 1.39,
+      "changePct": 1.33,
       "sector": "에너지·석유가스"
     },
     {
@@ -593,7 +593,7 @@
       "koName": "SK하이닉스",
       "ticker": "000660.KS",
       "country": "KR",
-      "marketCapB": 589.34,
+      "marketCapB": 584.47,
       "changePct": 5.51,
       "sector": "AI HBM 메모리 반도체"
     },
@@ -628,6 +628,16 @@
       "sector": "반도체 노광장비"
     },
     {
+      "id": "ccb",
+      "name": "CCB",
+      "koName": "중국건설은행",
+      "ticker": "601939.SS",
+      "country": "CN",
+      "marketCapB": 486.66,
+      "changePct": -1.97,
+      "sector": "국유 상업은행"
+    },
+    {
       "id": "costco",
       "name": "Costco",
       "koName": "코스트코",
@@ -638,22 +648,12 @@
       "sector": "회원제 창고형 유통"
     },
     {
-      "id": "ccb",
-      "name": "CCB",
-      "koName": "중국건설은행",
-      "ticker": "601939.SS",
-      "country": "CN",
-      "marketCapB": 486.36,
-      "changePct": -1.97,
-      "sector": "국유 상업은행"
-    },
-    {
       "id": "icbc",
       "name": "ICBC",
       "koName": "중국공상은행",
       "ticker": "601398.SS",
       "country": "CN",
-      "marketCapB": 485.89,
+      "marketCapB": 486.18,
       "changePct": -0.98,
       "sector": "국유 상업은행"
     },
@@ -693,7 +693,7 @@
       "koName": "중국농업은행",
       "ticker": "601288.SS",
       "country": "CN",
-      "marketCapB": 412.12,
+      "marketCapB": 412.37,
       "changePct": -1.5,
       "sector": "국유 상업은행"
     },
@@ -703,7 +703,7 @@
       "koName": "텐센트",
       "ticker": "0700.HK",
       "country": "CN",
-      "marketCapB": 404.43,
+      "marketCapB": 404.86,
       "changePct": 3.23,
       "sector": "게임·메신저·AI 클라우드"
     },
@@ -733,7 +733,7 @@
       "koName": "창신메모리(CXMT)",
       "ticker": "688825.SS",
       "country": "CN",
-      "marketCapB": 375.58,
+      "marketCapB": 375.8,
       "changePct": 13.95,
       "sector": "DRAM 메모리 반도체"
     },
@@ -753,7 +753,7 @@
       "koName": "중국은행",
       "ticker": "601988.SS",
       "country": "CN",
-      "marketCapB": 353.83,
+      "marketCapB": 354.05,
       "changePct": -2.01,
       "sector": "국유 외환·상업은행"
     },
@@ -773,7 +773,7 @@
       "koName": "페트로차이나",
       "ticker": "601857.SS",
       "country": "CN",
-      "marketCapB": 343.01,
+      "marketCapB": 343.22,
       "changePct": -1.34,
       "sector": "천연가스·석유 에너지"
     },
@@ -783,7 +783,7 @@
       "koName": "차이나모바일",
       "ticker": "600941.SS",
       "country": "CN",
-      "marketCapB": 342.69,
+      "marketCapB": 342.89,
       "changePct": -3.18,
       "sector": "통신·클라우드 인프라"
     },
@@ -892,7 +892,7 @@
         }
       ],
       "changePct": 2.66,
-      "marketCapB": 9491.0
+      "marketCapB": 9743.5
     },
     {
       "id": "financials",
@@ -917,7 +917,7 @@
         }
       ],
       "changePct": 1.08,
-      "marketCapB": 7424.4
+      "marketCapB": 7504.6
     },
     {
       "id": "consumer_disc",
@@ -942,7 +942,7 @@
         }
       ],
       "changePct": 1.99,
-      "marketCapB": 5321.9
+      "marketCapB": 5427.8
     },
     {
       "id": "comm_services",
@@ -967,7 +967,7 @@
         }
       ],
       "changePct": 1.99,
-      "marketCapB": 5801.0
+      "marketCapB": 5916.4
     },
     {
       "id": "healthcare",
@@ -992,7 +992,7 @@
         }
       ],
       "changePct": 0.24,
-      "marketCapB": 6569.0
+      "marketCapB": 6584.8
     },
     {
       "id": "industrials",
@@ -1017,7 +1017,7 @@
         }
       ],
       "changePct": 1.32,
-      "marketCapB": 3819.0
+      "marketCapB": 3869.4
     },
     {
       "id": "consumer_staples",
@@ -1042,7 +1042,7 @@
         }
       ],
       "changePct": 0.22,
-      "marketCapB": 4265.9
+      "marketCapB": 4275.3
     },
     {
       "id": "energy",
@@ -1051,7 +1051,7 @@
           "id": "exxon",
           "ticker": "XOM",
           "marketCapB": 653.41,
-          "changePct": 1.39
+          "changePct": 1.33
         },
         {
           "id": "chevron",
@@ -1067,7 +1067,7 @@
         }
       ],
       "changePct": 1.4,
-      "marketCapB": 2103.7
+      "marketCapB": 2133.2
     },
     {
       "id": "utilities",
@@ -1092,7 +1092,7 @@
         }
       ],
       "changePct": 0.07,
-      "marketCapB": 1535.1
+      "marketCapB": 1536.2
     },
     {
       "id": "real_estate",
@@ -1107,7 +1107,7 @@
           "id": "americantower",
           "ticker": "AMT",
           "marketCapB": 85.76,
-          "changePct": 0.15
+          "changePct": 0.37
         },
         {
           "id": "equinix",
@@ -1117,7 +1117,7 @@
         }
       ],
       "changePct": 0.54,
-      "marketCapB": 1375.2
+      "marketCapB": 1382.6
     },
     {
       "id": "materials",
@@ -1142,7 +1142,7 @@
         }
       ],
       "changePct": 1.66,
-      "marketCapB": 1163.2
+      "marketCapB": 1182.5
     }
   ],
   "kospi200Sectors": [
@@ -1574,11 +1574,11 @@
       "history": [
         {
           "label": "26.05 말",
-          "val": 74345
+          "val": 73537
         },
         {
           "label": "26.06 중",
-          "val": 63561
+          "val": 63543
         },
         {
           "label": "26.06 말",
@@ -1586,11 +1586,11 @@
         },
         {
           "label": "26.07 중",
-          "val": 63758
+          "val": 62239
         },
         {
           "label": "26.07 말",
-          "val": 63725
+          "val": 63871
         },
         {
           "label": "26.08 중",
@@ -1598,11 +1598,11 @@
         },
         {
           "label": "26.08 말",
-          "val": 80258
+          "val": 77830
         },
         {
           "label": "26.09 중",
-          "val": 77174
+          "val": 77270
         },
         {
           "label": "26.09 말",
@@ -1622,7 +1622,7 @@
         },
         {
           "label": "26.11 현재",
-          "val": 59673
+          "val": 59896
         }
       ]
     }
@@ -1631,14 +1631,14 @@
     {
       "id": "fx_rate",
       "usDisplay": "104.0pt",
-      "usNum": 104.04,
-      "usChange": "▲ 0.22%",
+      "usNum": 104.01,
+      "usChange": "▲ 0.20%",
       "usDir": "up",
-      "krDisplay": "1,332.4원",
-      "krNum": 1332.43,
-      "krChange": "▼ 10.5원",
-      "krDir": "down",
-      "gapText": "원/달러 1,332.4원 · DXY 104.0pt"
+      "krDisplay": "1,343.5원",
+      "krNum": 1343.53,
+      "krChange": "▲ 0.6원",
+      "krDir": "up",
+      "gapText": "원/달러 1,343.5원 · DXY 104.0pt"
     },
     {
       "id": "policy_rate",
